@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+        <TextView
+            android:id="@+id/text_view_inscription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="INSCRIPTION"
+            android:gravity="center_horizontal" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+           <TextView
+                android:id="@+id/text_view_nom_inscription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nom" />
+            <EditText
+                android:id="@+id/edit_text_nom_inscription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+       </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/text_view_prenom_inscription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Prénom" />
+            <EditText
+                android:id="@+id/edit_text_prenom_inscription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/text_view_email_inscription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="E-mail"/>
+            <EditText
+                android:id="@+id/edit_text_email_inscription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/text_view_confirmation_email_inscription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Confirmation e-mail" />
+            <EditText
+                android:id="@+id/edit_text_confirmation_email_inscription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/text_view_mot_de_passe_inscription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mot de passe"/>
+            <EditText
+                android:id="@+id/edit_text_mot_de_passe_inscription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"/>
+        </LinearLayout>
+
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/text_view_confirmation_mot_de_passe_inscription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Confirmation mot de passe"/>
+            <EditText
+                android:id="@+id/edit_text_confirmation_mot_de_passe_inscription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"/>
+        </LinearLayout>
+
+        <RadioGroup
+            android:id="@+id/radio_group_categorie_inscription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_buttton_professionnel_inscirption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Professionnel" />
+
+            <RadioButton
+                android:id="@+id/radio_buttton_particulier_inscirption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Particulier" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/button_validation_inscription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Validation" />
+    </LinearLayout>
+</ScrollView>
