@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+        <TextView
+            android:id="@+id/text_view_mes_annonces"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="MES ANNONCES"
+            android:gravity="center_horizontal" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+
+        <Switch
+            android:id="@+id/switch_vente_mes_annonces"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ventes"/>
+        <Switch
+            android:id="@+id/switch_location_mes_annonces"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Locations" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/dynamique_linear_layout_mes_annonces"/>
+
+        <Button
+            android:id="@+id/button_validation_mes_annonces"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nouvelle Annonce" />
+    </LinearLayout>
+</ScrollView>

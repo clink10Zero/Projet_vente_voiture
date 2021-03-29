@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <TextView
+            android:id="@+id/text_view_connexion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="AJOUTER ANNONCE"
+            android:gravity="center_horizontal" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/text_view_titre_ajouter_annonce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Titre"/>
+            <EditText
+                android:id="@+id/edit_text_titre_ajouter_annonce"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/text_view_lieu_ajouter_annonce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lieu"/>
+            <EditText
+                android:id="@+id/edit_text_lieu_ajouter_annonce"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/dynamique_linear_layout_criteres_ajouter_annonce"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/text_view_description_ajouter_annonce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lieu"/>
+            <EditText
+                android:id="@+id/edit_text_description_ajouter_annonce"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+               android:inputType="textMultiLine"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/text_view_photo_ajouter_annonce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Photos"/>
+            <Button
+                android:id="@+id/button_ajouter_photo_ajouter_annonce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ajouter Photo" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/dynamique_linear_layout_photos_ajouter_annonce"/>
+
+        <Button
+            android:id="@+id/button_validation_ajouter_annonce"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Validation" />
+    </LinearLayout>
+</ScrollView>
