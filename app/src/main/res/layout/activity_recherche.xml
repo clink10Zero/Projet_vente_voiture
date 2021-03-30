@@ -8,11 +8,12 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/text_view_titre_recherche"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:text="RECHERCHE ANNONCE" />
+        android:text="RECHERCHE ANNONCE"
+        android:gravity="center_horizontal" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,20 +21,20 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/editTextRecherche"
+            android:id="@+id/edit_text_recherche_recherche"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="recherche..." />
+            android:inputType="text"
+            android:text="Recherche..." />
 
         <Button
-            android:id="@+id/buttonRecherche"
+            android:id="@+id/button_recherche_recherche"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="recherche" />
+            android:text="Recherche" />
     </LinearLayout>
 
     <LinearLayout
@@ -42,14 +43,14 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/Location"
+            android:id="@+id/button_location_recherche"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Location" />
 
         <Button
-            android:id="@+id/Achat"
+            android:id="@+id/button_achat_recherche"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -57,10 +58,10 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/dynamic_linearLayout_cirtere"
+        android:id="@+id/dynamic_linear_layout_criteres_recherche"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"></LinearLayout>
+        android:orientation="horizontal"/>
 
     <ScrollView
         android:layout_width="match_parent"
