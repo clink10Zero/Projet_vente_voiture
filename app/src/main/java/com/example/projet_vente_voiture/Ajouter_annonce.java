@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class Ajouter_Annonce extends AppCompatActivity {
+public class Ajouter_annonce extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -12,7 +12,7 @@
         <activity android:name=".Mes_annonces"></activity>
         <activity android:name=".Inscription" />
         <activity android:name=".Connexion" />
-        <activity android:name=".Ajouter_Annonce" />
+        <activity android:name=".Ajouter_annonce" />
         <activity android:name=".Detaille" />
         <activity android:name=".Recherche">
             <intent-filter>
