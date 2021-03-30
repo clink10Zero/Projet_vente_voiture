@@ -9,8 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Projet_vente_voiture">
-        <activity android:name=".activity_detaille"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".Mes_annonces"></activity>
+        <activity android:name=".Inscription" />
+        <activity android:name=".Connexion" />
+        <activity android:name=".Ajouter_Annonce" />
+        <activity android:name=".Detaille" />
+        <activity android:name=".Recherche">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
