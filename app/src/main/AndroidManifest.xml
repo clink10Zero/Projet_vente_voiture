@@ -9,12 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Projet_vente_voiture">
-        <activity android:name=".Mes_annonces"></activity>
-        <activity android:name=".Inscription" />
-        <activity android:name=".Connexion" />
-        <activity android:name=".Ajouter_Annonce" />
-        <activity android:name=".Detaille" />
-        <activity android:name=".Recherche">
+        <activity android:name=".Activity.Mes_annonces"></activity>
+        <activity android:name=".Activity.Inscription" />
+        <activity android:name=".Activity.Connexion" />
+        <activity android:name=".Activity.Ajouter_Annonce" />
+        <activity android:name=".Activity.Detaille" />
+        <activity android:name=".Activity.Recherche">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

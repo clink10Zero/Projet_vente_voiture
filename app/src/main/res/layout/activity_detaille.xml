@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Detaille">
+    tools:context=".Activity.Detaille">
 
     <TextView
         android:id="@+id/text_view_titre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="TITRE" />
+        android:text="TITRE"
+        android:gravity="center_horizontal" />
 
     <Space
         android:layout_width="match_parent"

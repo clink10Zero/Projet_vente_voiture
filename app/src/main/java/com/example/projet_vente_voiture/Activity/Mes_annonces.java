@@ -1,8 +1,10 @@
-package com.example.projet_vente_voiture;
+package com.example.projet_vente_voiture.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.projet_vente_voiture.R;
 
 public class Mes_annonces extends AppCompatActivity {
 

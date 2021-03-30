@@ -1,14 +1,16 @@
-package com.example.projet_vente_voiture;
+package com.example.projet_vente_voiture.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class Recherche extends AppCompatActivity {
+import com.example.projet_vente_voiture.R;
+
+public class Connexion extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recherche);
+        setContentView(R.layout.activity_connexion);
     }
 }
