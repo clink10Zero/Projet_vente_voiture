@@ -8,7 +8,7 @@ public class Annonce {
    private String descritpion;
    private int prix;
 
-    public Annonce(int id, int id_utilisateur, String titre, String lieu, String descritpion, int prix) {
+    public Annonce(int id, int id_utilisateur, String titre,String descritpion, String lieu,  int prix) {
         this.id = id;
         this.id_utilisateur = id_utilisateur;
         this.titre = titre;
@@ -17,7 +17,7 @@ public class Annonce {
         this.prix = prix;
     }
 
-    public Annonce(int id_utilisateur, String titre, String lieu, String descritpion, int prix) {
+    public Annonce(int id_utilisateur, String titre,String descritpion, String lieu,  int prix) {
         this.id_utilisateur = id_utilisateur;
         this.titre = titre;
         this.lieu = lieu;

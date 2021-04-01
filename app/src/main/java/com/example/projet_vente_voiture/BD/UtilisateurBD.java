@@ -2,9 +2,13 @@ package com.example.projet_vente_voiture.BD;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.projet_vente_voiture.Object.Utilisateur;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_ID_UTILISATEUR;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_MAIL_UTILISATEUR;
@@ -66,28 +70,37 @@ public class UtilisateurBD {
         bd.delete(TABLE_UTILISATEUR, COL_ID_UTILISATEUR + " = " + id, null);
         close();
     }
+    public Utilisateur getUtilisateurById(int utilisateur) {
+        open();
+        Cursor c = bd.rawQuery("SELECT * FROM "+ TABLE_UTILISATEUR +" WHERE "+ COL_ID_UTILISATEUR +" = "+ utilisateur,null);
+        List<Utilisateur> list = cursorToUtilisateurs(c);
+        if(list==null){
+            return null;
+        }
+        close();
+        return list.get(0);
+    }
 
-   /* private List<Utilisateur> cursorToUtilisateur(Cursor c) {
+   private List<Utilisateur> cursorToUtilisateurs(Cursor c) {
         if (c.getCount() == 0)
             return null;
 
-        List<Annexe> res = new ArrayList<>();
+        List<Utilisateur> res = new ArrayList<>();
         c.moveToFirst();
         for (int i = 0; i < c.getCount(); i++) {
             int id = c.getInt(0);
-            String name = c.getString(1);
-            int siteId = c.getInt(2);
-            int level = c.getInt(3);
-            int typeId = c.getInt(4);
-            int parentId = c.getInt(5);
-            String description = c.getString(6);
+            String prenom = c.getString(1);
+            String nom = c.getString(2);
+            String mail = c.getString(3);
+            String mdp = c.getString(4);
+            int professionel = c.getInt(5);
 
-            res.add(new Annexe(name,siteId,parentId,level,typeId,description,id));
+            res.add(new Utilisateur(id,prenom,nom,mail,mdp,professionel));
             c.moveToNext();
         }
         c.close();
         return res;
-    }*/
+    }
 
 }
 

@@ -4,6 +4,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import static com.example.projet_vente_voiture.Object.Utilisateur.PARTICULIER;
+import static com.example.projet_vente_voiture.Object.Utilisateur.PROFESSIONEL;
+
 public class MaBaseSQLite extends SQLiteOpenHelper {
 
     static final String NOM_BD="base.bd";
@@ -32,20 +35,20 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
     static final String COL_LOCATION_DEBUT_ANNONCE ="location_debut_annonce";
     static final String COL_LOCATION_FIN_ANNONCE ="location_fin_annonce";
 
-    private static final String COL_ID_PHOTO="id_photo";
+    static final String COL_ID_PHOTO="id_photo";
     static final String COL_ANNONCE_PHOTO ="id_annonce";
     static final String COL_PATH_PHOTO ="path_photo";
 
-    private static final String COL_ID_CRITERE="id_critere";
+    static final String COL_ID_CRITERE="id_critere";
     static final String COL_NOM_CRITERE ="nom_critere";
     static final String COL_TYPE_CRITERE ="type_critere";
 
     static final int CRITERE_PREDEF =0;
     static final int CRITERE_NUM =1;
 
-    private static final String COL_ID_VALEUR_CRITERE="id_valeur_critere";
-    private static final String COL_CRITERE_VALEUR_CRITERE="id_critere";
-    private static final String COL_VALEUR_VALEUR_CRITERE="valeur_valeur_critere";
+    static final String COL_ID_VALEUR_CRITERE="id_valeur_critere";
+    static final String COL_CRITERE_VALEUR_CRITERE="id_critere";
+    static final String COL_VALEUR_VALEUR_CRITERE="valeur_valeur_critere";
 
     private static final String CREATE_TABLE_UTILISATEUR =
             "CREATE TABLE "+TABLE_UTILISATEUR+"("
@@ -54,7 +57,7 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
                     + COL_NOM_UTILISATEUR +" TEXT,"
                     + COL_MAIL_UTILISATEUR +" TEXT NOT NULL,"
                     + COL_MDP_UTILISATEUR +" TEXT NOT NULL,"
-                    + COL_PROFESSIONNEL_UTILISATEUR +" BOOLEAN NOT NULL"
+                    + COL_PROFESSIONNEL_UTILISATEUR +" INTEGER NOT NULL CHECK (" + COL_PROFESSIONNEL_UTILISATEUR + "IN (" + PROFESSIONEL + "," + PARTICULIER +"))"
                     +");";
 
     private static final String CREATE_TABLE_ANNONCE =

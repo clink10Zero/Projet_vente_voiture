@@ -2,9 +2,13 @@ package com.example.projet_vente_voiture.BD;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.projet_vente_voiture.Object.Annonce;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_DESCCRITPION_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_ID_ANNONCE;
@@ -53,6 +57,11 @@ public class AnnonceBD {
     public void updateAnnonce(int id, Annonce annonce) {
         open();
         ContentValues values = new ContentValues();
+        values.put(COL_UTILISATEUR_ANNONCE, annonce.getId_utilisateur());
+        values.put(COL_TITRE_ANNONCE, annonce.getTitre());
+        values.put(COL_DESCCRITPION_ANNONCE, annonce.getDescritpion());
+        values.put(COL_LIEU_ANNONCE, annonce.getLieu());
+        values.put(COL_PRIX_ANNONCE, annonce.getPrix());
         bd.update(TABLE_ANNONCE, values, COL_ID_ANNONCE + " = " + id, null);
     }
 
@@ -60,6 +69,38 @@ public class AnnonceBD {
         open();
         bd.delete(TABLE_ANNONCE, COL_ID_ANNONCE + " = " + id, null);
         close();
+    }
+
+    public Annonce getAnnonceById(int annonce) {
+        open();
+        Cursor c = bd.rawQuery("SELECT * FROM "+ TABLE_ANNONCE +" WHERE "+ COL_ID_ANNONCE +" = "+ annonce,null);
+        List<Annonce> list = cursorToAnnonces(c);
+        if(list==null){
+            return null;
+        }
+        close();
+        return list.get(0);
+    }
+
+    private List<Annonce> cursorToAnnonces(Cursor c) {
+        if (c.getCount() == 0)
+            return null;
+
+        List<Annonce> res = new ArrayList<>();
+        c.moveToFirst();
+        for (int i = 0; i < c.getCount(); i++) {
+            int id = c.getInt(0);
+            int id_utilisateur = c.getInt(1);
+            String titre = c.getString(2);
+            String description = c.getString(3);
+            String lieu = c.getString(4);
+            int prix = c.getInt(5);
+
+            res.add(new Annonce(id,id_utilisateur,titre,description,lieu,prix));
+            c.moveToNext();
+        }
+        c.close();
+        return res;
     }
 
 }
