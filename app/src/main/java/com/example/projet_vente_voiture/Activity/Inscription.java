@@ -79,7 +79,6 @@ public class Inscription extends AppCompatActivity implements View.OnClickListen
                     break;
                 }
                 Utilisateur util = new Utilisateur(this.prenom.getText().toString(), this.nom.getText().toString(), this.mail.getText().toString(), this.mdp.getText().toString(), value);
-
                 UtilisateurBD uBD = new UtilisateurBD(this);
                 uBD.insertUtilisateur(util);
                 getApplicationContext().startActivity(new Intent(getApplicationContext(), Recherche.class));
