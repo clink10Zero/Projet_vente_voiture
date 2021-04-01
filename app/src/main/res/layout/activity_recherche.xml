@@ -7,6 +7,10 @@
     android:orientation="vertical"
     tools:context=".Activity.Recherche">
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="25dp" />
+
     <TextView
         android:id="@+id/text_view_titre_recherche"
         android:layout_width="match_parent"
@@ -14,6 +18,10 @@
         android:textAlignment="center"
         android:text="RECHERCHE ANNONCE"
         android:gravity="center_horizontal" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="25dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -71,64 +79,7 @@
             android:id="@+id/dynamic_annonce_recherche"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:id="@+id/image_button_annonce_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    tools:srcCompat="@tools:sample/avatars" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/Titre"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="TITRE" />
-
-                    <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp" />
-
-                    <TextView
-                        android:id="@+id/LIEU1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="LIEU" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/DATE1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="DATE" />
-
-                        <TextView
-                            android:id="@+id/EURO1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="EURO €" />
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
+            android:orientation="vertical"/>
     </ScrollView>
 
 </LinearLayout>
