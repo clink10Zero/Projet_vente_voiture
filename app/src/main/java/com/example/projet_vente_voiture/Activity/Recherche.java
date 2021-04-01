@@ -11,12 +11,16 @@ import android.widget.LinearLayout;
 import android.widget.Space;
 import android.widget.TextView;
 
+import com.example.projet_vente_voiture.BD.AnnonceBD;
+import com.example.projet_vente_voiture.Object.Annonce;
 import com.example.projet_vente_voiture.Object.AnnonceView;
 import com.example.projet_vente_voiture.R;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Recherche extends AppCompatActivity {
 
@@ -32,8 +36,10 @@ public class Recherche extends AppCompatActivity {
     }
 
     private void affichageAnnonces() {
-        for(int i = 0; i < 10; i++) {
-            AnnonceView annonce = new AnnonceView(this, "date : " + i, i, "titre : " + i, "lieu : " + i);
+        AnnonceBD ABD = new AnnonceBD(getApplicationContext());
+        List<Annonce> annonces = ABD.getAllAnnonces();
+        for(int i = 0; i < annonces.size(); i++) {
+            AnnonceView annonce = new AnnonceView(this, "date : " + i, annonces.get(i).getPrix(), annonces.get(i).getTitre(), annonces.get(i).getLieu());
 
             this.dynamic.addView(annonce);
         }

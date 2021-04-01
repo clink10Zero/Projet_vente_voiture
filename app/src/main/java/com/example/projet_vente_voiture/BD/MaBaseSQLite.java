@@ -15,7 +15,7 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
     static final String TABLE_ANNONCE ="table_annonce";
     static final String TABLE_PHOTO ="table_photo";
     static final String TABLE_CRITERE ="table_critere";
-    static final String TABLE_VALEUR_CRITERE ="table_critere";
+    static final String TABLE_VALEUR_CRITERE ="table_valeur_critere";
 
     static final String COL_ID_UTILISATEUR ="id_utilisateur ";
     static final String COL_PRENOM_UTILISATEUR ="prenom_utilisateur";
@@ -58,7 +58,7 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
                     + COL_NOM_UTILISATEUR +" TEXT,"
                     + COL_MAIL_UTILISATEUR +" TEXT UNIQUE,"
                     + COL_MDP_UTILISATEUR +" TEXT NOT NULL,"
-                    + COL_PROFESSIONNEL_UTILISATEUR +" INTEGER NOT NULL CHECK (" + COL_PROFESSIONNEL_UTILISATEUR + "IN (" + PROFESSIONEL + "," + PARTICULIER +"))"
+                    + COL_PROFESSIONNEL_UTILISATEUR +" INTEGER NOT NULL CHECK (" + COL_PROFESSIONNEL_UTILISATEUR + " IN( " + PROFESSIONEL + "," + PARTICULIER +"))"
                     +");";
 
     private static final String CREATE_TABLE_ANNONCE =
@@ -91,13 +91,13 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
             "CREATE TABLE "+TABLE_VALEUR_CRITERE+" ("
                     + COL_ID_VALEUR_CRITERE +" INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + COL_CRITERE_VALEUR_CRITERE +" TEXT NOT NULL, "
-                    + COL_VALEUR_VALEUR_CRITERE +"TEXT NOT NULL, "
+                    + COL_VALEUR_VALEUR_CRITERE +" TEXT NOT NULL, "
                     + "FOREIGN KEY("+ COL_CRITERE_VALEUR_CRITERE +")REFERENCES "+ TABLE_CRITERE+"("+COL_ID_CRITERE+") ON DELETE CASCADE ON UPDATE CASCADE"
                     +");";
 
     private static final String INSERT_UTILISATEUR =
             "INSERT INTO "+TABLE_UTILISATEUR +"("+COL_PRENOM_UTILISATEUR +","+COL_NOM_UTILISATEUR+","+COL_MAIL_UTILISATEUR+","+COL_MDP_UTILISATEUR+","+COL_PROFESSIONNEL_UTILISATEUR+")"
-                    +"VALUES('Tessy','Minodier','tessy.minodier@etu.umontpellier.fr','123456',TRUE);";
+                    +"VALUES('Tessy','Minodier','tessy.minodier@etu.umontpellier.fr','123456',"+PROFESSIONEL+");";
 
     //TODO continuer les insert de critere
     private static final String INSERT_CRITERE =
@@ -111,6 +111,14 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
                     +"(1,'Renault'),"
                     +"(1,'Citroen');";
 
+
+    private static final String INSERT_ANNONCE =
+            "INSERT INTO "+TABLE_ANNONCE +"("+COL_UTILISATEUR_ANNONCE  +","+COL_TITRE_ANNONCE +","+COL_DESCCRITPION_ANNONCE   +","+COL_LIEU_ANNONCE  +","+COL_PRIX_ANNONCE+")"
+                    +"VALUES(1,'Vends ma R5','Je vends la R5 de ma rand mère je n en ai plus besoin maintenant que j habite en ville', 'Annonay', 2000),"
+                    +"(1,'Ka noir', 'moteur cassé prix cassé', 'Saint-Vallier',200),"
+                    +"(1,'Mondeo break 2007 gris', 'les enfants sont grand j ai plus beosin d un bbreak \n voiture en très boon état', 'Annonay',3000);";
+
+
     MaBaseSQLite(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
@@ -122,9 +130,11 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_PHOTO);
         db.execSQL(CREATE_TABLE_CRITERE);
         db.execSQL(CREATE_TABLE_VALEUR_CRITERE);
+
         db.execSQL(INSERT_UTILISATEUR);
         db.execSQL(INSERT_CRITERE);
         db.execSQL(INSERT_VALEUR_CRITERE);
+        db.execSQL(INSERT_ANNONCE);
     }
 
     @Override

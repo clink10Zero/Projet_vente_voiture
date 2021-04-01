@@ -82,6 +82,14 @@ public class AnnonceBD {
         return list.get(0);
     }
 
+    public List<Annonce> getAllAnnonces() {
+        open();
+        Cursor c = bd.rawQuery("SELECT * FROM "+ TABLE_ANNONCE,null);
+        List<Annonce> list = cursorToAnnonces(c);
+        close();
+        return list;
+    }
+
     private List<Annonce> cursorToAnnonces(Cursor c) {
         if (c.getCount() == 0)
             return null;
