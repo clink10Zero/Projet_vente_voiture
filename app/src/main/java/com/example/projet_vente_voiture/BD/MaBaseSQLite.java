@@ -10,6 +10,7 @@ import static com.example.projet_vente_voiture.Object.Utilisateur.PROFESSIONEL;
 public class MaBaseSQLite extends SQLiteOpenHelper {
 
     static final String NOM_BD="base.bd";
+
     static final String TABLE_UTILISATEUR ="table_utilisateur";
     static final String TABLE_ANNONCE ="table_annonce";
     static final String TABLE_PHOTO ="table_photo";
