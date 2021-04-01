@@ -56,7 +56,7 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
                     + COL_ID_UTILISATEUR +" INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + COL_PRENOM_UTILISATEUR+" TEXT, "
                     + COL_NOM_UTILISATEUR +" TEXT,"
-                    + COL_MAIL_UTILISATEUR +" TEXT NOT NULL,"
+                    + COL_MAIL_UTILISATEUR +" TEXT UNIQUE,"
                     + COL_MDP_UTILISATEUR +" TEXT NOT NULL,"
                     + COL_PROFESSIONNEL_UTILISATEUR +" INTEGER NOT NULL CHECK (" + COL_PROFESSIONNEL_UTILISATEUR + "IN (" + PROFESSIONEL + "," + PARTICULIER +"))"
                     +");";
