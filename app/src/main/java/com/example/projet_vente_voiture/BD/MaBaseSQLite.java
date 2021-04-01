@@ -44,6 +44,8 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
     static final int CRITERE_NUM =1;
 
     private static final String COL_ID_VALEUR_CRITERE="id_valeur_critere";
+    private static final String COL_CRITERE_VALEUR_CRITERE="id_critere";
+    private static final String COL_VALEUR_VALEUR_CRITERE="valeur_valeur_critere";
 
     private static final String CREATE_TABLE_UTILISATEUR =
             "CREATE TABLE "+TABLE_UTILISATEUR+"("
@@ -81,9 +83,29 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
                     + COL_TYPE_CRITERE +" INTEGER NOT NULL CHECK( " + COL_TYPE_CRITERE + " IN( " + CRITERE_PREDEF + " , " + CRITERE_NUM + " )) "
                     +");";
 
+    private static final String CREATE_TABLE_VALEUR_CRITERE =
+            "CREATE TABLE "+TABLE_VALEUR_CRITERE+" ("
+                    + COL_ID_VALEUR_CRITERE +" INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + COL_CRITERE_VALEUR_CRITERE +" TEXT NOT NULL, "
+                    + COL_VALEUR_VALEUR_CRITERE +"TEXT NOT NULL, "
+                    + "FOREIGN KEY("+ COL_CRITERE_VALEUR_CRITERE +")REFERENCES "+ TABLE_CRITERE+"("+COL_ID_CRITERE+") ON DELETE CASCADE ON UPDATE CASCADE"
+                    +");";
+
     private static final String INSERT_UTILISATEUR =
             "INSERT INTO "+TABLE_UTILISATEUR +"("+COL_PRENOM_UTILISATEUR +","+COL_NOM_UTILISATEUR+","+COL_MAIL_UTILISATEUR+","+COL_MDP_UTILISATEUR+","+COL_PROFESSIONNEL_UTILISATEUR+")"
                     +"VALUES('Tessy','Minodier','tessy.minodier@etu.umontpellier.fr','123456',TRUE);";
+
+    //TODO continuer les insert de critere
+    private static final String INSERT_CRITERE =
+            "INSERT INTO "+TABLE_CRITERE +"("+COL_NOM_CRITERE +","+COL_TYPE_CRITERE+")"
+                /*1*/ +"VALUES('Marque',"+CRITERE_PREDEF +"),"
+                /*2*/ + "('Prix'," + CRITERE_NUM + ");";
+
+    private static final String INSERT_VALEUR_CRITERE =
+            "INSERT INTO "+TABLE_VALEUR_CRITERE +"("+COL_CRITERE_VALEUR_CRITERE +","+COL_VALEUR_VALEUR_CRITERE+")"
+                    +"VALUES(1,'Peugeot'),"
+                    +"(1,'Renault'),"
+                    +"(1,'Citroen');";
 
     MaBaseSQLite(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -95,7 +117,10 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_ANNONCE);
         db.execSQL(CREATE_TABLE_PHOTO);
         db.execSQL(CREATE_TABLE_CRITERE);
+        db.execSQL(CREATE_TABLE_VALEUR_CRITERE);
         db.execSQL(INSERT_UTILISATEUR);
+        db.execSQL(INSERT_CRITERE);
+        db.execSQL(INSERT_VALEUR_CRITERE);
     }
 
     @Override
