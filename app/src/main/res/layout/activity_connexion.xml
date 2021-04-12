@@ -60,5 +60,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Validation" />
+        <Button
+            android:id="@+id/button_inscription_connexion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Inscription" />
+        <Button
+            android:id="@+id/button_inconnu_connexion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Continuer sans se connecter" />
     </LinearLayout>
 </ScrollView>

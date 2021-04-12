@@ -11,16 +11,15 @@
         android:theme="@style/Theme.Projet_vente_voiture">
         <activity android:name=".Activity.Mes_annonces"></activity>
         <activity android:name=".Activity.Inscription" />
-        <activity android:name=".Activity.Connexion" />
-        <activity android:name=".Activity.Ajouter_Annonce" />
-        <activity android:name=".Activity.Detaille" />
-        <activity android:name=".Activity.Recherche">
+        <activity android:name=".Activity.Connexion" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Activity.Ajouter_Annonce" />
+        <activity android:name=".Activity.Detaille" />
+        <activity android:name=".Activity.Recherche"/>
     </application>
 
 </manifest>

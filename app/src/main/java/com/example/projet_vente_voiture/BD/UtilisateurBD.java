@@ -83,7 +83,7 @@ public class UtilisateurBD {
 
     public Utilisateur getUtilisateurByMail(String mail) {
         open();
-        Cursor c = bd.rawQuery("SELECT * FROM "+ TABLE_UTILISATEUR +" WHERE "+ COL_MAIL_UTILISATEUR +" = "+ mail,null);
+        Cursor c = bd.rawQuery("SELECT * FROM "+ TABLE_UTILISATEUR +" WHERE "+ COL_MAIL_UTILISATEUR +" = '"+ mail+"'",null);
         List<Utilisateur> list = cursorToUtilisateurs(c);
         if(list==null){
             return null;
