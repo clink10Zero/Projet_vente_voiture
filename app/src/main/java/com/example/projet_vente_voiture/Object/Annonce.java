@@ -2,27 +2,30 @@ package com.example.projet_vente_voiture.Object;
 
 public class Annonce {
    private int id;
-   private int id_utilisateur;
+   private int id_auteur;
    private String titre;
    private String lieu;
    private String descritpion;
    private int prix;
+   private String date;
 
-    public Annonce(int id, int id_utilisateur, String titre,String descritpion, String lieu,  int prix) {
+    public Annonce(int id, int id_auteur, String titre, String descritpion, String lieu, int prix, String date) {
         this.id = id;
-        this.id_utilisateur = id_utilisateur;
+        this.id_auteur = id_auteur;
         this.titre = titre;
         this.lieu = lieu;
         this.descritpion = descritpion;
         this.prix = prix;
+        this.date=date;
     }
 
-    public Annonce(int id_utilisateur, String titre,String descritpion, String lieu,  int prix) {
-        this.id_utilisateur = id_utilisateur;
+    public Annonce(int id_auteur, String titre, String descritpion, String lieu, int prix, String date) {
+        this.id_auteur = id_auteur;
         this.titre = titre;
         this.lieu = lieu;
         this.descritpion = descritpion;
         this.prix = prix;
+        this.date=date;
     }
 
     public int getId() {
@@ -33,12 +36,12 @@ public class Annonce {
         this.id = id;
     }
 
-    public int getId_utilisateur() {
-        return id_utilisateur;
+    public int getId_auteur() {
+        return id_auteur;
     }
 
-    public void setId_utilisateur(int id_utilisateur) {
-        this.id_utilisateur = id_utilisateur;
+    public void setId_auteur(int id_auteur) {
+        this.id_auteur = id_auteur;
     }
 
     public String getTitre() {
@@ -71,5 +74,13 @@ public class Annonce {
 
     public void setPrix(int prix) {
         this.prix = prix;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

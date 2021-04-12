@@ -39,7 +39,8 @@ public class Recherche extends AppCompatActivity {
         AnnonceBD ABD = new AnnonceBD(getApplicationContext());
         List<Annonce> annonces = ABD.getAllAnnonces();
         for(int i = 0; i < annonces.size(); i++) {
-            AnnonceView annonce = new AnnonceView(this, "date : " + i, annonces.get(i).getPrix(), annonces.get(i).getTitre(), annonces.get(i).getLieu());
+            AnnonceView annonce = new AnnonceView(this,annonces.get(i));
+           // AnnonceView annonce = new AnnonceView(this, "date : " + i, annonces.get(i).getPrix(), annonces.get(i).getTitre(), annonces.get(i).getLieu());
 
             this.dynamic.addView(annonce);
         }

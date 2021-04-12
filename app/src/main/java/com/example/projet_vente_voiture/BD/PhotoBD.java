@@ -62,15 +62,21 @@ public class PhotoBD {
         close();
     }
 
-    public Photo getPhotoById(int annonce) {
+    public Photo getPhotoById(int photo) {
         open();
-        Cursor c = bd.rawQuery("SELECT * FROM "+ TABLE_PHOTO +" WHERE "+ COL_ID_PHOTO +" = "+ annonce,null);
+        Cursor c = bd.rawQuery("SELECT * FROM "+ TABLE_PHOTO +" WHERE "+ COL_ID_PHOTO +" = "+ photo,null);
         List<Photo> list = cursorToPhotos(c);
         if(list==null){
             return null;
         }
         close();
         return list.get(0);
+    }
+
+    public List<Photo> getPhotosByAnnonceId(int annonce) {
+        open();
+        Cursor c = bd.rawQuery("SELECT * FROM "+ TABLE_PHOTO +" WHERE "+ COL_ANNONCE_PHOTO +" = "+ annonce,null);
+        return cursorToPhotos(c);
     }
 
     private List<Photo> cursorToPhotos(Cursor c) {

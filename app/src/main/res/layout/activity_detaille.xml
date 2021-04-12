@@ -8,7 +8,7 @@
     tools:context=".Activity.Detaille">
 
     <TextView
-        android:id="@+id/text_view_titre"
+        android:id="@+id/text_view_titre_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TITRE"
@@ -19,7 +19,7 @@
         android:layout_height="10dp" />
 
     <ImageView
-        android:id="@+id/image_view_annonce"
+        android:id="@+id/image_view_detail"
         android:layout_width="match_parent"
         android:layout_height="229dp"
         tools:srcCompat="@tools:sample/avatars" />
@@ -29,7 +29,7 @@
         android:layout_height="20dp" />
 
     <TextView
-        android:id="@+id/text_view_prix"
+        android:id="@+id/text_view_prix_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="EURO €" />
@@ -38,20 +38,21 @@
         android:layout_width="match_parent"
         android:layout_height="20dp" />
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/text_view_date"
+            android:id="@+id/text_view_date_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="DATE" />
 
         <TextView
-            android:id="@+id/text_view_duree"
+            android:id="@+id/text_view_duree_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -63,15 +64,26 @@
         android:layout_width="match_parent"
         android:layout_height="20dp" />
 
+    <LinearLayout
+        android:id="@+id/dynamic_linear_layout_criteres_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/text_view_description_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
 
     <Button
-        android:id="@+id/button_contact"
+        android:id="@+id/button_contact_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="contact" />

@@ -10,12 +10,13 @@ import com.example.projet_vente_voiture.Object.Annonce;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_DATE_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_DESCCRITPION_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_ID_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_LIEU_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_PRIX_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_TITRE_ANNONCE;
-import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_UTILISATEUR_ANNONCE;
+import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_AUTEUR_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.NOM_BD;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.TABLE_ANNONCE;
 
@@ -44,11 +45,12 @@ public class AnnonceBD {
     public void insertAnnonce(Annonce annonce) {
         open();
         ContentValues values = new ContentValues();
-        values.put(COL_UTILISATEUR_ANNONCE, annonce.getId_utilisateur());
+        values.put(COL_AUTEUR_ANNONCE, annonce.getId_auteur());
         values.put(COL_TITRE_ANNONCE, annonce.getTitre());
         values.put(COL_DESCCRITPION_ANNONCE, annonce.getDescritpion());
         values.put(COL_LIEU_ANNONCE, annonce.getLieu());
         values.put(COL_PRIX_ANNONCE, annonce.getPrix());
+        values.put(COL_DATE_ANNONCE, annonce.getDate());
         int id = (int) bd.insert(TABLE_ANNONCE,null,values);
         annonce.setId(id);
         close();
@@ -57,11 +59,12 @@ public class AnnonceBD {
     public void updateAnnonce(int id, Annonce annonce) {
         open();
         ContentValues values = new ContentValues();
-        values.put(COL_UTILISATEUR_ANNONCE, annonce.getId_utilisateur());
+        values.put(COL_AUTEUR_ANNONCE, annonce.getId_auteur());
         values.put(COL_TITRE_ANNONCE, annonce.getTitre());
         values.put(COL_DESCCRITPION_ANNONCE, annonce.getDescritpion());
         values.put(COL_LIEU_ANNONCE, annonce.getLieu());
         values.put(COL_PRIX_ANNONCE, annonce.getPrix());
+        values.put(COL_DATE_ANNONCE, annonce.getDate());
         bd.update(TABLE_ANNONCE, values, COL_ID_ANNONCE + " = " + id, null);
     }
 
@@ -103,8 +106,9 @@ public class AnnonceBD {
             String description = c.getString(3);
             String lieu = c.getString(4);
             int prix = c.getInt(5);
+            String date = c.getString(6);
 
-            res.add(new Annonce(id,id_utilisateur,titre,description,lieu,prix));
+            res.add(new Annonce(id,id_utilisateur,titre,description,lieu,prix,date));
             c.moveToNext();
         }
         c.close();
