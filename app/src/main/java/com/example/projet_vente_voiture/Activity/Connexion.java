@@ -13,58 +13,69 @@ import com.example.projet_vente_voiture.BD.UtilisateurBD;
 import com.example.projet_vente_voiture.Object.Utilisateur;
 import com.example.projet_vente_voiture.R;
 
-public class Connexion extends AppCompatActivity implements View.OnClickListener {
-
-    private EditText mail;
-    private EditText mdp;
-    private Button validation;
-    private Button inscription;
-    private Button inconnu;
+public class Connexion extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connexion);
 
-        this.mail = (EditText) findViewById(R.id.edit_text_email_connexion);
-        this.mdp = (EditText) findViewById(R.id.edit_text_mot_de_passe_connexion);
-        this.validation = (Button) findViewById(R.id.button_validation_connexion);
-        this.inscription = (Button) findViewById(R.id.button_inscription_connexion);
-        this.inconnu = (Button) findViewById(R.id.button_inconnu_connexion);
+        Intent intent = getIntent();
+        boolean co = intent.getBooleanExtra("co",false);
 
-        this.validation.setOnClickListener(this);
-        this.inscription.setOnClickListener(this);
-        this.inconnu.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        Intent intent = null;
-        switch (v.getId()) {
-            case R.id.button_validation_connexion :
-                if(this.mail.getText().toString().equals("") || this.mdp.getText().toString().equals("")) {
-                    Toast.makeText(this, "Le mail ou le mot de passe n'est pas rempli.", Toast.LENGTH_LONG).show();
-                    break;
-                }
-                UtilisateurBD UBD = new UtilisateurBD(this);
-                Utilisateur util = UBD.getUtilisateurByMail(this.mail.getText().toString());
-
-                if(util == null || !util.getMdp().equals(this.mdp.getText().toString())) {
-                    Toast.makeText(this, "Mail et/ou mot de passe incorrect", Toast.LENGTH_LONG).show();
-                    break;
-                }
-
-                intent = new Intent(this,Recherche.class);
-            break;
-
-            case R.id.button_inscription_connexion :
-                intent = new Intent(this,Inscription.class);
-            break;
-
-            default :
-                intent = new Intent(this,Recherche.class);
+        if(co){
+            finish();
         }
 
-        startActivity(intent);
+        EditText mail =  findViewById(R.id.edit_text_email_connexion);
+        EditText mdp = findViewById(R.id.edit_text_mot_de_passe_connexion);
+
+        Button btn_validation = findViewById(R.id.button_validation_connexion);
+        Button btn_inscription = findViewById(R.id.button_inscription_connexion);
+        Button btn_inconnu = findViewById(R.id.button_inconnu_connexion);
+
+        btn_validation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mail.getText().toString().equals("") || mdp.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(), "Le mail ou le mot de passe n'est pas rempli.", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    UtilisateurBD UBD = new UtilisateurBD(getApplicationContext());
+                    Utilisateur util = UBD.getUtilisateurByMail(mail.getText().toString());
+
+                    if(util == null || !util.getMdp().equals(mdp.getText().toString())) {
+                        Toast.makeText(getApplicationContext(), "Mail et/ou mot de passe incorrect", Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        Intent intent = new Intent(getApplicationContext(),Recherche.class);
+                        intent.putExtra("co",true);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+
+            }
+        });
+
+        btn_inscription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),Inscription.class);
+                intent.putExtra("co",false);
+                startActivity(intent);
+                finish();
+            }
+        });
+        btn_inconnu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),Recherche.class);
+                intent.putExtra("co",false);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
+
 }
