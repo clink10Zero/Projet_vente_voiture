@@ -46,6 +46,17 @@ public class CritereBD {
         return list.get(0);
     }
 
+    public List<Critere> getAllCritere() {
+        open();
+        Cursor c = bd.rawQuery("SELECT * FROM "+ TABLE_CRITERE ,null);
+        List<Critere> list = cursorToCriteres(c);
+        if(list==null){
+            return null;
+        }
+        close();
+        return list;
+    }
+
     private List<Critere> cursorToCriteres(Cursor c) {
         if (c.getCount() == 0)
             return null;

@@ -44,7 +44,7 @@
             android:id="@+id/dynamique_linear_layout_mes_annonces"/>
 
         <Button
-            android:id="@+id/button_validation_mes_annonces"
+            android:id="@+id/button_nouvelle_annonce_mes_annonces"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nouvelle Annonce" />

@@ -2,8 +2,10 @@ package com.example.projet_vente_voiture.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -31,7 +33,17 @@ public class Recherche extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recherche);
 
-        this.dynamic = (LinearLayout) findViewById(R.id.dynamic_annonce_recherche);
+        this.dynamic = findViewById(R.id.dynamic_annonce_recherche);
+        Button btn_tempo = new Button(this);
+        btn_tempo.setText("Mon Profil");
+        btn_tempo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),Mes_annonces.class);
+                startActivity(intent);
+            }
+        });
+        this.dynamic.addView(btn_tempo);
         this.affichageAnnonces();
     }
 

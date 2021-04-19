@@ -67,12 +67,27 @@
                 android:id="@+id/text_view_description_ajouter_annonce"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Lieu"/>
+                android:text="Description"/>
             <EditText
                 android:id="@+id/edit_text_description_ajouter_annonce"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                android:inputType="textMultiLine"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/text_view_prix_ajouter_annonce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Prix"/>
+            <EditText
+                android:id="@+id/edit_text_prix_ajouter_annonce"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"/>
         </LinearLayout>
 
         <LinearLayout

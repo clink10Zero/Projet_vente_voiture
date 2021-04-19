@@ -46,7 +46,7 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
     static final String COL_NOM_CRITERE ="nom_critere";
     static final String COL_TYPE_CRITERE ="type_critere";
 
-    static final int CRITERE_PREDEF =0;
+    public static final int CRITERE_PREDEF =0;
     static final int CRITERE_NUM =1;
 
     static final String COL_ID_VALEUR_CRITERE="id_valeur_critere";
@@ -122,7 +122,7 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
             "INSERT INTO "+TABLE_CRITERE +"("+COL_NOM_CRITERE +","+COL_TYPE_CRITERE+")"
                 /*1*/ +"VALUES('Marque',"+CRITERE_PREDEF +"),"
                 /*2*/ +"('Modèle',"+CRITERE_PREDEF +"),"
-                /*3*/ + "('Prix'," + CRITERE_NUM + ");";
+                /*3*/ + "('Année'," + CRITERE_NUM + ");";
 
     private static final String INSERT_VALEUR_CRITERE =
             "INSERT INTO "+TABLE_VALEUR_CRITERE +"("+COL_CRITERE_VALEUR_CRITERE +","+COL_VALEUR_VALEUR_CRITERE+")"
