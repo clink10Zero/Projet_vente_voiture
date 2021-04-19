@@ -11,11 +11,9 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.projet_vente_voiture.BD.UtilisateurBD;
+import com.example.projet_vente_voiture.Object.ResultatForm;
 import com.example.projet_vente_voiture.Object.Utilisateur;
 import com.example.projet_vente_voiture.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Inscription extends AppCompatActivity {
 
@@ -87,24 +85,6 @@ public class Inscription extends AppCompatActivity {
                 finish();
             }
         });
-    }
-
-    private class ResultatForm{
-        boolean bool;
-        String text;
-
-        public ResultatForm(Boolean bool, String text) {
-            this.bool = bool;
-            this.text = text;
-        }
-
-        public boolean getBool() {
-            return bool;
-        }
-
-        public String getText() {
-            return text;
-        }
     }
 
     private ResultatForm isFormOK(EditText mail , EditText confirmationMail , EditText mdp , EditText confirmationMDP , RadioGroup  proPer) {

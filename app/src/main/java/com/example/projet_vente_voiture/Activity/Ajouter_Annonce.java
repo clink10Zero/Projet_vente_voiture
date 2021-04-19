@@ -8,12 +8,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.projet_vente_voiture.BD.AnnonceBD;
 import com.example.projet_vente_voiture.BD.CritereBD;
 import com.example.projet_vente_voiture.Object.Annonce;
 import com.example.projet_vente_voiture.Object.Critere;
+import com.example.projet_vente_voiture.Object.ResultatForm;
 import com.example.projet_vente_voiture.R;
 
 import java.text.SimpleDateFormat;
@@ -40,10 +43,14 @@ public class Ajouter_Annonce extends AppCompatActivity {
             ligne.addView(tv_nom_critere);
 
             if(critere.getType()==CRITERE_PREDEF){
-
+                //TODO use the predef values
+                EditText et_contenu = new EditText(this);
+                et_contenu.setId(critere.getId());
+                ligne.addView(et_contenu);
             }
             else{
                 EditText et_contenu = new EditText(this);
+                et_contenu.setId(critere.getId());
                 ligne.addView(et_contenu);
             }
             ll_critere.addView(ligne);
@@ -59,18 +66,62 @@ public class Ajouter_Annonce extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int id_auteur = 1;
+
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 Date d = new Date();
                 String date = formatter.format(d);
-                Annonce nouvelle_annonce = new Annonce(id_auteur,et_titre.getText().toString(),et_description.getText().toString(),et_lieu.getText().toString(),Integer.parseInt(et_prix.getText().toString()),date);
-                AnnonceBD ABD = new AnnonceBD(getApplicationContext());
-                ABD.insertAnnonce(nouvelle_annonce);
-                Intent intent = new Intent(getApplicationContext(),Detaille.class);
-                intent.putExtra("id",nouvelle_annonce.getId());
-                startActivity(intent);
-                finish();
+
+                //check contents
+                ResultatForm test = isFormOK(et_titre, et_description, et_lieu, et_prix);
+                if (!test.getBool()) {
+                    Toast.makeText(getApplicationContext(), test.getText(), Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Annonce nouvelle_annonce = new Annonce(id_auteur,et_titre.getText().toString(),et_description.getText().toString(),et_lieu.getText().toString(),Integer.parseInt(et_prix.getText().toString()),date);
+                    AnnonceBD ABD = new AnnonceBD(getApplicationContext());
+                    ABD.insertAnnonce(nouvelle_annonce);
+
+                    //TODO criteres
+                    for (Critere critere : CBD.getAllCritere()) {
+                        if(true){
+
+                        }
+                    }
+
+                    Intent intent = new Intent(getApplicationContext(),Detaille.class);
+                    intent.putExtra("id",nouvelle_annonce.getId());
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
 
+    }
+
+    private ResultatForm isFormOK(EditText et_titre , EditText et_description , EditText et_lieu , EditText et_prix) {
+        String text = "";
+        boolean bool = false;
+        if (et_titre.getText().toString().equals("")) {
+            text = "L'annonce doit avoir un titre";
+        }
+        else {
+            if (et_description.getText().toString().equals("")) {
+                text = "L'annonce doit avoir une description";
+            }
+            else {
+                if (et_lieu.getText().toString().equals("")) {
+                    text = "L'annonce doit avoir une localisation";
+                }
+                else {
+                    if (et_prix.getText().toString().equals("")) {
+                        text = "L'annonce doit avoir un prix";
+                    }
+                }
+            }
+        }
+        if(text.equals("")){
+            bool=true;
+        }
+        return new ResultatForm(bool,text);
     }
 }
