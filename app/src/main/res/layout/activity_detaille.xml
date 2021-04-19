@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".Activity.Detaille">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
     <TextView
         android:id="@+id/text_view_titre_detail"
@@ -60,9 +63,16 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/text_view_lieu_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="LIEU" />
+
     <Space
         android:layout_width="match_parent"
         android:layout_height="20dp" />
+
 
     <LinearLayout
         android:id="@+id/dynamic_linear_layout_criteres_detail"
@@ -87,4 +97,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="contact" />
-</LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

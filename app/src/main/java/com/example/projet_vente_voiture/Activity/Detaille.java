@@ -42,6 +42,9 @@ public class Detaille extends AppCompatActivity {
             TextView tv_date = findViewById(R.id.text_view_date_detail);
             tv_date.setText(annonce.getDate());
 
+            TextView tv_lieu = findViewById(R.id.text_view_lieu_detail);
+            tv_lieu.setText(annonce.getLieu());
+
             CritereAnnonceBD CABD = new CritereAnnonceBD(this);
             List<CritereAnnonce>  criteres = CABD.getCritereAnnonceByAnnonceId(id_annonce);
             if(criteres!=null){
