@@ -74,8 +74,13 @@ public class Detaille extends AppCompatActivity {
                 btn_modif.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getApplicationContext(), "Page de modif à faire", Toast.LENGTH_LONG).show();
-                    }});
+                        Intent intent1 = new Intent(getApplicationContext(),Ajouter_Annonce.class);
+                        intent1.putExtra("currentUser",currentUserId);
+                        intent1.putExtra("currentAnnonce",id_annonce);
+                        startActivity(intent1);
+                    }
+                });
+
                 ll_btn.addView(btn_modif);
 
                 Activity activity =this;

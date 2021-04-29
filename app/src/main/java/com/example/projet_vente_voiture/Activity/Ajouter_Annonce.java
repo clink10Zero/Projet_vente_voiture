@@ -65,7 +65,9 @@ public class Ajouter_Annonce extends AppCompatActivity {
                 EditText et_contenu = new EditText(this);
                 if(currentAnnonceId!=-1){
                     CritereAnnonce critereAnnonce = CABD.getCritereAnnonceByAnnonceAndCritereId(currentAnnonceId,critere.getId());
-                    et_contenu.setText(critereAnnonce.getValeur());
+                    if (critereAnnonce != null) {
+                        et_contenu.setText(critereAnnonce.getValeur());
+                    }
                 }
                 ligne.addView(et_contenu);
                 et_list.add(et_contenu);
@@ -74,7 +76,9 @@ public class Ajouter_Annonce extends AppCompatActivity {
                 EditText et_contenu = new EditText(this);
                 if(currentAnnonceId!=-1){
                     CritereAnnonce critereAnnonce = CABD.getCritereAnnonceByAnnonceAndCritereId(currentAnnonceId,critere.getId());
-                    et_contenu.setText(critereAnnonce.getValeur());
+                    if(critereAnnonce!=null){
+                        et_contenu.setText(critereAnnonce.getValeur());
+                    }
                 }
                 ligne.addView(et_contenu);
                 et_list.add(et_contenu);
@@ -91,7 +95,7 @@ public class Ajouter_Annonce extends AppCompatActivity {
             et_titre.setText(currentAnnonce.getTitre());
             et_lieu.setText(currentAnnonce.getLieu());
             et_description.setText(currentAnnonce.getDescritpion());
-            et_prix.setText(currentAnnonce.getPrix());
+            et_prix.setText(currentAnnonce.getPrix()+"");
         }
 
         Button btn_validation = findViewById(R.id.button_validation_ajouter_annonce);
@@ -118,12 +122,19 @@ public class Ajouter_Annonce extends AppCompatActivity {
                         ABD.insertAnnonce(nouvelle_annonce);
                     }
 
-                    //TODO gérer l'update
+                    //TODO maybe la suppression de critere ?
                     CritereAnnonceBD CABD = new CritereAnnonceBD(getApplicationContext());
                     for(int i=0;i<et_list.size();i++){
                         if(!et_list.get(i).getText().toString().equals("")){
-                            CritereAnnonce c = new CritereAnnonce(critere_list.get(i).getId(),nouvelle_annonce.getId(),et_list.get(i).getText().toString());
-                            CABD.insertCritereAnnonce(c);
+                            CritereAnnonce nouveau_critere_annonce = new CritereAnnonce(critere_list.get(i).getId(),nouvelle_annonce.getId(),et_list.get(i).getText().toString());
+                            CritereAnnonce ca=CABD.getCritereAnnonceByAnnonceAndCritereId(nouvelle_annonce.getId(),critere_list.get(i).getId());
+                            if(ca!=null){
+                                CABD.updateCritereAnnonce(ca.getId(),nouveau_critere_annonce);
+                            }else{
+                                CABD.insertCritereAnnonce(nouveau_critere_annonce);
+                            }
+
+
                         }
                     }
 
