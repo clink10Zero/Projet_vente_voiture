@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.projet_vente_voiture.BD.MaBaseSQLite;
 import com.example.projet_vente_voiture.BD.UtilisateurBD;
 import com.example.projet_vente_voiture.Object.ResultatForm;
 import com.example.projet_vente_voiture.Object.Utilisateur;
@@ -53,7 +54,15 @@ public class Inscription extends AppCompatActivity {
                     if (user != null) {
                         Toast.makeText(getApplicationContext(), "Cette adresse mail est déjà associée à un compte", Toast.LENGTH_LONG).show();
                     } else {
-                        Utilisateur util = new Utilisateur(prenom.getText().toString(), nom.getText().toString(), mail.getText().toString(), mdp.getText().toString(), proPer.getCheckedRadioButtonId());
+                        int pro;
+                        switch(proPer.getCheckedRadioButtonId()){
+                            case R.id.radio_buttton_particulier_inscirption:
+                                pro = Utilisateur.PARTICULIER;
+                                break;
+                            default:
+                                pro = Utilisateur.PROFESSIONEL;
+                        }
+                        Utilisateur util = new Utilisateur(prenom.getText().toString(), nom.getText().toString(), mail.getText().toString(), mdp.getText().toString(), pro);
                         UBD.insertUtilisateur(util);
 
                         Intent intent = new Intent(getApplicationContext(), Recherche.class);

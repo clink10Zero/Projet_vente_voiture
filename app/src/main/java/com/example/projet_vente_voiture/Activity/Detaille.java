@@ -61,8 +61,6 @@ public class Detaille extends AppCompatActivity {
                 }
             }
 
-
-
             TextView tv_description = findViewById(R.id.text_view_description_detail);
             tv_description.setText(annonce.getDescritpion());
 

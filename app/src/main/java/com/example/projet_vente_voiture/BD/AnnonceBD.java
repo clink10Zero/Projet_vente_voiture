@@ -93,6 +93,14 @@ public class AnnonceBD {
         return list;
     }
 
+    public List<Annonce> getAnnoncesByUserId(int userId) {
+        open();
+        Cursor c = bd.rawQuery("SELECT * FROM "+ TABLE_ANNONCE+" WHERE "+ COL_AUTEUR_ANNONCE +" = "+ userId,null);
+        List<Annonce> list = cursorToAnnonces(c);
+        close();
+        return list;
+    }
+
     private List<Annonce> cursorToAnnonces(Cursor c) {
         if (c.getCount() == 0)
             return null;
