@@ -1,10 +1,14 @@
 package com.example.projet_vente_voiture.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -24,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Recherche extends AppCompatActivity {
+public class Recherche extends General {
 
     private LinearLayout dynamic;
 
@@ -32,11 +36,12 @@ public class Recherche extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recherche);
-
         int currentUserId = getIntent().getIntExtra("currentUser",-1);
 
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+
         this.dynamic = findViewById(R.id.dynamic_annonce_recherche);
-        if(currentUserId!=-1){
+        if(this.currentUserId!=-1){
             Button btn_tempo = new Button(this);
             btn_tempo.setText("Mon Profil");
             btn_tempo.setOnClickListener(new View.OnClickListener() {
