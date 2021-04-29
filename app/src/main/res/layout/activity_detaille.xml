@@ -92,11 +92,12 @@
         android:layout_weight="1"
         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
 
-    <Button
-        android:id="@+id/button_contact_detail"
+    <LinearLayout
+        android:id="@+id/linear_layout_button_detail"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="contact" />
+        android:layout_height="match_parent"
+        android:orientation="vertical" />
+
 
     </LinearLayout>
 </ScrollView>

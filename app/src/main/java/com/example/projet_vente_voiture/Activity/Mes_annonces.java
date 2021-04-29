@@ -34,7 +34,7 @@ public class Mes_annonces extends AppCompatActivity {
         if(annonces!=null){
             LinearLayout ll_dynamic = findViewById(R.id.dynamique_linear_layout_mes_annonces);
             for(Annonce a : annonces){
-                AnnonceView view = new AnnonceView(this,a);
+                AnnonceView view = new AnnonceView(this,a,currentUserId);
                 ll_dynamic.addView(view);
             }
         }

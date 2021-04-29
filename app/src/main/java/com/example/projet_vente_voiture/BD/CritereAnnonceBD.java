@@ -55,9 +55,9 @@ public class CritereAnnonceBD {
     public void updateCritereAnnonce(int id, CritereAnnonce critereAnnonce) {
         open();
         ContentValues values = new ContentValues();
-        values.put(COL_AUTEUR_ANNONCE, critereAnnonce.getId_critere());
-        values.put(COL_AUTEUR_ANNONCE, critereAnnonce.getId_annonce());
-        values.put(COL_AUTEUR_ANNONCE, critereAnnonce.getValeur());
+        values.put(COL_CRITERE_CRITERE_ANONCE, critereAnnonce.getId_critere());
+        values.put(COL_ANNONCE_CRITERE_ANNONCE, critereAnnonce.getId_annonce());
+        values.put(COL_VALEUR_CRITERE_ANNONCE, critereAnnonce.getValeur());
 
         bd.update(TABLE_CRITERE_ANNONCE, values, COL_ID_CRITERE_ANONCE + " = " + id, null);
     }
@@ -71,6 +71,17 @@ public class CritereAnnonceBD {
         }
         close();
         return list;
+    }
+
+    public CritereAnnonce getCritereAnnonceByAnnonceAndCritereId(int annonce,int critere) {
+        open();
+        Cursor c = bd.rawQuery("SELECT * FROM "+ TABLE_CRITERE_ANNONCE +" WHERE "+ COL_ANNONCE_CRITERE_ANNONCE +" = "+ annonce + " AND " + COL_CRITERE_CRITERE_ANONCE + " = " + critere,null);
+        List<CritereAnnonce> list = cursorToCritereAnnonces(c);
+        if(list==null){
+            return null;
+        }
+        close();
+        return list.get(0);
     }
 
     private List<CritereAnnonce> cursorToCritereAnnonces(Cursor c) {

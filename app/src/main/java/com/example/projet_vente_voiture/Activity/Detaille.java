@@ -1,8 +1,8 @@
 package com.example.projet_vente_voiture.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.motion.widget.MotionLayout;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +15,7 @@ import com.example.projet_vente_voiture.BD.AnnonceBD;
 import com.example.projet_vente_voiture.BD.CritereAnnonceBD;
 import com.example.projet_vente_voiture.BD.CritereBD;
 import com.example.projet_vente_voiture.Object.Annonce;
+import com.example.projet_vente_voiture.Object.ConfirmPopUp;
 import com.example.projet_vente_voiture.Object.CritereAnnonce;
 import com.example.projet_vente_voiture.R;
 
@@ -30,7 +31,6 @@ public class Detaille extends AppCompatActivity {
         Intent intent = getIntent();
         int id_annonce = intent.getIntExtra("id",-1);
         int currentUserId = intent.getIntExtra("currentUser",-1);
-
 
         AnnonceBD ABD = new AnnonceBD(this);
         Annonce annonce = ABD.getAnnonceById(id_annonce);
@@ -66,17 +66,59 @@ public class Detaille extends AppCompatActivity {
             TextView tv_description = findViewById(R.id.text_view_description_detail);
             tv_description.setText(annonce.getDescritpion());
 
+            LinearLayout ll_btn =findViewById(R.id.linear_layout_button_detail);
             int id_auteur = annonce.getId_auteur();
-            Button btn_contact = findViewById(R.id.button_contact_detail);
-            btn_contact.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-               /* Intent intent = new Intent(this, Detaille.class);
-                intent.putExtra("id_auteur",id_auteur);
-                startActivity(intent);*/
-                    Toast.makeText(getApplicationContext(), "Page de contact à faire", Toast.LENGTH_LONG).show();
-                }
-            });
+            if(id_auteur==currentUserId){
+                Button btn_modif = new Button(this);
+                btn_modif.setText("Modifier");
+                btn_modif.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getApplicationContext(), "Page de modif à faire", Toast.LENGTH_LONG).show();
+                    }});
+                ll_btn.addView(btn_modif);
+
+                Activity activity =this;
+                Button btn_suppr = new Button(this);
+                btn_suppr.setText("Supprimer");
+                btn_suppr.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final ConfirmPopUp confirmPopUp = new ConfirmPopUp(activity);
+                        confirmPopUp.setTitle("Voulez-vous vraiment supprimer l'annonce '"+ annonce.getTitre() + "' ?");
+                        confirmPopUp.getConfirmButton().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                ABD.removeAnnonceWithID(id_annonce);
+                                confirmPopUp.dismiss();
+                                activity.finish();
+                                Intent intent1 = new Intent(getApplicationContext(),Mes_annonces.class);
+                                intent1.putExtra("currentUser",currentUserId);
+                                startActivity(intent1);
+                            }
+                        });
+                        confirmPopUp.getCancelButton().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                confirmPopUp.dismiss();
+                            }
+                        });
+                        confirmPopUp.build();
+                    }});
+
+                ll_btn.addView(btn_suppr);
+
+            }else {
+                Button btn_contact = new Button(this);
+                btn_contact.setText("Contact");
+                btn_contact.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getApplicationContext(), "Page de contact à faire", Toast.LENGTH_LONG).show();
+                    }
+                });
+                ll_btn.addView(btn_contact);
+            }
         }
     }
 }

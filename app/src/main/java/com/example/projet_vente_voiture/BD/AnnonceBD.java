@@ -66,6 +66,8 @@ public class AnnonceBD {
         values.put(COL_PRIX_ANNONCE, annonce.getPrix());
         values.put(COL_DATE_ANNONCE, annonce.getDate());
         bd.update(TABLE_ANNONCE, values, COL_ID_ANNONCE + " = " + id, null);
+        annonce.setId(id);
+        close();
     }
 
     public void removeAnnonceWithID(int id) {

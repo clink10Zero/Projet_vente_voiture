@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,11 +35,17 @@ public class Ajouter_Annonce extends AppCompatActivity {
         setContentView(R.layout.activity_ajouter_annonce);
 
         Intent intent = getIntent();
-        boolean co = intent.getBooleanExtra("co",false);
+        int currentAnnonceId = intent.getIntExtra("currentAnnonce",-1);
         int currentUserId = intent.getIntExtra("currentUser",-1);
 
         if(currentUserId==-1){
             finish();
+        }
+        AnnonceBD ABD = new AnnonceBD(this);
+        Annonce currentAnnonce = null;
+        CritereAnnonceBD CABD = new CritereAnnonceBD(this);
+        if(currentAnnonceId!=-1){
+            currentAnnonce=ABD.getAnnonceById(currentAnnonceId);
         }
 
         LinearLayout ll_critere = findViewById(R.id.dynamique_linear_layout_criteres_ajouter_annonce);
@@ -58,11 +63,19 @@ public class Ajouter_Annonce extends AppCompatActivity {
             if(critere.getType()==CRITERE_PREDEF){
                 //TODO use the predef values
                 EditText et_contenu = new EditText(this);
+                if(currentAnnonceId!=-1){
+                    CritereAnnonce critereAnnonce = CABD.getCritereAnnonceByAnnonceAndCritereId(currentAnnonceId,critere.getId());
+                    et_contenu.setText(critereAnnonce.getValeur());
+                }
                 ligne.addView(et_contenu);
                 et_list.add(et_contenu);
             }
             else{
                 EditText et_contenu = new EditText(this);
+                if(currentAnnonceId!=-1){
+                    CritereAnnonce critereAnnonce = CABD.getCritereAnnonceByAnnonceAndCritereId(currentAnnonceId,critere.getId());
+                    et_contenu.setText(critereAnnonce.getValeur());
+                }
                 ligne.addView(et_contenu);
                 et_list.add(et_contenu);
             }
@@ -73,6 +86,13 @@ public class Ajouter_Annonce extends AppCompatActivity {
         EditText et_lieu = findViewById(R.id.edit_text_lieu_ajouter_annonce);
         EditText et_description = findViewById(R.id.edit_text_description_ajouter_annonce);
         EditText et_prix = findViewById(R.id.edit_text_prix_ajouter_annonce);
+
+        if(currentAnnonceId!=-1){
+            et_titre.setText(currentAnnonce.getTitre());
+            et_lieu.setText(currentAnnonce.getLieu());
+            et_description.setText(currentAnnonce.getDescritpion());
+            et_prix.setText(currentAnnonce.getPrix());
+        }
 
         Button btn_validation = findViewById(R.id.button_validation_ajouter_annonce);
         btn_validation.setOnClickListener(new View.OnClickListener() {
@@ -91,9 +111,14 @@ public class Ajouter_Annonce extends AppCompatActivity {
                 else{
                     Annonce nouvelle_annonce = new Annonce(currentUserId,et_titre.getText().toString(),et_description.getText().toString(),et_lieu.getText().toString(),Integer.parseInt(et_prix.getText().toString()),date);
                     AnnonceBD ABD = new AnnonceBD(getApplicationContext());
-                    ABD.insertAnnonce(nouvelle_annonce);
+                    if(currentAnnonceId!=-1) {
+                        ABD.updateAnnonce(currentAnnonceId,nouvelle_annonce);
+                    }
+                    else{
+                        ABD.insertAnnonce(nouvelle_annonce);
+                    }
 
-                    //TODO criteres
+                    //TODO gérer l'update
                     CritereAnnonceBD CABD = new CritereAnnonceBD(getApplicationContext());
                     for(int i=0;i<et_list.size();i++){
                         if(!et_list.get(i).getText().toString().equals("")){
@@ -138,15 +163,5 @@ public class Ajouter_Annonce extends AppCompatActivity {
             bool=true;
         }
         return new ResultatForm(bool,text);
-    }
-
-    private class Association{
-        List<Critere> c;
-        List<String> v;
-
-        public Association(List<Critere> c, List<String> v) {
-            this.c = c;
-            this.v = v;
-        }
     }
 }
