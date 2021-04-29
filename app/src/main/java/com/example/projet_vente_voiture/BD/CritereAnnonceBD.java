@@ -12,7 +12,9 @@ import java.util.List;
 
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_ANNONCE_CRITERE_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_AUTEUR_ANNONCE;
+import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_CRITERE_CRITERE_ANONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_ID_CRITERE_ANONCE;
+import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_VALEUR_CRITERE_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.NOM_BD;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.TABLE_CRITERE_ANNONCE;
 
@@ -41,9 +43,9 @@ public class CritereAnnonceBD {
     public void insertCritereAnnonce(CritereAnnonce critereAnnonce) {
         open();
         ContentValues values = new ContentValues();
-        values.put(COL_AUTEUR_ANNONCE, critereAnnonce.getId_critere());
-        values.put(COL_AUTEUR_ANNONCE, critereAnnonce.getId_annonce());
-        values.put(COL_AUTEUR_ANNONCE, critereAnnonce.getValeur());
+        values.put(COL_CRITERE_CRITERE_ANONCE, critereAnnonce.getId_critere());
+        values.put(COL_ANNONCE_CRITERE_ANNONCE, critereAnnonce.getId_annonce());
+        values.put(COL_VALEUR_CRITERE_ANNONCE, critereAnnonce.getValeur());
 
         int id = (int) bd.insert(TABLE_CRITERE_ANNONCE,null,values);
         critereAnnonce.setId(id);

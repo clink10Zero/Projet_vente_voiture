@@ -1,6 +1,7 @@
 package com.example.projet_vente_voiture.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.motion.widget.MotionLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ public class Detaille extends AppCompatActivity {
         Annonce annonce = ABD.getAnnonceById(id_annonce);
 
         if(annonce!=null) {
+
             TextView tv_titre = findViewById(R.id.text_view_titre_detail);
             tv_titre.setText(annonce.getTitre());
 
