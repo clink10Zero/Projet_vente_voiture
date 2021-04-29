@@ -20,9 +20,8 @@ public class General extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        currentUserId = getIntent().getIntExtra("currentUser",-1);
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-
+        this.currentUserId = getIntent().getIntExtra("currentUser",-1);
+        setSupportActionBar(findViewById(R.id.toolbar));
     }
 
     @Override
@@ -50,9 +49,13 @@ public class General extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.action_deconnection:
+                intent = new Intent(getApplicationContext(), Connexion.class);
+                startActivity(intent);
+                finish();;
                 break;
             case R.id.action_mes_annonces:
                 intent = new Intent(getApplicationContext(), Mes_annonces.class);
+                intent.putExtra("currentUser",currentUserId);
                 startActivity(intent);
                 break;
         }

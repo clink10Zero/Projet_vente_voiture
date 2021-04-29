@@ -21,16 +21,16 @@ import com.example.projet_vente_voiture.R;
 
 import java.util.List;
 
-public class Detaille extends AppCompatActivity {
+public class Detaille extends General {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detaille);
+        setSupportActionBar(findViewById(R.id.toolbar));
 
         Intent intent = getIntent();
         int id_annonce = intent.getIntExtra("id",-1);
-        int currentUserId = intent.getIntExtra("currentUser",-1);
 
         AnnonceBD ABD = new AnnonceBD(this);
         Annonce annonce = ABD.getAnnonceById(id_annonce);

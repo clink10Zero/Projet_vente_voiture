@@ -1,6 +1,7 @@
 package com.example.projet_vente_voiture.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,16 +28,16 @@ import java.util.List;
 
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.CRITERE_PREDEF;
 
-public class Ajouter_Annonce extends AppCompatActivity {
+public class Ajouter_Annonce extends General {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ajouter_annonce);
+        setSupportActionBar(findViewById(R.id.toolbar));
 
         Intent intent = getIntent();
         int currentAnnonceId = intent.getIntExtra("currentAnnonce",-1);
-        int currentUserId = intent.getIntExtra("currentUser",-1);
 
         if(currentUserId==-1){
             finish();

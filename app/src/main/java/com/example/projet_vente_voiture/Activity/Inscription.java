@@ -1,9 +1,11 @@
 package com.example.projet_vente_voiture.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,17 +18,15 @@ import com.example.projet_vente_voiture.Object.ResultatForm;
 import com.example.projet_vente_voiture.Object.Utilisateur;
 import com.example.projet_vente_voiture.R;
 
-public class Inscription extends AppCompatActivity {
+public class Inscription extends General {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inscription);
+        setSupportActionBar(findViewById(R.id.toolbar));
 
-        Intent intent = getIntent();
-        boolean co = intent.getBooleanExtra("co",false);
-
-        if(co){
+        if(currentUserId!=-1){
             finish();
         }
 
@@ -39,13 +39,12 @@ public class Inscription extends AppCompatActivity {
         RadioGroup  proPer = findViewById(R.id.radio_group_categorie_inscription);
 
         Button btn_validation = findViewById(R.id.button_validation_inscription);
-        Button btn_connexion = findViewById(R.id.button_connexion_inscription);
         Button btn_inconnu = findViewById(R.id.button_inconnu_inscription);
 
         btn_validation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ResultatForm test = isFormOK(mail, confirmationMail, mdp, mdp, proPer);
+                ResultatForm test = isFormOK(mail, confirmationMail, mdp, confirmationMDP, proPer);
                 if (!test.getBool()) {
                     Toast.makeText(getApplicationContext(), test.getText(), Toast.LENGTH_LONG).show();
                 } else {
@@ -66,7 +65,6 @@ public class Inscription extends AppCompatActivity {
                         UBD.insertUtilisateur(util);
 
                         Intent intent = new Intent(getApplicationContext(), Recherche.class);
-                        intent.putExtra("co", true);
                         intent.putExtra("currentUser",util.getId());
                         startActivity(intent);
 
@@ -76,21 +74,11 @@ public class Inscription extends AppCompatActivity {
                 }
             }
         });
-        btn_connexion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),Connexion.class);
-                intent.putExtra("co",false);
-                startActivity(intent);
-                finish();
-            }
-        });
 
         btn_inconnu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),Recherche.class);
-                intent.putExtra("co",false);
                 startActivity(intent);
                 finish();
             }
@@ -135,5 +123,33 @@ public class Inscription extends AppCompatActivity {
             bool=true;
         }
         return new ResultatForm(bool,text);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        Intent intent;
+        switch (id) {
+            case R.id.action_connection:
+                intent = new Intent(getApplicationContext(), Connexion.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.action_inscription:
+                Toast.makeText(getApplicationContext(), "Vous êtes déjà sur la page d'inscription", Toast.LENGTH_LONG).show();
+                break;
+            case R.id.action_deconnection:
+                intent = new Intent(getApplicationContext(), Connexion.class);
+                startActivity(intent);
+                finish();;
+                break;
+            case R.id.action_mes_annonces:
+                intent = new Intent(getApplicationContext(), Mes_annonces.class);
+                intent.putExtra("currentUser",currentUserId);
+                startActivity(intent);
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -17,17 +17,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class Mes_annonces extends AppCompatActivity {
+public class Mes_annonces extends General {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mes_annonces);
-
-        int currentUserId = getIntent().getIntExtra("currentUser",-1);
-        if(currentUserId==-1){
-            finish();
-        }
+        setSupportActionBar(findViewById(R.id.toolbar));
 
         AnnonceBD ABD = new AnnonceBD(this);
         List<Annonce> annonces = ABD.getAnnoncesByUserId(currentUserId);
