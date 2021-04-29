@@ -28,6 +28,8 @@ public class Detaille extends AppCompatActivity {
 
         Intent intent = getIntent();
         int id_annonce = intent.getIntExtra("id",-1);
+        int currentUserId = intent.getIntExtra("currentUser",-1);
+
 
         AnnonceBD ABD = new AnnonceBD(this);
         Annonce annonce = ABD.getAnnonceById(id_annonce);

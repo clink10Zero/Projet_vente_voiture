@@ -21,11 +21,17 @@ public class Mes_annonces extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mes_annonces);
 
+        int currentUserId = getIntent().getIntExtra("currentUser",-1);
+        if(currentUserId==-1){
+            finish();
+        }
+
         Button btn_nouvelle_annonce = findViewById(R.id.button_nouvelle_annonce_mes_annonces);
         btn_nouvelle_annonce.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),Ajouter_Annonce.class);
+                intent.putExtra("currentUser",currentUserId);
                 startActivity(intent);
             }
         });

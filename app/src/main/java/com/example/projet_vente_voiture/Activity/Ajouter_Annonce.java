@@ -13,13 +13,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.projet_vente_voiture.BD.AnnonceBD;
+import com.example.projet_vente_voiture.BD.CritereAnnonceBD;
 import com.example.projet_vente_voiture.BD.CritereBD;
 import com.example.projet_vente_voiture.Object.Annonce;
 import com.example.projet_vente_voiture.Object.Critere;
+import com.example.projet_vente_voiture.Object.CritereAnnonce;
 import com.example.projet_vente_voiture.Object.ResultatForm;
 import com.example.projet_vente_voiture.R;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,9 +35,19 @@ public class Ajouter_Annonce extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ajouter_annonce);
 
+        Intent intent = getIntent();
+        boolean co = intent.getBooleanExtra("co",false);
+        int currentUserId = intent.getIntExtra("currentUser",-1);
+
+        if(currentUserId==-1){
+            finish();
+        }
+
         LinearLayout ll_critere = findViewById(R.id.dynamique_linear_layout_criteres_ajouter_annonce);
         CritereBD CBD = new CritereBD(this);
-        for (Critere critere : CBD.getAllCritere()) {
+        List<Critere> critere_list = CBD.getAllCritere();
+        List<EditText> et_list = new ArrayList<>();
+        for (Critere critere : critere_list) {
             LinearLayout ligne = new LinearLayout(this);
             ligne.setOrientation(LinearLayout.HORIZONTAL);
 
@@ -45,13 +58,13 @@ public class Ajouter_Annonce extends AppCompatActivity {
             if(critere.getType()==CRITERE_PREDEF){
                 //TODO use the predef values
                 EditText et_contenu = new EditText(this);
-                et_contenu.setId(critere.getId());
                 ligne.addView(et_contenu);
+                et_list.add(et_contenu);
             }
             else{
                 EditText et_contenu = new EditText(this);
-                et_contenu.setId(critere.getId());
                 ligne.addView(et_contenu);
+                et_list.add(et_contenu);
             }
             ll_critere.addView(ligne);
         }
@@ -65,7 +78,6 @@ public class Ajouter_Annonce extends AppCompatActivity {
         btn_validation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int id_auteur = 1;
 
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 Date d = new Date();
@@ -77,19 +89,22 @@ public class Ajouter_Annonce extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), test.getText(), Toast.LENGTH_LONG).show();
                 }
                 else{
-                    Annonce nouvelle_annonce = new Annonce(id_auteur,et_titre.getText().toString(),et_description.getText().toString(),et_lieu.getText().toString(),Integer.parseInt(et_prix.getText().toString()),date);
+                    Annonce nouvelle_annonce = new Annonce(currentUserId,et_titre.getText().toString(),et_description.getText().toString(),et_lieu.getText().toString(),Integer.parseInt(et_prix.getText().toString()),date);
                     AnnonceBD ABD = new AnnonceBD(getApplicationContext());
                     ABD.insertAnnonce(nouvelle_annonce);
 
                     //TODO criteres
-                    for (Critere critere : CBD.getAllCritere()) {
-                        if(true){
-
+                    CritereAnnonceBD CABD = new CritereAnnonceBD(getApplicationContext());
+                    for(int i=0;i<et_list.size();i++){
+                        if(!et_list.get(i).getText().toString().equals("")){
+                            CritereAnnonce c = new CritereAnnonce(critere_list.get(i).getId(),nouvelle_annonce.getId(),et_list.get(i).getText().toString());
+                            CABD.insertCritereAnnonce(c);
                         }
                     }
 
                     Intent intent = new Intent(getApplicationContext(),Detaille.class);
                     intent.putExtra("id",nouvelle_annonce.getId());
+                    intent.putExtra("currentUser",currentUserId);
                     startActivity(intent);
                     finish();
                 }
@@ -123,5 +138,15 @@ public class Ajouter_Annonce extends AppCompatActivity {
             bool=true;
         }
         return new ResultatForm(bool,text);
+    }
+
+    private class Association{
+        List<Critere> c;
+        List<String> v;
+
+        public Association(List<Critere> c, List<String> v) {
+            this.c = c;
+            this.v = v;
+        }
     }
 }

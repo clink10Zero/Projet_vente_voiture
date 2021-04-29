@@ -33,17 +33,23 @@ public class Recherche extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recherche);
 
+        int currentUserId = getIntent().getIntExtra("currentUser",-1);
+
         this.dynamic = findViewById(R.id.dynamic_annonce_recherche);
-        Button btn_tempo = new Button(this);
-        btn_tempo.setText("Mon Profil");
-        btn_tempo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),Mes_annonces.class);
-                startActivity(intent);
-            }
-        });
-        this.dynamic.addView(btn_tempo);
+        if(currentUserId!=-1){
+            Button btn_tempo = new Button(this);
+            btn_tempo.setText("Mon Profil");
+            btn_tempo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(),Mes_annonces.class);
+                    intent.putExtra("currentUser",currentUserId);
+                    startActivity(intent);
+                }
+            });
+            this.dynamic.addView(btn_tempo);
+        }
+
         this.affichageAnnonces();
     }
 

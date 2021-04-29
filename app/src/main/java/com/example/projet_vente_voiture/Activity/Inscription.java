@@ -58,6 +58,7 @@ public class Inscription extends AppCompatActivity {
 
                         Intent intent = new Intent(getApplicationContext(), Recherche.class);
                         intent.putExtra("co", true);
+                        intent.putExtra("currentUser",util.getId());
                         startActivity(intent);
 
                         finish();
