@@ -9,14 +9,14 @@ import static com.example.projet_vente_voiture.Object.Utilisateur.PROFESSIONEL;
 
 public class MaBaseSQLite extends SQLiteOpenHelper {
 
-    static final String NOM_BD="base.bd";
+    public static final String NOM_BD="base.bd";
 
     static final String TABLE_UTILISATEUR ="table_utilisateur";
-    static final String TABLE_ANNONCE ="table_annonce";
+    public static final String TABLE_ANNONCE ="table_annonce";
     static final String TABLE_PHOTO ="table_photo";
     static final String TABLE_CRITERE ="table_critere";
     static final String TABLE_VALEUR_CRITERE ="table_valeur_critere";
-    static final String TABLE_CRITERE_ANNONCE ="table_critere_annonce";
+    public static final String TABLE_CRITERE_ANNONCE ="table_critere_annonce";
 
     static final String COL_ID_UTILISATEUR ="id_utilisateur ";
     static final String COL_PRENOM_UTILISATEUR ="prenom_utilisateur";
@@ -25,12 +25,12 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
     static final String COL_MDP_UTILISATEUR ="mdp_utilisateur";
     static final String COL_PROFESSIONNEL_UTILISATEUR ="professionnel_utilisateur";
 
-    static final String COL_ID_ANNONCE ="id_annonce";
+    public static final String COL_ID_ANNONCE ="id_annonce";
     static final String COL_AUTEUR_ANNONCE ="id_auteur";
     static final String COL_TITRE_ANNONCE ="titre_annonce";
     static final String COL_DESCCRITPION_ANNONCE ="description_annonce";
     static final String COL_LIEU_ANNONCE ="lieu_annonce";
-    static final String COL_PRIX_ANNONCE ="prix_annonce";
+    public static final String COL_PRIX_ANNONCE ="prix_annonce";
     static final String COL_DATE_ANNONCE ="date_annonce";
     //TODO gérer les locations
     static final String COL_LOCATION_ANNONCE ="location_annonce"; //bool
@@ -54,9 +54,9 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
     static final String COL_VALEUR_VALEUR_CRITERE="valeur_valeur_critere";
 
     static final String COL_ID_CRITERE_ANONCE="id_critere_annonce";
-    static final String COL_CRITERE_CRITERE_ANONCE="id_critere";
-    static final String COL_ANNONCE_CRITERE_ANNONCE="id_annonce";
-    static final String COL_VALEUR_CRITERE_ANNONCE="valeur_critere_annonce";
+    public static final String COL_CRITERE_CRITERE_ANONCE="id_critere";
+    public static final String COL_ANNONCE_CRITERE_ANNONCE="id_annonce";
+    public static final String COL_VALEUR_CRITERE_ANNONCE="valeur_critere_annonce";
 
     private static final String CREATE_TABLE_UTILISATEUR =
             "CREATE TABLE "+TABLE_UTILISATEUR+"("
@@ -149,7 +149,7 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
                     +"(2,3, 'Mondéo');";
 
 
-    MaBaseSQLite(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    public MaBaseSQLite(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 

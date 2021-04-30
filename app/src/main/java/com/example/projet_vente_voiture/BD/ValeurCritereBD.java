@@ -48,6 +48,17 @@ public class ValeurCritereBD {
         close();
     }
 
+    public List<ValeurCritere> getValeurCritereByCritere(int critere) {
+        open();
+        Cursor c = bd.rawQuery("SELECT * FROM "+ TABLE_VALEUR_CRITERE +" WHERE "+ COL_CRITERE_VALEUR_CRITERE +" = "+ critere,null);
+        List<ValeurCritere> list = cursorToValeurCriteres(c);
+        if(list==null){
+            return null;
+        }
+        close();
+        return list;
+    }
+
     public ValeurCritere getValeurCritereById(int valeurCritere) {
         open();
         Cursor c = bd.rawQuery("SELECT * FROM "+ TABLE_VALEUR_CRITERE +" WHERE "+ COL_ID_VALEUR_CRITERE +" = "+ valeurCritere,null);

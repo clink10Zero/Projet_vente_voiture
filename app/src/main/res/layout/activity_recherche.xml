@@ -73,7 +73,7 @@
         android:id="@+id/dynamic_linear_layout_criteres_recherche"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"/>
+        android:orientation="vertical"/>
 
     <ScrollView
         android:layout_width="match_parent"
