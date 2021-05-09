@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.projet_vente_voiture.BD.MaBaseSQLite;
 import com.example.projet_vente_voiture.BD.UtilisateurBD;
+import com.example.projet_vente_voiture.MyApp;
 import com.example.projet_vente_voiture.Object.ResultatForm;
 import com.example.projet_vente_voiture.Object.Utilisateur;
 import com.example.projet_vente_voiture.R;
@@ -65,7 +66,7 @@ public class Inscription extends General {
                         UBD.insertUtilisateur(util);
 
                         Intent intent = new Intent(getApplicationContext(), Recherche.class);
-                        intent.putExtra("currentUser",util.getId());
+                        ((MyApp) getApplicationContext()).setUser(util.getId());
                         startActivity(intent);
 
                         finish();
@@ -137,16 +138,6 @@ public class Inscription extends General {
                 break;
             case R.id.action_inscription:
                 Toast.makeText(getApplicationContext(), "Vous êtes déjà sur la page d'inscription", Toast.LENGTH_LONG).show();
-                break;
-            case R.id.action_deconnection:
-                intent = new Intent(getApplicationContext(), Connexion.class);
-                startActivity(intent);
-                finish();;
-                break;
-            case R.id.action_mes_annonces:
-                intent = new Intent(getApplicationContext(), Mes_annonces.class);
-                intent.putExtra("currentUser",currentUserId);
-                startActivity(intent);
                 break;
         }
 

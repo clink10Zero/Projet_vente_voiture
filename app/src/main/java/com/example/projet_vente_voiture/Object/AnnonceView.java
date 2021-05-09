@@ -76,7 +76,7 @@ public class AnnonceView extends LinearLayout {
         this.addView(tlde);
     }*/
 
-    public AnnonceView(Context context, Annonce annonce,int currentUserId) {
+    public AnnonceView(Context context, Annonce annonce) {
         super(context);
 
         LinearLayout de = new LinearLayout(context);
@@ -126,7 +126,7 @@ public class AnnonceView extends LinearLayout {
 
             //set de l'image
             this.imgb = new Button(context);
-            this.setClickEvent(context,annonce.getId(),currentUserId);
+            this.setClickEvent(context,annonce.getId());
             imgb.setCompoundDrawablesWithIntrinsicBounds(R.drawable.poule, 0, 0, 0);
        // }
         //finalisation de la vue de l'annonce
@@ -134,13 +134,12 @@ public class AnnonceView extends LinearLayout {
         this.addView(tlde);
     }
 
-    private void setClickEvent(Context context, int id, int currentUserId) {
+    private void setClickEvent(Context context, int id) {
         this.imgb.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, Detaille.class);
                 intent.putExtra("id",id);
-                intent.putExtra("currentUser",currentUserId);
                 context.startActivity(intent);
             }
         });

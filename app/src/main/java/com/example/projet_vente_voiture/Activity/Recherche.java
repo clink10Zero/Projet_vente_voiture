@@ -197,7 +197,7 @@ public class Recherche extends General {
                     for(int i : res){
                         annonces.add(ABD.getAnnonceById(i));
                     }
-                    affichageAnnonces(currentUserId,annonces);
+                    affichageAnnonces(annonces);
                 }
             }
         });
@@ -205,13 +205,13 @@ public class Recherche extends General {
         this.dynamic = findViewById(R.id.dynamic_annonce_recherche);
 
         List<Annonce> annonces= ABD.getAllAnnonces();
-        this.affichageAnnonces(currentUserId,annonces);
+        this.affichageAnnonces(annonces);
     }
 
-    private void affichageAnnonces(int currentUserId,List<Annonce> annonces) {
+    private void affichageAnnonces(List<Annonce> annonces) {
         this.dynamic.removeAllViews();
         for(int i = 0; i < annonces.size(); i++) {
-            AnnonceView annonce = new AnnonceView(this,annonces.get(i),currentUserId);
+            AnnonceView annonce = new AnnonceView(this,annonces.get(i));
            // AnnonceView annonce = new AnnonceView(this, "date : " + i, annonces.get(i).getPrix(), annonces.get(i).getTitre(), annonces.get(i).getLieu());
 
             this.dynamic.addView(annonce);

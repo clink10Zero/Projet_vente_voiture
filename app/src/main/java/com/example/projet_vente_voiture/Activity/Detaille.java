@@ -1,7 +1,5 @@
 package com.example.projet_vente_voiture.Activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +12,7 @@ import android.widget.Toast;
 import com.example.projet_vente_voiture.BD.AnnonceBD;
 import com.example.projet_vente_voiture.BD.CritereAnnonceBD;
 import com.example.projet_vente_voiture.BD.CritereBD;
+import com.example.projet_vente_voiture.MyApp;
 import com.example.projet_vente_voiture.Object.Annonce;
 import com.example.projet_vente_voiture.Object.ConfirmPopUp;
 import com.example.projet_vente_voiture.Object.CritereAnnonce;
@@ -23,6 +22,7 @@ import java.util.List;
 
 public class Detaille extends General {
 
+    int id_annonce;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +30,7 @@ public class Detaille extends General {
         setSupportActionBar(findViewById(R.id.toolbar));
 
         Intent intent = getIntent();
-        int id_annonce = intent.getIntExtra("id",-1);
+        this.id_annonce = intent.getIntExtra("id",-1);
 
         AnnonceBD ABD = new AnnonceBD(this);
         Annonce annonce = ABD.getAnnonceById(id_annonce);
@@ -75,7 +75,6 @@ public class Detaille extends General {
                     @Override
                     public void onClick(View v) {
                         Intent intent1 = new Intent(getApplicationContext(),Ajouter_Annonce.class);
-                        intent1.putExtra("currentUser",currentUserId);
                         intent1.putExtra("currentAnnonce",id_annonce);
                         startActivity(intent1);
                     }
@@ -98,7 +97,6 @@ public class Detaille extends General {
                                 confirmPopUp.dismiss();
                                 activity.finish();
                                 Intent intent1 = new Intent(getApplicationContext(),Mes_annonces.class);
-                                intent1.putExtra("currentUser",currentUserId);
                                 startActivity(intent1);
                             }
                         });
@@ -124,6 +122,17 @@ public class Detaille extends General {
                 });
                 ll_btn.addView(btn_contact);
             }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(this.currentUserId!=((MyApp) getApplication()).getCurrentUserId()){
+            Intent intent = new Intent(getApplicationContext(), this.getClass());
+            intent.putExtra("id",this.id_annonce);
+            getApplicationContext().startActivity(intent);
+            finish();
         }
     }
 }

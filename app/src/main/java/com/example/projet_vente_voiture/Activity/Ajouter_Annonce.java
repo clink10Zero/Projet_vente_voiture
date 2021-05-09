@@ -1,11 +1,13 @@
 package com.example.projet_vente_voiture.Activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -15,10 +17,13 @@ import android.widget.Toast;
 import com.example.projet_vente_voiture.BD.AnnonceBD;
 import com.example.projet_vente_voiture.BD.CritereAnnonceBD;
 import com.example.projet_vente_voiture.BD.CritereBD;
+import com.example.projet_vente_voiture.BD.ValeurCritereBD;
+import com.example.projet_vente_voiture.MyApp;
 import com.example.projet_vente_voiture.Object.Annonce;
 import com.example.projet_vente_voiture.Object.Critere;
 import com.example.projet_vente_voiture.Object.CritereAnnonce;
 import com.example.projet_vente_voiture.Object.ResultatForm;
+import com.example.projet_vente_voiture.Object.ValeurCritere;
 import com.example.projet_vente_voiture.R;
 
 import java.text.SimpleDateFormat;
@@ -30,6 +35,8 @@ import static com.example.projet_vente_voiture.BD.MaBaseSQLite.CRITERE_PREDEF;
 
 public class Ajouter_Annonce extends General {
 
+    int currentAnnonceId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +44,7 @@ public class Ajouter_Annonce extends General {
         setSupportActionBar(findViewById(R.id.toolbar));
 
         Intent intent = getIntent();
-        int currentAnnonceId = intent.getIntExtra("currentAnnonce",-1);
+        this.currentAnnonceId = intent.getIntExtra("currentAnnonce",-1);
 
         if(currentUserId==-1){
             finish();
@@ -48,6 +55,9 @@ public class Ajouter_Annonce extends General {
         if(currentAnnonceId!=-1){
             currentAnnonce=ABD.getAnnonceById(currentAnnonceId);
         }
+
+        ValeurCritereBD VCBD = new ValeurCritereBD(this);
+
 
         LinearLayout ll_critere = findViewById(R.id.dynamique_linear_layout_criteres_ajouter_annonce);
         CritereBD CBD = new CritereBD(this);
@@ -63,15 +73,26 @@ public class Ajouter_Annonce extends General {
 
             if(critere.getType()==CRITERE_PREDEF){
                 //TODO use the predef values
-                EditText et_contenu = new EditText(this);
+                List<ValeurCritere> vc_list = VCBD.getValeurCritereByCritere(critere.getId());
+                AutoCompleteTextView valeur = new AutoCompleteTextView(this);
+                valeur.setWidth(getScreenWidth(this)-tv_nom_critere.getWidth());
+                if(vc_list!=null) {
+                    List<String> stringList = new ArrayList<>();
+                    for (ValeurCritere vc : vc_list) {
+                        stringList.add(vc.getValeur());
+                    }
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, stringList);
+                    valeur.setAdapter(adapter);
+                }
                 if(currentAnnonceId!=-1){
                     CritereAnnonce critereAnnonce = CABD.getCritereAnnonceByAnnonceAndCritereId(currentAnnonceId,critere.getId());
                     if (critereAnnonce != null) {
-                        et_contenu.setText(critereAnnonce.getValeur());
+                        valeur.setText(critereAnnonce.getValeur());
                     }
                 }
-                ligne.addView(et_contenu);
-                et_list.add(et_contenu);
+                ligne.addView(valeur);
+                et_list.add(valeur);
             }
             else{
                 EditText et_contenu = new EditText(this);
@@ -134,14 +155,11 @@ public class Ajouter_Annonce extends General {
                             }else{
                                 CABD.insertCritereAnnonce(nouveau_critere_annonce);
                             }
-
-
                         }
                     }
 
                     Intent intent = new Intent(getApplicationContext(),Detaille.class);
                     intent.putExtra("id",nouvelle_annonce.getId());
-                    intent.putExtra("currentUser",currentUserId);
                     startActivity(intent);
                     finish();
                 }
@@ -175,5 +193,26 @@ public class Ajouter_Annonce extends General {
             bool=true;
         }
         return new ResultatForm(bool,text);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(this.currentUserId!=((MyApp) getApplication()).getCurrentUserId()){
+            if(currentAnnonceId==-1){//=ajout
+                Intent intent = new Intent(getApplicationContext(), this.getClass());
+                getApplicationContext().startActivity(intent);
+            }
+            finish();
+        }
+
+
+    }
+
+    public static int getScreenWidth(Activity activity){
+        Display display = activity.getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return size.x;
     }
 }

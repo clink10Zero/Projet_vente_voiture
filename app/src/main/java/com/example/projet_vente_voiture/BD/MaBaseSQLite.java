@@ -57,7 +57,7 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
     public static final String COL_CRITERE_CRITERE_ANONCE="id_critere";
     public static final String COL_ANNONCE_CRITERE_ANNONCE="id_annonce";
     public static final String COL_VALEUR_CRITERE_ANNONCE="valeur_critere_annonce";
-
+ 
     private static final String CREATE_TABLE_UTILISATEUR =
             "CREATE TABLE "+TABLE_UTILISATEUR+"("
                     + COL_ID_UTILISATEUR +" INTEGER PRIMARY KEY AUTOINCREMENT, "

@@ -4,13 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
+import com.example.projet_vente_voiture.MyApp;
 import com.example.projet_vente_voiture.R;
 
 public class General extends AppCompatActivity {
@@ -20,7 +18,7 @@ public class General extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.currentUserId = getIntent().getIntExtra("currentUser",-1);
+        this.currentUserId = ((MyApp) getApplication()).getCurrentUserId();
         setSupportActionBar(findViewById(R.id.toolbar));
     }
 
@@ -50,17 +48,15 @@ public class General extends AppCompatActivity {
                 break;
             case R.id.action_deconnection:
                 intent = new Intent(getApplicationContext(), Connexion.class);
+                ((MyApp) getApplicationContext()).setUser(-1);
                 startActivity(intent);
-                finish();;
                 break;
             case R.id.action_mes_annonces:
                 intent = new Intent(getApplicationContext(), Mes_annonces.class);
-                intent.putExtra("currentUser",currentUserId);
                 startActivity(intent);
                 break;
         }
 
         return super.onOptionsItemSelected(item);
     }
-
 }
