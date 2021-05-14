@@ -14,93 +14,108 @@
             android:id="@+id/toolbar"
             layout="@layout/toolbar"/>
 
-    <TextView
-        android:id="@+id/text_view_titre_detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TITRE"
-        android:gravity="center_horizontal" />
+        <TextView
+            android:id="@+id/text_view_titre_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TITRE"
+            android:gravity="center_horizontal" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
 
-    <ImageView
-        android:id="@+id/image_view_detail"
-        android:layout_width="match_parent"
-        android:layout_height="229dp"
-        android:src="@drawable/poule" />
+        <ImageView
+            android:id="@+id/image_view_detail"
+            android:layout_width="match_parent"
+            android:layout_height="229dp"
+            android:src="@drawable/poule" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
 
-    <TextView
-        android:id="@+id/text_view_prix_detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="EURO €" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
+            <TextView
+                android:id="@+id/text_view_prix_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:text="EURO €" />
+
+            <ImageButton
+                android:id="@+id/btn_fav_detaille"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/btn_star_big_off"
+                android:layout_gravity="end"/>
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_view_date_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="DATE" />
+
+            <TextView
+                android:id="@+id/text_view_duree_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="DUREE" />
+
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/text_view_date_detail"
+            android:id="@+id/text_view_lieu_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LIEU" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+
+        <LinearLayout
+            android:id="@+id/dynamic_linear_layout_criteres_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+        <TextView
+            android:id="@+id/text_view_description_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="DATE" />
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
 
-        <TextView
-            android:id="@+id/text_view_duree_detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="DUREE" />
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/text_view_lieu_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="LIEU" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
-
-
-    <LinearLayout
-        android:id="@+id/dynamic_linear_layout_criteres_detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-    </LinearLayout>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
-
-    <TextView
-        android:id="@+id/text_view_description_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
-
-    <LinearLayout
-        android:id="@+id/linear_layout_button_detail"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" />
+        <LinearLayout
+            android:id="@+id/linear_layout_button_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" />
 
 
     </LinearLayout>

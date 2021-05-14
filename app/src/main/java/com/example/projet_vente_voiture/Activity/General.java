@@ -51,8 +51,8 @@ public class General extends AppCompatActivity {
                 ((MyApp) getApplicationContext()).setUser(-1);
                 startActivity(intent);
                 break;
-            case R.id.action_mes_annonces:
-                intent = new Intent(getApplicationContext(), Mes_annonces.class);
+            case R.id.action_mon_profil:
+                intent = new Intent(getApplicationContext(), MonProfil.class);
                 startActivity(intent);
                 break;
         }

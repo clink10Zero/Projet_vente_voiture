@@ -5,19 +5,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.projet_vente_voiture.BD.AnnonceBD;
+import com.example.projet_vente_voiture.BD.AnnonceSauvegardeBD;
 import com.example.projet_vente_voiture.BD.CritereAnnonceBD;
 import com.example.projet_vente_voiture.BD.CritereBD;
 import com.example.projet_vente_voiture.MyApp;
 import com.example.projet_vente_voiture.Object.Annonce;
+import com.example.projet_vente_voiture.Object.AnnonceSauvegarde;
 import com.example.projet_vente_voiture.Object.ConfirmPopUp;
 import com.example.projet_vente_voiture.Object.CritereAnnonce;
 import com.example.projet_vente_voiture.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Detaille extends General {
@@ -42,6 +46,40 @@ public class Detaille extends General {
 
             TextView tv_prix = findViewById(R.id.text_view_prix_detail);
             tv_prix.setText(annonce.getPrix()+"€");
+
+            ImageButton btn_fav = findViewById(R.id.btn_fav_detaille);
+            if(currentUserId!=-1){
+                AnnonceSauvegardeBD ASBD = new AnnonceSauvegardeBD(this);
+                ArrayList<Integer> fav_list = ASBD.getIDAnnonceSauvegardeByUserId(currentUserId);
+                if(fav_list!=null){
+                    if(fav_list.contains(id_annonce)){
+                        btn_fav.setImageDrawable(getResources().getDrawable(android.R.drawable.btn_star_big_on));
+                    }
+                }
+            }
+
+            btn_fav.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(currentUserId==-1){
+                        Toast.makeText(getApplicationContext(), "Vous devez être connecté·e pour ajouter une annonce à vos favoris", Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        AnnonceSauvegardeBD ASBD = new AnnonceSauvegardeBD(getApplicationContext());
+                        ArrayList<Integer> fav_list = ASBD.getIDAnnonceSauvegardeByUserId(currentUserId);
+                        if(fav_list!=null && fav_list.contains(id_annonce)){
+                            btn_fav.setImageDrawable(getResources().getDrawable(android.R.drawable.btn_star_big_off));
+                            ASBD.removeAnnonceSauvegardeWithUserAndAnnonceID(currentUserId,id_annonce);
+                        }
+                        else{
+                            btn_fav.setImageDrawable(getResources().getDrawable(android.R.drawable.btn_star_big_on));
+                            ASBD.insertAnnonceSauvegarde(new AnnonceSauvegarde(currentUserId,id_annonce));
+                        }
+
+                    }
+                }
+            });
+
 
             TextView tv_date = findViewById(R.id.text_view_date_detail);
             tv_date.setText(annonce.getDate());
@@ -111,7 +149,8 @@ public class Detaille extends General {
 
                 ll_btn.addView(btn_suppr);
 
-            }else {
+            }
+            else {
                 Button btn_contact = new Button(this);
                 btn_contact.setText("Contact");
                 btn_contact.setOnClickListener(new View.OnClickListener() {

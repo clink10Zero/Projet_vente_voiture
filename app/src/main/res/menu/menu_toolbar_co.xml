@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/action_mes_annonces"
-        android:title="mes annonces"
+        android:id="@+id/action_mon_profil"
+        android:title="mon profil"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_deconnection"

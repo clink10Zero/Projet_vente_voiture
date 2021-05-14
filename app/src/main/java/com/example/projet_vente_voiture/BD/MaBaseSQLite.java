@@ -17,6 +17,7 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
     static final String TABLE_CRITERE ="table_critere";
     static final String TABLE_VALEUR_CRITERE ="table_valeur_critere";
     public static final String TABLE_CRITERE_ANNONCE ="table_critere_annonce";
+    static final String TABLE_ANNONCE_SAUVEGARDE = "table_annonce_sauvegarde";
 
     static final String COL_ID_UTILISATEUR ="id_utilisateur ";
     static final String COL_PRENOM_UTILISATEUR ="prenom_utilisateur";
@@ -57,6 +58,10 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
     public static final String COL_CRITERE_CRITERE_ANONCE="id_critere";
     public static final String COL_ANNONCE_CRITERE_ANNONCE="id_annonce";
     public static final String COL_VALEUR_CRITERE_ANNONCE="valeur_critere_annonce";
+
+    static final String COL_ID_ANNONCE_SAUVEGARDE="id_annonce_sauvegarde";
+    static final String COL_UTILISATEUR_ANNONCE_SAUVEGARDE="id_utilisateur";
+    static final String COL_ANNONCE_ANNONCE_SAUVEGARDE="id_annonce";
  
     private static final String CREATE_TABLE_UTILISATEUR =
             "CREATE TABLE "+TABLE_UTILISATEUR+"("
@@ -113,6 +118,15 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
                     + "FOREIGN KEY ( " + COL_CRITERE_CRITERE_ANONCE +" ) REFERENCES " + TABLE_CRITERE + "(" +COL_ID_CRITERE+ ") ON DELETE CASCADE ON UPDATE CASCADE"
                     +");";
 
+    private static final String CREATE_TABLE_ANNONCE_SAUVEGARDE =
+            "CREATE TABLE "+TABLE_ANNONCE_SAUVEGARDE+" ("
+                    + COL_ID_ANNONCE_SAUVEGARDE +" INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + COL_UTILISATEUR_ANNONCE_SAUVEGARDE + " INTEGER NOT NULL,"
+                    + COL_ANNONCE_ANNONCE_SAUVEGARDE + " INTEGER NOT NULL,"
+                    + "FOREIGN KEY ( " + COL_ANNONCE_ANNONCE_SAUVEGARDE +" ) REFERENCES " + TABLE_ANNONCE + "(" +COL_ID_ANNONCE+ ") ON DELETE CASCADE ON UPDATE CASCADE,"
+                    + "FOREIGN KEY ( " + COL_UTILISATEUR_ANNONCE_SAUVEGARDE +" ) REFERENCES " + TABLE_UTILISATEUR + "(" +COL_ID_UTILISATEUR+ ") ON DELETE CASCADE ON UPDATE CASCADE"
+                    +");";
+
     private static final String INSERT_UTILISATEUR =
             "INSERT INTO "+TABLE_UTILISATEUR +"("+COL_PRENOM_UTILISATEUR +","+COL_NOM_UTILISATEUR+","+COL_MAIL_UTILISATEUR+","+COL_MDP_UTILISATEUR+","+COL_PROFESSIONNEL_UTILISATEUR+")"
                     +"VALUES('Tessy','Minodier','tessy.minodier@etu.umontpellier.fr','123456',"+PROFESSIONEL+");";
@@ -161,6 +175,7 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_CRITERE);
         db.execSQL(CREATE_TABLE_VALEUR_CRITERE);
         db.execSQL(CREATE_TABLE_CRITERE_ANNONCE);
+        db.execSQL(CREATE_TABLE_ANNONCE_SAUVEGARDE);
 
         db.execSQL(INSERT_UTILISATEUR);
         db.execSQL(INSERT_CRITERE);
