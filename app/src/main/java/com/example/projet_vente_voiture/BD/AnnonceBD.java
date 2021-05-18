@@ -17,6 +17,7 @@ import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_LIEU_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_PRIX_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_TITRE_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_AUTEUR_ANNONCE;
+import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_VU_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.NOM_BD;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.TABLE_ANNONCE;
 
@@ -51,6 +52,7 @@ public class AnnonceBD {
         values.put(COL_LIEU_ANNONCE, annonce.getLieu());
         values.put(COL_PRIX_ANNONCE, annonce.getPrix());
         values.put(COL_DATE_ANNONCE, annonce.getDate());
+        values.put(COL_VU_ANNONCE, annonce.getVu());
         int id = (int) bd.insert(TABLE_ANNONCE,null,values);
         annonce.setId(id);
         close();
@@ -65,6 +67,7 @@ public class AnnonceBD {
         values.put(COL_LIEU_ANNONCE, annonce.getLieu());
         values.put(COL_PRIX_ANNONCE, annonce.getPrix());
         values.put(COL_DATE_ANNONCE, annonce.getDate());
+        values.put(COL_VU_ANNONCE, annonce.getVu());
         bd.update(TABLE_ANNONCE, values, COL_ID_ANNONCE + " = " + id, null);
         annonce.setId(id);
         close();
@@ -117,8 +120,9 @@ public class AnnonceBD {
             String lieu = c.getString(4);
             int prix = c.getInt(5);
             String date = c.getString(6);
+            int vu = c.getInt(7);
 
-            res.add(new Annonce(id,id_utilisateur,titre,description,lieu,prix,date));
+            res.add(new Annonce(id,id_utilisateur,titre,description,lieu,prix,date,vu));
             c.moveToNext();
         }
         c.close();

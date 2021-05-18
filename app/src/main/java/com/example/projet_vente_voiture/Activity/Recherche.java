@@ -211,7 +211,7 @@ public class Recherche extends General {
     private void affichageAnnonces(List<Annonce> annonces) {
         this.dynamic.removeAllViews();
         for(int i = 0; i < annonces.size(); i++) {
-            AnnonceView annonce = new AnnonceView(this,annonces.get(i));
+            AnnonceView annonce = new AnnonceView(this,annonces.get(i),currentUserId);
            // AnnonceView annonce = new AnnonceView(this, "date : " + i, annonces.get(i).getPrix(), annonces.get(i).getTitre(), annonces.get(i).getLieu());
 
             this.dynamic.addView(annonce);

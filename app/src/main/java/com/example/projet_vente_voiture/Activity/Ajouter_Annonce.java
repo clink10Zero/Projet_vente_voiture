@@ -135,7 +135,7 @@ public class Ajouter_Annonce extends General {
                     Toast.makeText(getApplicationContext(), test.getText(), Toast.LENGTH_LONG).show();
                 }
                 else{
-                    Annonce nouvelle_annonce = new Annonce(currentUserId,et_titre.getText().toString(),et_description.getText().toString(),et_lieu.getText().toString(),Integer.parseInt(et_prix.getText().toString()),date);
+                    Annonce nouvelle_annonce = new Annonce(currentUserId,et_titre.getText().toString(),et_description.getText().toString(),et_lieu.getText().toString(),Integer.parseInt(et_prix.getText().toString()),date,0);
                     AnnonceBD ABD = new AnnonceBD(getApplicationContext());
                     if(currentAnnonceId!=-1) {
                         ABD.updateAnnonce(currentAnnonceId,nouvelle_annonce);

@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Projet_vente_voiture">
-        <activity android:name=".Activity.Mes_annonces_sauvergardes"></activity>
+        <activity android:name=".Activity.Statistiques"></activity>
+        <activity android:name=".Activity.Mes_annonces_sauvergardes" />
         <activity android:name=".Activity.MonProfil" />
         <activity android:name=".Activity.Mes_annonces" />
         <activity android:name=".Activity.Inscription" />

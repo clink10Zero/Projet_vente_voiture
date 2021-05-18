@@ -64,7 +64,7 @@ public class Mes_annonces extends General {
         LinearLayout ll_dynamic = findViewById(R.id.dynamique_linear_layout_mes_annonces);
         ll_dynamic.removeAllViews();
         for(int i = 0; i < annonces.size(); i++) {
-            AnnonceView annonce = new AnnonceView(this,annonces.get(i));
+            AnnonceView annonce = new AnnonceView(this,annonces.get(i),currentUserId);
             ll_dynamic.addView(annonce);
         }
     }

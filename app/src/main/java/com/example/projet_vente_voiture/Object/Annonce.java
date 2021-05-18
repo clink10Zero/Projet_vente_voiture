@@ -8,8 +8,9 @@ public class Annonce {
    private String descritpion;
    private int prix;
    private String date;
+   private int vu;
 
-    public Annonce(int id, int id_auteur, String titre, String descritpion, String lieu, int prix, String date) {
+    public Annonce(int id, int id_auteur, String titre, String descritpion, String lieu, int prix, String date, int vu) {
         this.id = id;
         this.id_auteur = id_auteur;
         this.titre = titre;
@@ -17,15 +18,17 @@ public class Annonce {
         this.descritpion = descritpion;
         this.prix = prix;
         this.date=date;
+        this.vu=vu;
     }
 
-    public Annonce(int id_auteur, String titre, String descritpion, String lieu, int prix, String date) {
+    public Annonce(int id_auteur, String titre, String descritpion, String lieu, int prix, String date, int vu) {
         this.id_auteur = id_auteur;
         this.titre = titre;
         this.lieu = lieu;
         this.descritpion = descritpion;
         this.prix = prix;
         this.date=date;
+        this.vu=vu;
     }
 
     public int getId() {
@@ -82,5 +85,13 @@ public class Annonce {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public int getVu() {
+        return vu;
+    }
+
+    public void setVu(int vu) {
+        this.vu = vu;
     }
 }

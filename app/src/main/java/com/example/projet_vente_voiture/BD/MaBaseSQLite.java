@@ -33,6 +33,7 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
     static final String COL_LIEU_ANNONCE ="lieu_annonce";
     public static final String COL_PRIX_ANNONCE ="prix_annonce";
     static final String COL_DATE_ANNONCE ="date_annonce";
+    static final String COL_VU_ANNONCE ="nombre_vues_annonce";
     //TODO gérer les locations
     static final String COL_LOCATION_ANNONCE ="location_annonce"; //bool
     static final String COL_LOCATION_DUREE_ANNONCE ="location_duree_annonce"; //JOUR/SEMAINE/HEURE/MOIS pour le prix
@@ -82,6 +83,7 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
                     + COL_LIEU_ANNONCE + " TEXT NOT NULL, " //pas sur
                     + COL_PRIX_ANNONCE + " INTEGER NOT NULL, "
                     + COL_DATE_ANNONCE + " TEXT NOT NULL, " //TODO y faire plus plus joli après
+                    + COL_VU_ANNONCE + " INTEGER NOT NULL,"
                     + "FOREIGN KEY("+ COL_AUTEUR_ANNONCE +")REFERENCES "+ TABLE_UTILISATEUR+"("+COL_ID_UTILISATEUR+") ON DELETE CASCADE ON UPDATE CASCADE"
                     +");";
 
@@ -147,10 +149,10 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
 
 
     private static final String INSERT_ANNONCE =
-            "INSERT INTO "+TABLE_ANNONCE +"("+ COL_AUTEUR_ANNONCE +","+COL_TITRE_ANNONCE +","+COL_DESCCRITPION_ANNONCE   +","+COL_LIEU_ANNONCE  +","+COL_PRIX_ANNONCE+","+COL_DATE_ANNONCE+")"
-                /*1*/ +"VALUES(1,'Vends ma R5','Je vends la R5 de ma grand mère je n en ai plus besoin maintenant que j habite en ville', 'Annonay', 2000,'01/04/2021'),"
-                /*2*/ +"(1,'Ka noir', 'moteur cassé prix cassé', 'Saint-Vallier',200,'01/04/2021'),"
-                /*3*/ +"(1,'Mondeo break 2007 gris', 'Les enfants sont grands je n ai plus besoin d un break. \n Voiture en très bon état', 'Annonay',3000,'01/04/2021');";
+            "INSERT INTO "+TABLE_ANNONCE +"("+ COL_AUTEUR_ANNONCE +","+COL_TITRE_ANNONCE +","+COL_DESCCRITPION_ANNONCE   +","+COL_LIEU_ANNONCE  +","+COL_PRIX_ANNONCE+","+COL_DATE_ANNONCE+","+COL_VU_ANNONCE+")"
+                /*1*/ +"VALUES(1,'Vends ma R5','Je vends la R5 de ma grand mère je n en ai plus besoin maintenant que j habite en ville', 'Annonay', 2000,'01/04/2021',0),"
+                /*2*/ +"(1,'Ka noir', 'moteur cassé prix cassé', 'Saint-Vallier',200,'01/04/2021',0),"
+                /*3*/ +"(1,'Mondeo break 2007 gris', 'Les enfants sont grands je n ai plus besoin d un break. \n Voiture en très bon état', 'Annonay',3000,'01/04/2021',0);";
 
     private static final String INSERT_CRITERE_ANNONCE =
             "INSERT INTO "+TABLE_CRITERE_ANNONCE +"( "+ COL_CRITERE_CRITERE_ANONCE +","+COL_ANNONCE_CRITERE_ANNONCE +","+COL_VALEUR_CRITERE_ANNONCE+" )"

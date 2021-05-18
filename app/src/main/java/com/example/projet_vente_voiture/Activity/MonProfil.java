@@ -48,7 +48,7 @@ public class MonProfil extends General {
         btn_stats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Stats à faire", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(getApplicationContext(), Statistiques.class));
             }
         });
     }
