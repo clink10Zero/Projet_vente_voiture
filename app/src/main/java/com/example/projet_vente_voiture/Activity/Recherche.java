@@ -12,7 +12,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.projet_vente_voiture.BD.AnnonceBD;
-import com.example.projet_vente_voiture.BD.CritereAnnonceBD;
 import com.example.projet_vente_voiture.BD.CritereBD;
 import com.example.projet_vente_voiture.BD.MaBaseSQLite;
 import com.example.projet_vente_voiture.BD.ValeurCritereBD;
@@ -34,6 +33,7 @@ import static com.example.projet_vente_voiture.BD.MaBaseSQLite.CRITERE_PREDEF;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.NOM_BD;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.TABLE_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.TABLE_CRITERE_ANNONCE;
+import static com.example.projet_vente_voiture.BD.MaBaseSQLite.YES;
 
 public class Recherche extends General {
 
@@ -197,6 +197,20 @@ public class Recherche extends General {
                     for(int i : res){
                         annonces.add(ABD.getAnnonceById(i));
                     }
+
+                    List<Annonce> avecPromotion = new ArrayList<>();
+                    List<Annonce> sansPromotion = new ArrayList<>();
+                    for(Annonce a : annonces){
+                        if(a.getPromotion()==YES){
+                            avecPromotion.add(a);
+                        }
+                        else{
+                            sansPromotion.add(a);
+                        }
+                    }
+                    annonces.clear();
+                    annonces.addAll(avecPromotion);
+                    annonces.addAll(sansPromotion);
                     affichageAnnonces(annonces);
                 }
             }
@@ -205,6 +219,21 @@ public class Recherche extends General {
         this.dynamic = findViewById(R.id.dynamic_annonce_recherche);
 
         List<Annonce> annonces= ABD.getAllAnnonces();
+        if(annonces!=null){
+            List<Annonce> avecPromotion = new ArrayList<>();
+            List<Annonce> sansPromotion = new ArrayList<>();
+            for(Annonce a : annonces){
+                if(a.getPromotion()==YES){
+                    avecPromotion.add(a);
+                }
+                else{
+                    sansPromotion.add(a);
+                }
+            }
+            annonces.clear();
+            annonces.addAll(avecPromotion);
+            annonces.addAll(sansPromotion);
+        }
         this.affichageAnnonces(annonces);
     }
 
@@ -216,5 +245,30 @@ public class Recherche extends General {
 
             this.dynamic.addView(annonce);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //TODO garder la recherche en mémoire
+        AnnonceBD ABD = new AnnonceBD(this);
+        List<Annonce> annonces= ABD.getAllAnnonces();
+        if(annonces!=null){
+            List<Annonce> avecPromotion = new ArrayList<>();
+            List<Annonce> sansPromotion = new ArrayList<>();
+            for(Annonce a : annonces){
+                if(a.getPromotion()==YES){
+                    avecPromotion.add(a);
+                }
+                else{
+                    sansPromotion.add(a);
+                }
+            }
+            annonces.clear();
+            annonces.addAll(avecPromotion);
+            annonces.addAll(sansPromotion);
+        }
+        this.affichageAnnonces(annonces);
+
     }
 }

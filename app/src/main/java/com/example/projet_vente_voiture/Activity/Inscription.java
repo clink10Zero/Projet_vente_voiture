@@ -19,6 +19,8 @@ import com.example.projet_vente_voiture.Object.ResultatForm;
 import com.example.projet_vente_voiture.Object.Utilisateur;
 import com.example.projet_vente_voiture.R;
 
+import static com.example.projet_vente_voiture.BD.MaBaseSQLite.NO;
+
 public class Inscription extends General {
 
     @Override
@@ -62,7 +64,7 @@ public class Inscription extends General {
                             default:
                                 pro = Utilisateur.PROFESSIONEL;
                         }
-                        Utilisateur util = new Utilisateur(prenom.getText().toString(), nom.getText().toString(), mail.getText().toString(), mdp.getText().toString(), pro);
+                        Utilisateur util = new Utilisateur(prenom.getText().toString(), nom.getText().toString(), mail.getText().toString(), mdp.getText().toString(), pro,NO);
                         UBD.insertUtilisateur(util);
 
                         Intent intent = new Intent(getApplicationContext(), Recherche.class);

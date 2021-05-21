@@ -11,6 +11,9 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
 
     public static final String NOM_BD="base.bd";
 
+    public static final int NO = 0;
+    public static final int YES = 1;
+
     static final String TABLE_UTILISATEUR ="table_utilisateur";
     public static final String TABLE_ANNONCE ="table_annonce";
     static final String TABLE_PHOTO ="table_photo";
@@ -25,6 +28,7 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
     static final String COL_MAIL_UTILISATEUR ="mail_utilisateur";
     static final String COL_MDP_UTILISATEUR ="mdp_utilisateur";
     static final String COL_PROFESSIONNEL_UTILISATEUR ="professionnel_utilisateur";
+    static final String COL_ABONNEMENT_UTILISATEUR ="abonnement_utilisateur";
 
     public static final String COL_ID_ANNONCE ="id_annonce";
     static final String COL_AUTEUR_ANNONCE ="id_auteur";
@@ -34,6 +38,8 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
     public static final String COL_PRIX_ANNONCE ="prix_annonce";
     static final String COL_DATE_ANNONCE ="date_annonce";
     static final String COL_VU_ANNONCE ="nombre_vues_annonce";
+    static final String COL_PROMOTION_ANNONCE ="promotion_annonce";
+
     //TODO gérer les locations
     static final String COL_LOCATION_ANNONCE ="location_annonce"; //bool
     static final String COL_LOCATION_DUREE_ANNONCE ="location_duree_annonce"; //JOUR/SEMAINE/HEURE/MOIS pour le prix
@@ -71,7 +77,8 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
                     + COL_NOM_UTILISATEUR +" TEXT,"
                     + COL_MAIL_UTILISATEUR +" TEXT UNIQUE,"
                     + COL_MDP_UTILISATEUR +" TEXT NOT NULL,"
-                    + COL_PROFESSIONNEL_UTILISATEUR +" INTEGER NOT NULL CHECK (" + COL_PROFESSIONNEL_UTILISATEUR + " IN( " + PROFESSIONEL + "," + PARTICULIER +"))"
+                    + COL_PROFESSIONNEL_UTILISATEUR +" INTEGER NOT NULL CHECK (" + COL_PROFESSIONNEL_UTILISATEUR + " IN( " + PROFESSIONEL + "," + PARTICULIER +")),"
+                    + COL_ABONNEMENT_UTILISATEUR +" INTEGER NOT NULL CHECK (" + COL_ABONNEMENT_UTILISATEUR + " IN( " + NO + "," + YES +"))"
                     +");";
 
     private static final String CREATE_TABLE_ANNONCE =
@@ -84,6 +91,7 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
                     + COL_PRIX_ANNONCE + " INTEGER NOT NULL, "
                     + COL_DATE_ANNONCE + " TEXT NOT NULL, " //TODO y faire plus plus joli après
                     + COL_VU_ANNONCE + " INTEGER NOT NULL,"
+                    + COL_PROMOTION_ANNONCE + " INTEGER NOT NULL CHECK (" + COL_PROMOTION_ANNONCE + " IN( " + NO + "," + YES +")),"
                     + "FOREIGN KEY("+ COL_AUTEUR_ANNONCE +")REFERENCES "+ TABLE_UTILISATEUR+"("+COL_ID_UTILISATEUR+") ON DELETE CASCADE ON UPDATE CASCADE"
                     +");";
 
@@ -130,8 +138,8 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
                     +");";
 
     private static final String INSERT_UTILISATEUR =
-            "INSERT INTO "+TABLE_UTILISATEUR +"("+COL_PRENOM_UTILISATEUR +","+COL_NOM_UTILISATEUR+","+COL_MAIL_UTILISATEUR+","+COL_MDP_UTILISATEUR+","+COL_PROFESSIONNEL_UTILISATEUR+")"
-                    +"VALUES('Tessy','Minodier','tessy.minodier@etu.umontpellier.fr','123456',"+PROFESSIONEL+");";
+            "INSERT INTO "+TABLE_UTILISATEUR +"("+COL_PRENOM_UTILISATEUR +","+COL_NOM_UTILISATEUR+","+COL_MAIL_UTILISATEUR+","+COL_MDP_UTILISATEUR+","+COL_PROFESSIONNEL_UTILISATEUR+","+COL_ABONNEMENT_UTILISATEUR+")"
+                    +"VALUES('Tessy','Minodier','tessy.minodier@etu.umontpellier.fr','123456',"+PROFESSIONEL+","+YES+");";
 
     //TODO continuer les insert de critere
     private static final String INSERT_CRITERE =
@@ -149,10 +157,10 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
 
 
     private static final String INSERT_ANNONCE =
-            "INSERT INTO "+TABLE_ANNONCE +"("+ COL_AUTEUR_ANNONCE +","+COL_TITRE_ANNONCE +","+COL_DESCCRITPION_ANNONCE   +","+COL_LIEU_ANNONCE  +","+COL_PRIX_ANNONCE+","+COL_DATE_ANNONCE+","+COL_VU_ANNONCE+")"
-                /*1*/ +"VALUES(1,'Vends ma R5','Je vends la R5 de ma grand mère je n en ai plus besoin maintenant que j habite en ville', 'Annonay', 2000,'01/04/2021',0),"
-                /*2*/ +"(1,'Ka noir', 'moteur cassé prix cassé', 'Saint-Vallier',200,'01/04/2021',0),"
-                /*3*/ +"(1,'Mondeo break 2007 gris', 'Les enfants sont grands je n ai plus besoin d un break. \n Voiture en très bon état', 'Annonay',3000,'01/04/2021',0);";
+            "INSERT INTO "+TABLE_ANNONCE +"("+ COL_AUTEUR_ANNONCE +","+COL_TITRE_ANNONCE +","+COL_DESCCRITPION_ANNONCE   +","+COL_LIEU_ANNONCE  +","+COL_PRIX_ANNONCE+","+COL_DATE_ANNONCE+","+COL_VU_ANNONCE+","+COL_PROMOTION_ANNONCE+")"
+                /*1*/ +"VALUES(1,'Vends ma R5','Je vends la R5 de ma grand mère je n en ai plus besoin maintenant que j habite en ville', 'Annonay', 2000,'01/04/2021',0,"+NO+"),"
+                /*2*/ +"(1,'Ka noir', 'moteur cassé prix cassé', 'Saint-Vallier',200,'01/04/2021',0,"+NO+"),"
+                /*3*/ +"(1,'Mondeo break 2007 gris', 'Les enfants sont grands je n ai plus besoin d un break. \n Voiture en très bon état', 'Annonay',3000,'01/04/2021',0,"+YES+");";
 
     private static final String INSERT_CRITERE_ANNONCE =
             "INSERT INTO "+TABLE_CRITERE_ANNONCE +"( "+ COL_CRITERE_CRITERE_ANONCE +","+COL_ANNONCE_CRITERE_ANNONCE +","+COL_VALEUR_CRITERE_ANNONCE+" )"

@@ -15,11 +15,13 @@ import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_DESCCRITPION_
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_ID_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_LIEU_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_PRIX_ANNONCE;
+import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_PROMOTION_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_TITRE_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_AUTEUR_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_VU_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.NOM_BD;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.TABLE_ANNONCE;
+import static com.example.projet_vente_voiture.BD.MaBaseSQLite.YES;
 
 public class AnnonceBD {
     private static final int VERSION_BD = 1;
@@ -53,6 +55,7 @@ public class AnnonceBD {
         values.put(COL_PRIX_ANNONCE, annonce.getPrix());
         values.put(COL_DATE_ANNONCE, annonce.getDate());
         values.put(COL_VU_ANNONCE, annonce.getVu());
+        values.put(COL_PROMOTION_ANNONCE, annonce.getPromotion());
         int id = (int) bd.insert(TABLE_ANNONCE,null,values);
         annonce.setId(id);
         close();
@@ -68,6 +71,7 @@ public class AnnonceBD {
         values.put(COL_PRIX_ANNONCE, annonce.getPrix());
         values.put(COL_DATE_ANNONCE, annonce.getDate());
         values.put(COL_VU_ANNONCE, annonce.getVu());
+        values.put(COL_PROMOTION_ANNONCE, annonce.getPromotion());
         bd.update(TABLE_ANNONCE, values, COL_ID_ANNONCE + " = " + id, null);
         annonce.setId(id);
         close();
@@ -92,7 +96,7 @@ public class AnnonceBD {
 
     public List<Annonce> getAllAnnonces() {
         open();
-        Cursor c = bd.rawQuery("SELECT * FROM "+ TABLE_ANNONCE,null);
+        Cursor c = bd.rawQuery("SELECT * FROM "+ TABLE_ANNONCE + " ORDER BY " + COL_DATE_ANNONCE + " DESC ",null);
         List<Annonce> list = cursorToAnnonces(c);
         close();
         return list;
@@ -100,7 +104,15 @@ public class AnnonceBD {
 
     public List<Annonce> getAnnoncesByUserId(int userId) {
         open();
-        Cursor c = bd.rawQuery("SELECT * FROM "+ TABLE_ANNONCE+" WHERE "+ COL_AUTEUR_ANNONCE +" = "+ userId,null);
+        Cursor c = bd.rawQuery("SELECT * FROM "+ TABLE_ANNONCE+" WHERE "+ COL_AUTEUR_ANNONCE +" = "+ userId + " ORDER BY " + COL_DATE_ANNONCE + " DESC ",null);
+        List<Annonce> list = cursorToAnnonces(c);
+        close();
+        return list;
+    }
+
+    public List<Annonce> getPromotedAnnoncesByUserId(int userId) {
+        open();
+        Cursor c = bd.rawQuery("SELECT * FROM "+ TABLE_ANNONCE+" WHERE "+ COL_AUTEUR_ANNONCE +" = "+ userId + " AND " + COL_PROMOTION_ANNONCE + " = " + YES + " ORDER BY " + COL_DATE_ANNONCE + " DESC ",null);
         List<Annonce> list = cursorToAnnonces(c);
         close();
         return list;
@@ -121,8 +133,9 @@ public class AnnonceBD {
             int prix = c.getInt(5);
             String date = c.getString(6);
             int vu = c.getInt(7);
+            int promotion = c.getInt(8);
 
-            res.add(new Annonce(id,id_utilisateur,titre,description,lieu,prix,date,vu));
+            res.add(new Annonce(id,id_utilisateur,titre,description,lieu,prix,date,vu,promotion));
             c.moveToNext();
         }
         c.close();

@@ -14,15 +14,20 @@ import com.example.projet_vente_voiture.BD.AnnonceBD;
 import com.example.projet_vente_voiture.BD.AnnonceSauvegardeBD;
 import com.example.projet_vente_voiture.BD.CritereAnnonceBD;
 import com.example.projet_vente_voiture.BD.CritereBD;
+import com.example.projet_vente_voiture.BD.UtilisateurBD;
 import com.example.projet_vente_voiture.MyApp;
 import com.example.projet_vente_voiture.Object.Annonce;
 import com.example.projet_vente_voiture.Object.AnnonceSauvegarde;
 import com.example.projet_vente_voiture.Object.ConfirmPopUp;
 import com.example.projet_vente_voiture.Object.CritereAnnonce;
+import com.example.projet_vente_voiture.Object.Utilisateur;
 import com.example.projet_vente_voiture.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.projet_vente_voiture.BD.MaBaseSQLite.NO;
+import static com.example.projet_vente_voiture.BD.MaBaseSQLite.YES;
 
 public class Detaille extends General {
 
@@ -107,20 +112,71 @@ public class Detaille extends General {
             LinearLayout ll_btn =findViewById(R.id.linear_layout_button_detail);
             int id_auteur = annonce.getId_auteur();
             if(id_auteur==currentUserId){
+                Activity activity =this;
+
                 Button btn_modif = new Button(this);
                 btn_modif.setText("Modifier");
                 btn_modif.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent1 = new Intent(getApplicationContext(),Ajouter_Annonce.class);
-                        intent1.putExtra("currentAnnonce",id_annonce);
-                        startActivity(intent1);
+                        Intent intent = new Intent(getApplicationContext(),Ajouter_Annonce.class);
+                        intent.putExtra("currentAnnonce",id_annonce);
+                        startActivity(intent);
                     }
                 });
 
                 ll_btn.addView(btn_modif);
 
-                Activity activity =this;
+                UtilisateurBD UBD = new UtilisateurBD(this);
+                Utilisateur user = UBD.getUtilisateurById(currentUserId);
+                if(user.getAbonnement()==YES){
+                    Button btn_promotion = new Button(this);
+                    String text_promotion = "Promouvoir annonce";
+                    String txtPopUp = "Etes vous sur de vouloir promouvoir cette annonce ?";
+                    if(annonce.getPromotion()==YES){
+                        text_promotion = "Retirer mise en avant de l'annonce";
+                        txtPopUp = "Etes vous sur de vouloir annuler la mise en avant de cette annonce ?";
+                    }
+
+                    btn_promotion.setText(text_promotion);
+                    String finalTxtPopUp = txtPopUp;
+                    btn_promotion.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final ConfirmPopUp confirmPopUp = new ConfirmPopUp(activity);
+                            confirmPopUp.setTitle(finalTxtPopUp);
+                            confirmPopUp.getConfirmButton().setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    if(annonce.getPromotion()==YES){
+                                        annonce.setPromotion(NO);
+                                    }
+                                    else{
+                                        annonce.setPromotion(YES);
+                                    }
+
+                                    ABD.updateAnnonce(id_annonce,annonce);
+
+                                    confirmPopUp.dismiss();
+                                    activity.finish();
+
+                                    Intent intent = new Intent(getApplicationContext(),Detaille.class);
+                                    intent.putExtra("id",id_annonce);
+                                    startActivity(intent);
+                                }
+                            });
+                            confirmPopUp.getCancelButton().setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    confirmPopUp.dismiss();
+                                }
+                            });
+                            confirmPopUp.build();
+                        }});
+
+                    ll_btn.addView(btn_promotion);
+                }
+
                 Button btn_suppr = new Button(this);
                 btn_suppr.setText("Supprimer");
                 btn_suppr.setOnClickListener(new View.OnClickListener() {

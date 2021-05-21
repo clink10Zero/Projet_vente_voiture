@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.List;
 
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.CRITERE_PREDEF;
+import static com.example.projet_vente_voiture.BD.MaBaseSQLite.NO;
 
 public class Ajouter_Annonce extends General {
 
@@ -135,7 +136,7 @@ public class Ajouter_Annonce extends General {
                     Toast.makeText(getApplicationContext(), test.getText(), Toast.LENGTH_LONG).show();
                 }
                 else{
-                    Annonce nouvelle_annonce = new Annonce(currentUserId,et_titre.getText().toString(),et_description.getText().toString(),et_lieu.getText().toString(),Integer.parseInt(et_prix.getText().toString()),date,0);
+                    Annonce nouvelle_annonce = new Annonce(currentUserId,et_titre.getText().toString(),et_description.getText().toString(),et_lieu.getText().toString(),Integer.parseInt(et_prix.getText().toString()),date,0,NO);
                     AnnonceBD ABD = new AnnonceBD(getApplicationContext());
                     if(currentAnnonceId!=-1) {
                         ABD.updateAnnonce(currentAnnonceId,nouvelle_annonce);

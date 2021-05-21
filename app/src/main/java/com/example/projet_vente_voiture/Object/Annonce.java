@@ -9,8 +9,9 @@ public class Annonce {
    private int prix;
    private String date;
    private int vu;
+   private int promotion;
 
-    public Annonce(int id, int id_auteur, String titre, String descritpion, String lieu, int prix, String date, int vu) {
+    public Annonce(int id, int id_auteur, String titre, String descritpion, String lieu, int prix, String date, int vu, int promotion) {
         this.id = id;
         this.id_auteur = id_auteur;
         this.titre = titre;
@@ -19,9 +20,10 @@ public class Annonce {
         this.prix = prix;
         this.date=date;
         this.vu=vu;
+        this.promotion=promotion;
     }
 
-    public Annonce(int id_auteur, String titre, String descritpion, String lieu, int prix, String date, int vu) {
+    public Annonce(int id_auteur, String titre, String descritpion, String lieu, int prix, String date, int vu, int promotion) {
         this.id_auteur = id_auteur;
         this.titre = titre;
         this.lieu = lieu;
@@ -29,6 +31,7 @@ public class Annonce {
         this.prix = prix;
         this.date=date;
         this.vu=vu;
+        this.promotion=promotion;
     }
 
     public int getId() {
@@ -93,5 +96,13 @@ public class Annonce {
 
     public void setVu(int vu) {
         this.vu = vu;
+    }
+
+    public int getPromotion() {
+        return promotion;
+    }
+
+    public void setPromotion(int promotion) {
+        this.promotion = promotion;
     }
 }

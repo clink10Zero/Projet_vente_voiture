@@ -10,22 +10,25 @@ public class Utilisateur {
     private String mail;
     private String mdp;
     private int professionel;
+    private int abonnement;
 
-    public Utilisateur(int id, String prenom, String nom, String mail, String mdp, int professionel) {
+    public Utilisateur(int id, String prenom, String nom, String mail, String mdp, int professionel, int abonnement) {
         this.id = id;
         this.prenom = prenom;
         this.nom = nom;
         this.mail = mail;
         this.mdp = mdp;
         this.professionel = professionel;
+        this.abonnement=abonnement;
     }
 
-    public Utilisateur(String prenom, String nom, String mail, String mdp, int professionel) {
+    public Utilisateur(String prenom, String nom, String mail, String mdp, int professionel, int abonnement) {
         this.prenom = prenom;
         this.nom = nom;
         this.mail = mail;
         this.mdp = mdp;
         this.professionel = professionel;
+        this.abonnement=abonnement;
     }
 
     public int getId() {
@@ -74,5 +77,13 @@ public class Utilisateur {
 
     public void setProfessionel(int professionel) {
         this.professionel = professionel;
+    }
+
+    public int getAbonnement() {
+        return abonnement;
+    }
+
+    public void setAbonnement(int abonnement) {
+        this.abonnement = abonnement;
     }
 }

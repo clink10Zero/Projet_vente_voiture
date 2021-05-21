@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.projet_vente_voiture.Activity.General;
 import com.example.projet_vente_voiture.Activity.Mes_annonces;
 import com.example.projet_vente_voiture.Activity.Mes_annonces_sauvergardes;
+import com.example.projet_vente_voiture.BD.UtilisateurBD;
+import com.example.projet_vente_voiture.Object.Utilisateur;
 import com.example.projet_vente_voiture.R;
 
 public class MonProfil extends General {
@@ -27,7 +30,7 @@ public class MonProfil extends General {
         btn_modif.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Page modif profil à faire", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(getApplicationContext(), ModifProfil.class));
             }
         });
 
@@ -51,5 +54,20 @@ public class MonProfil extends General {
                 startActivity(new Intent(getApplicationContext(), Statistiques.class));
             }
         });
+
+        UtilisateurBD UBD = new UtilisateurBD(this);
+        Utilisateur user = UBD.getUtilisateurById(currentUserId);
+        if(user.getProfessionel()==Utilisateur.PROFESSIONEL){
+            LinearLayout ll = findViewById(R.id.ll_mon_profil);
+            Button btn_gestion_abonnement = new Button(this);
+            btn_gestion_abonnement.setText("Gestion abonnement");
+            btn_gestion_abonnement.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity((new Intent(getApplicationContext(), GestionAbonnement.class)));
+                }
+            });
+            ll.addView(btn_gestion_abonnement);
+        }
     }
 }

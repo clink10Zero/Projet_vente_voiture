@@ -10,6 +10,7 @@ import com.example.projet_vente_voiture.Object.Utilisateur;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_ABONNEMENT_UTILISATEUR;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_ID_UTILISATEUR;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_MAIL_UTILISATEUR;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_MDP_UTILISATEUR;
@@ -49,6 +50,7 @@ public class UtilisateurBD {
         values.put(COL_MAIL_UTILISATEUR, utilisateur.getMail());
         values.put(COL_MDP_UTILISATEUR, utilisateur.getMdp());
         values.put(COL_PROFESSIONNEL_UTILISATEUR, utilisateur.getProfessionel());
+        values.put(COL_ABONNEMENT_UTILISATEUR, utilisateur.getAbonnement());
         int id = (int) bd.insert(TABLE_UTILISATEUR,null,values);
         utilisateur.setId(id);
         close();
@@ -62,6 +64,7 @@ public class UtilisateurBD {
         values.put(COL_MAIL_UTILISATEUR, utilisateur.getMail());
         values.put(COL_MDP_UTILISATEUR, utilisateur.getMdp());
         values.put(COL_PROFESSIONNEL_UTILISATEUR, utilisateur.getProfessionel());
+        values.put(COL_ABONNEMENT_UTILISATEUR, utilisateur.getAbonnement());
         bd.update(TABLE_UTILISATEUR, values, COL_ID_UTILISATEUR + " = " + id, null);
     }
 
@@ -105,8 +108,9 @@ public class UtilisateurBD {
             String mail = c.getString(3);
             String mdp = c.getString(4);
             int professionel = c.getInt(5);
+            int abonnement = c.getInt(6);
 
-            res.add(new Utilisateur(id,prenom,nom,mail,mdp,professionel));
+            res.add(new Utilisateur(id,prenom,nom,mail,mdp,professionel,abonnement));
             c.moveToNext();
         }
         c.close();
