@@ -1,23 +1,20 @@
 package com.example.projet_vente_voiture.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.example.projet_vente_voiture.BD.MaBaseSQLite;
 import com.example.projet_vente_voiture.BD.UtilisateurBD;
 import com.example.projet_vente_voiture.MyApp;
 import com.example.projet_vente_voiture.Object.ResultatForm;
 import com.example.projet_vente_voiture.Object.Utilisateur;
 import com.example.projet_vente_voiture.R;
+
+import androidx.annotation.NonNull;
 
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.NO;
 
@@ -44,47 +41,39 @@ public class Inscription extends General {
         Button btn_validation = findViewById(R.id.button_validation_inscription);
         Button btn_inconnu = findViewById(R.id.button_inconnu_inscription);
 
-        btn_validation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ResultatForm test = isFormOK(mail, confirmationMail, mdp, confirmationMDP, proPer);
-                if (!test.getBool()) {
-                    Toast.makeText(getApplicationContext(), test.getText(), Toast.LENGTH_LONG).show();
+        btn_validation.setOnClickListener(v -> {
+            ResultatForm test = isFormOK(mail, confirmationMail, mdp, confirmationMDP, proPer);
+            if (test.getBool()) {
+                Toast.makeText(getApplicationContext(), test.getText(), Toast.LENGTH_LONG).show();
+            } else {
+                UtilisateurBD UBD = new UtilisateurBD(getApplicationContext());
+                Utilisateur user = UBD.getUtilisateurByMail(mail.getText().toString());
+                if (user != null) {
+                    Toast.makeText(getApplicationContext(), "Cette adresse mail est déjà associée à un compte", Toast.LENGTH_LONG).show();
                 } else {
-                    UtilisateurBD UBD = new UtilisateurBD(getApplicationContext());
-                    Utilisateur user = UBD.getUtilisateurByMail(mail.getText().toString());
-                    if (user != null) {
-                        Toast.makeText(getApplicationContext(), "Cette adresse mail est déjà associée à un compte", Toast.LENGTH_LONG).show();
+                    int pro;
+                    if (proPer.getCheckedRadioButtonId() == R.id.radio_buttton_particulier_inscirption) {
+                        pro = Utilisateur.PARTICULIER;
                     } else {
-                        int pro;
-                        switch(proPer.getCheckedRadioButtonId()){
-                            case R.id.radio_buttton_particulier_inscirption:
-                                pro = Utilisateur.PARTICULIER;
-                                break;
-                            default:
-                                pro = Utilisateur.PROFESSIONEL;
-                        }
-                        Utilisateur util = new Utilisateur(prenom.getText().toString(), nom.getText().toString(), mail.getText().toString(), mdp.getText().toString(), pro,NO);
-                        UBD.insertUtilisateur(util);
-
-                        Intent intent = new Intent(getApplicationContext(), Recherche.class);
-                        ((MyApp) getApplicationContext()).setUser(util.getId());
-                        startActivity(intent);
-
-                        finish();
+                        pro = Utilisateur.PROFESSIONEL;
                     }
+                    Utilisateur util = new Utilisateur(prenom.getText().toString(), nom.getText().toString(), mail.getText().toString(), mdp.getText().toString(), pro,NO);
+                    UBD.insertUtilisateur(util);
 
+                    Intent intent = new Intent(getApplicationContext(), Recherche.class);
+                    ((MyApp) getApplicationContext()).setUser(util.getId());
+                    startActivity(intent);
+
+                    finish();
                 }
+
             }
         });
 
-        btn_inconnu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),Recherche.class);
-                startActivity(intent);
-                finish();
-            }
+        btn_inconnu.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(),Recherche.class);
+            startActivity(intent);
+            finish();
         });
     }
 

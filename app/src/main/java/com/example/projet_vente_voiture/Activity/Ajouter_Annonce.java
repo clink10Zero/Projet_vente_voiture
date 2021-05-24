@@ -1,42 +1,71 @@
 package com.example.projet_vente_voiture.Activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Point;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.Display;
-import android.view.View;
+import android.os.Environment;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Space;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.projet_vente_voiture.BD.AnnonceBD;
 import com.example.projet_vente_voiture.BD.CritereAnnonceBD;
 import com.example.projet_vente_voiture.BD.CritereBD;
+import com.example.projet_vente_voiture.BD.PhotoBD;
 import com.example.projet_vente_voiture.BD.ValeurCritereBD;
+import com.example.projet_vente_voiture.Helper;
 import com.example.projet_vente_voiture.MyApp;
+import com.example.projet_vente_voiture.Object.AddPhotoConfirmPopUp;
 import com.example.projet_vente_voiture.Object.Annonce;
+import com.example.projet_vente_voiture.Object.ConfirmPopUp;
 import com.example.projet_vente_voiture.Object.Critere;
 import com.example.projet_vente_voiture.Object.CritereAnnonce;
+import com.example.projet_vente_voiture.Object.Photo;
 import com.example.projet_vente_voiture.Object.ResultatForm;
 import com.example.projet_vente_voiture.Object.ValeurCritere;
 import com.example.projet_vente_voiture.R;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
+
+import static android.view.View.GONE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.CRITERE_PREDEF;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.NO;
 
 public class Ajouter_Annonce extends General {
 
+    public static final int PICK_IMAGE =1;
+    private static final int REQUEST_CAPTURE_IMAGE =2;
     int currentAnnonceId;
+    List<Photo> currentPhotoList;
+    List<Photo> bdPhotoList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +88,6 @@ public class Ajouter_Annonce extends General {
 
         ValeurCritereBD VCBD = new ValeurCritereBD(this);
 
-
         LinearLayout ll_critere = findViewById(R.id.dynamique_linear_layout_criteres_ajouter_annonce);
         CritereBD CBD = new CritereBD(this);
         List<Critere> critere_list = CBD.getAllCritere();
@@ -76,7 +104,7 @@ public class Ajouter_Annonce extends General {
                 //TODO use the predef values
                 List<ValeurCritere> vc_list = VCBD.getValeurCritereByCritere(critere.getId());
                 AutoCompleteTextView valeur = new AutoCompleteTextView(this);
-                valeur.setWidth(getScreenWidth(this)-tv_nom_critere.getWidth());
+                valeur.setWidth(Helper.getScreenWidth(this)-tv_nom_critere.getWidth());
                 if(vc_list!=null) {
                     List<String> stringList = new ArrayList<>();
                     for (ValeurCritere vc : vc_list) {
@@ -115,55 +143,157 @@ public class Ajouter_Annonce extends General {
         EditText et_prix = findViewById(R.id.edit_text_prix_ajouter_annonce);
 
         if(currentAnnonceId!=-1){
+            assert currentAnnonce != null;
             et_titre.setText(currentAnnonce.getTitre());
             et_lieu.setText(currentAnnonce.getLieu());
             et_description.setText(currentAnnonce.getDescritpion());
             et_prix.setText(currentAnnonce.getPrix()+"");
         }
 
+
+        Activity activity = this;
+
+        PhotoBD PDB = new PhotoBD(this);
+        currentPhotoList = null;
+        bdPhotoList = null;
+        if(currentAnnonceId!=-1){
+            bdPhotoList = PDB.getPhotosByAnnonceId(currentAnnonceId);
+            currentPhotoList = bdPhotoList;
+            displayPhotos(findViewById(R.id.table_photo_ajouter_annonce));
+        }
+
+        Button btn_parcourir = findViewById(R.id.button_parcourir_photo_ajouter_annonce);
+        btn_parcourir.setOnClickListener(view -> {
+            int readPermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
+            int writePermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+            if (writePermission != PackageManager.PERMISSION_GRANTED || readPermission != PackageManager.PERMISSION_GRANTED) {
+                activity.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, PICK_IMAGE);
+            }
+            else{
+                Intent intent1 = new Intent();
+                intent1.setType("image/*");
+                intent1.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent1, "Select Picture"), PICK_IMAGE);
+            }
+        });
+
+        Button btn_prendre_photo = findViewById(R.id.button_prendre_photo_ajouter_annonce);
+        btn_prendre_photo.setOnClickListener(view -> openCameraIntent());
+
         Button btn_validation = findViewById(R.id.button_validation_ajouter_annonce);
-        btn_validation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btn_validation.setOnClickListener(v -> {
 
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                Date d = new Date();
-                String date = formatter.format(d);
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            Date d = new Date();
+            String date = formatter.format(d);
 
-                //check contents
-                ResultatForm test = isFormOK(et_titre, et_description, et_lieu, et_prix);
-                if (!test.getBool()) {
-                    Toast.makeText(getApplicationContext(), test.getText(), Toast.LENGTH_LONG).show();
+            //check contents
+            ResultatForm test = isFormOK(et_titre, et_description, et_lieu, et_prix);
+            if (test.getBool()) {
+                Toast.makeText(getApplicationContext(), test.getText(), Toast.LENGTH_LONG).show();
+            }
+            else{
+                //Annonce
+                Annonce nouvelle_annonce;
+                AnnonceBD ABD1 = new AnnonceBD(getApplicationContext());
+                if(currentAnnonceId!=-1) {
+                    Annonce original = ABD1.getAnnonceById(currentUserId);
+                    nouvelle_annonce = new Annonce(currentUserId,et_titre.getText().toString(),et_description.getText().toString(),et_lieu.getText().toString(),Integer.parseInt(et_prix.getText().toString()),original.getDate(),original.getVu(),original.getPromotion());
+                    ABD1.updateAnnonce(currentAnnonceId,nouvelle_annonce);
                 }
                 else{
-                    Annonce nouvelle_annonce = new Annonce(currentUserId,et_titre.getText().toString(),et_description.getText().toString(),et_lieu.getText().toString(),Integer.parseInt(et_prix.getText().toString()),date,0,NO);
-                    AnnonceBD ABD = new AnnonceBD(getApplicationContext());
-                    if(currentAnnonceId!=-1) {
-                        ABD.updateAnnonce(currentAnnonceId,nouvelle_annonce);
-                    }
-                    else{
-                        ABD.insertAnnonce(nouvelle_annonce);
-                    }
+                    nouvelle_annonce = new Annonce(currentUserId,et_titre.getText().toString(),et_description.getText().toString(),et_lieu.getText().toString(),Integer.parseInt(et_prix.getText().toString()),date,0,NO);
+                    ABD1.insertAnnonce(nouvelle_annonce);
+                    currentAnnonceId=nouvelle_annonce.getId();
+                }
 
-                    //TODO maybe la suppression de critere ?
-                    CritereAnnonceBD CABD = new CritereAnnonceBD(getApplicationContext());
-                    for(int i=0;i<et_list.size();i++){
-                        if(!et_list.get(i).getText().toString().equals("")){
-                            CritereAnnonce nouveau_critere_annonce = new CritereAnnonce(critere_list.get(i).getId(),nouvelle_annonce.getId(),et_list.get(i).getText().toString());
-                            CritereAnnonce ca=CABD.getCritereAnnonceByAnnonceAndCritereId(nouvelle_annonce.getId(),critere_list.get(i).getId());
-                            if(ca!=null){
-                                CABD.updateCritereAnnonce(ca.getId(),nouveau_critere_annonce);
-                            }else{
-                                CABD.insertCritereAnnonce(nouveau_critere_annonce);
+                //Critères
+                //TODO maybe la suppression de critere ?
+                CritereAnnonceBD CABD1 = new CritereAnnonceBD(getApplicationContext());
+                for(int i=0;i<et_list.size();i++){
+                    if(!et_list.get(i).getText().toString().equals("")){
+                        CritereAnnonce nouveau_critere_annonce = new CritereAnnonce(critere_list.get(i).getId(),currentAnnonceId,et_list.get(i).getText().toString());
+                        CritereAnnonce ca= CABD1.getCritereAnnonceByAnnonceAndCritereId(currentAnnonceId,critere_list.get(i).getId());
+                        if(ca!=null){
+                            CABD1.updateCritereAnnonce(ca.getId(),nouveau_critere_annonce);
+                        }else{
+                            CABD1.insertCritereAnnonce(nouveau_critere_annonce);
+                        }
+                    }
+                }
+
+                //Photos
+                PhotoBD PBD = new PhotoBD(getApplicationContext());
+                bdPhotoList=PBD.getPhotosByAnnonceId(currentAnnonceId);
+
+                //Ajout dans la bd
+                List<Photo> toAddPhotoList = new ArrayList<>();
+                if(bdPhotoList!=null){
+                    if(currentPhotoList!=null){
+                        for(Photo p : currentPhotoList){
+                            boolean alreadyIn = false;
+                            int i=0;
+                            while(!alreadyIn && i<bdPhotoList.size()){
+                                if(bdPhotoList.get(i).getChemin().equals(p.getChemin())) {
+                                    alreadyIn = true;
+                                }
+                                i++;
+                            }
+                            if(!alreadyIn){
+                                toAddPhotoList.add(p);
                             }
                         }
                     }
-
-                    Intent intent = new Intent(getApplicationContext(),Detaille.class);
-                    intent.putExtra("id",nouvelle_annonce.getId());
-                    startActivity(intent);
-                    finish();
                 }
+                else{
+                    if(currentPhotoList!=null){
+                        toAddPhotoList.addAll(currentPhotoList);
+                    }
+                }
+
+                if(!toAddPhotoList.isEmpty()){
+                    for(Photo p : toAddPhotoList){
+                        p.setId_annonce(currentAnnonceId);
+                        PBD.insertPhoto(p);
+                    }
+                }
+
+                //Suppression de la bd
+                List<Photo> toDeletePhotoList = new ArrayList<>();
+                if (currentPhotoList!=null && !currentPhotoList.isEmpty()){
+                    if(bdPhotoList!=null){
+                        for(Photo p : bdPhotoList){
+                            int i=0;
+                            boolean isInCurrent = false;
+                            while(!isInCurrent && i<currentPhotoList.size()){
+                                if(currentPhotoList.get(i).getChemin().equals(p.getChemin())){
+                                    isInCurrent=true;
+                                }
+                                i++;
+                            }
+                            if(!isInCurrent) {
+                                toDeletePhotoList.add(p);
+                            }
+                        }
+                    }
+                }
+                else{
+                    if(bdPhotoList!=null){
+                        toDeletePhotoList.addAll(bdPhotoList);
+                    }
+                }
+                if(!toDeletePhotoList.isEmpty()){
+                    for(Photo p : toDeletePhotoList){
+                        PBD.removePhotoWithID(p.getId());
+                    }
+                }
+
+                //Redirection
+                Intent intent12 = new Intent(getApplicationContext(),Detaille.class);
+                intent12.putExtra("id",nouvelle_annonce.getId());
+                startActivity(intent12);
+                finish();
             }
         });
 
@@ -206,14 +336,209 @@ public class Ajouter_Annonce extends General {
             }
             finish();
         }
-
-
     }
 
-    public static int getScreenWidth(Activity activity){
-        Display display = activity.getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        return size.x;
+    public void displayPhotos(TableLayout photoTable) {
+        if (this.currentPhotoList != null) {
+            photoTable.removeAllViews();
+            for (int i = 0; i < currentPhotoList.size(); i++) {
+                final Photo currentPhoto = currentPhotoList.get(i);
+                Bitmap bitmap = BitmapFactory.decodeFile(currentPhoto.getChemin());
+                if (bitmap == null) {
+                    currentPhotoList.remove(currentPhoto);
+                    Toast.makeText(this, "Certaines photos ont été supprimés de la galerie et ne sont donc plus disponibles", Toast.LENGTH_SHORT).show();
+                } else {
+                    ImageView imageView = new ImageView(this);
+                    final String picturePath = currentPhoto.getChemin();
+                    Bitmap photoBitmap = Helper.makeMiniBitmap(BitmapFactory.decodeFile(picturePath), 8);
+
+                    imageView.setImageBitmap(photoBitmap);
+                    TextView textView = new TextView(this);
+                    textView.setText(currentPhoto.getChemin());
+                    textView.setVisibility(GONE);
+
+                    Activity activity=this;
+                    Button deleteButton = new Button(this);
+                    deleteButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.photo_delete, 0, 0, 0);
+                    deleteButton.setPadding(10, 10, 0, 0);
+                    deleteButton.setBackgroundColor(0);
+                    deleteButton.setOnClickListener(view -> {
+                        final ConfirmPopUp confirmPopUp = new ConfirmPopUp(activity);
+                        confirmPopUp.setTitle("Confirmer suppression ?");
+                        confirmPopUp.getConfirmButton().setOnClickListener(view1 -> {
+                            confirmPopUp.dismiss();
+                            currentPhotoList.remove(currentPhoto);
+                            displayPhotos(photoTable);
+                        });
+                        confirmPopUp.getCancelButton().setOnClickListener(view12 -> confirmPopUp.dismiss());
+                        confirmPopUp.build();
+                    });
+
+                    ConstraintLayout constraintLayout = new ConstraintLayout(activity);
+                    constraintLayout.addView(imageView, 0);
+                    constraintLayout.addView(deleteButton, 1);
+                    constraintLayout.setMinHeight(photoBitmap.getHeight());
+                    constraintLayout.setMaxWidth(photoBitmap.getWidth());
+                    constraintLayout.addView(textView, 2);
+                    photoTable.addView(constraintLayout);
+
+                    Space space = new Space(activity);
+                    space.setMinimumHeight(6);
+                    photoTable.addView(space);
+                }
+            }
+            photoTable.setPadding(10, 0, 10, 0);
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        activityResult(this,resultCode,requestCode,data);
+    }
+
+    public void activityResult(final Activity activity, int resultCode, int requestCode, @Nullable Intent data) {
+        if (resultCode != RESULT_CANCELED) {
+            if (requestCode == PICK_IMAGE) {//retour de galerie
+                Uri selectedImage = null;
+                if (data != null) {
+                    selectedImage = data.getData();
+                }
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+                Cursor cursor = null;
+                if (selectedImage != null) {
+                    String sel = MediaStore.Images.Media._ID + "=?";
+
+                    String wholeID = DocumentsContract.getDocumentId(selectedImage);
+
+                    String id = wholeID.split(":")[1];
+                    cursor = activity.getContentResolver().
+                            query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                    filePathColumn, sel, new String[]{id}, null);
+                }
+                if (cursor != null) {
+                    if (cursor.moveToFirst()) {
+
+                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                        final String picturePath = cursor.getString(columnIndex);
+                        cursor.close();
+
+                        final AddPhotoConfirmPopUp addPhotoConfirmPopUp = new AddPhotoConfirmPopUp(activity);
+                        addPhotoConfirmPopUp.getImageView().setImageBitmap(Helper.makeMiniBitmap(BitmapFactory.decodeFile(picturePath), 6));
+                        addPhotoConfirmPopUp.getConfirmButton().setOnClickListener(view -> {
+                            addPhotoConfirmPopUp.dismiss();
+                            insertPhotoInActivity(picturePath);
+                        });
+                        addPhotoConfirmPopUp.getCancelButton().setOnClickListener(view -> {
+                            addPhotoConfirmPopUp.dismiss();
+                            Intent intent = new Intent();
+                            intent.setType("image/*");
+                            intent.setAction(Intent.ACTION_GET_CONTENT);
+                            activity.startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+                        });
+                        addPhotoConfirmPopUp.build();
+                    } else {
+                        Toast.makeText(activity, "Rester sur 'Images' pour que cela fonctionne, désolé on n'a pas trouvé pourquoi", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+            if (requestCode == REQUEST_CAPTURE_IMAGE) {//retour d'appareil photo
+                File[] filePhotoList = Objects.requireNonNull(activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)).listFiles();//photos take by the app
+                File src = filePhotoList[filePhotoList.length - 1];
+
+                String directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+"/VenteVoitures";
+                String timeStamp =
+                        new android.icu.text.SimpleDateFormat("yyyyMMdd_HHmmss",
+                                Locale.getDefault()).format(new Date());
+                String imageFileName = "IMG_" + timeStamp + ".jpg";
+                File fileDirectory = new File(directory);
+                if (!fileDirectory.exists()) {
+                    fileDirectory.mkdirs();
+                }
+                File dest = new File(directory + "/" + imageFileName);
+
+                try {
+                    Helper.copy(src, dest);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                src.delete();
+
+                insertPhotoInActivity(directory + "/" + imageFileName);
+            }
+        }
+    }
+
+    private void insertPhotoInActivity(String picturePath) {
+        Photo photoToInsert = new Photo(currentAnnonceId,picturePath);
+
+        if (currentPhotoList == null) {
+            currentPhotoList = new ArrayList<>();
+        }
+        boolean isPhotoAlreadyExistInObject = false;
+        for (int i = 0; i < currentPhotoList.size(); i++) {
+            if (currentPhotoList.get(i).getChemin().equals(photoToInsert.getChemin())) {
+                isPhotoAlreadyExistInObject = true;
+            }
+        }
+        if (!isPhotoAlreadyExistInObject) {
+            currentPhotoList.add(photoToInsert);
+        } else {
+            Toast.makeText(getApplicationContext(), "Photo déjà présente", Toast.LENGTH_SHORT).show();
+        }
+
+        displayPhotos(findViewById(R.id.table_photo_ajouter_annonce));
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            switch (requestCode) {
+                case REQUEST_CAPTURE_IMAGE:
+                    openCameraIntent();
+                    break;
+                case PICK_IMAGE:
+                    Intent intent = new Intent();
+                    intent.setType("image/*");
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+                    break;
+            }
+        }
+        else {
+            Intent intent = new Intent(this, getClass());
+            intent.putExtra("id",currentAnnonceId);
+            startActivity(intent);
+        }
+    }
+
+    private void openCameraIntent() {
+        Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (pictureIntent.resolveActivity(getPackageManager()) != null) {
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this, "com.example.projet_vente_voiture.fileprovider", photoFile);
+                pictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(pictureIntent,
+                        REQUEST_CAPTURE_IMAGE);
+            }
+        }
+    }
+
+    private File createImageFile() throws IOException {
+        String timeStamp =
+                new android.icu.text.SimpleDateFormat("yyyyMMdd_HHmmss",
+                        Locale.getDefault()).format(new Date());
+        String imageFileName = "IMG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+
+        return File.createTempFile(imageFileName, ".jpg", storageDir);
     }
 }

@@ -20,7 +20,7 @@ public class ValeurCritereBD {
     private static final int VERSION_BD = 1;
 
     private SQLiteDatabase bd;
-    private MaBaseSQLite maBaseSQLite;
+    private final MaBaseSQLite maBaseSQLite;
 
     public ValeurCritereBD(Context context) {
         maBaseSQLite = new MaBaseSQLite(context, NOM_BD, null, VERSION_BD);

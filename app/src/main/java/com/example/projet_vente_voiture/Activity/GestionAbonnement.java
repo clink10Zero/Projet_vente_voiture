@@ -49,41 +49,31 @@ public class GestionAbonnement extends General {
         }
 
         String finalTxt = txt;
-        btn_action.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final ConfirmPopUp confirmPopUp = new ConfirmPopUp(activity);
-                confirmPopUp.setTitle(finalTxt);
-                confirmPopUp.getConfirmButton().setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if(user.getAbonnement()==YES){
-                            user.setAbonnement(NO);
-                            AnnonceBD ABD = new AnnonceBD(getApplicationContext());
-                            List<Annonce> promToRemove = ABD.getPromotedAnnoncesByUserId(currentUserId);
-                            if(promToRemove!=null){
-                                for(Annonce a : promToRemove){
-                                    a.setPromotion(NO);
-                                    ABD.updateAnnonce(a.getId(),a);
-                                }
-                            }
+        btn_action.setOnClickListener(v -> {
+            final ConfirmPopUp confirmPopUp = new ConfirmPopUp(activity);
+            confirmPopUp.setTitle(finalTxt);
+            confirmPopUp.getConfirmButton().setOnClickListener(view -> {
+                if(user.getAbonnement()==YES){
+                    user.setAbonnement(NO);
+                    AnnonceBD ABD = new AnnonceBD(getApplicationContext());
+                    List<Annonce> promToRemove = ABD.getPromotedAnnoncesByUserId(currentUserId);
+                    if(promToRemove!=null){
+                        for(Annonce a : promToRemove){
+                            a.setPromotion(NO);
+                            ABD.updateAnnonce(a.getId(),a);
                         }
-                        else{
-                            user.setAbonnement(YES);
-                        }
-                        UBD.updateUtilisateur(currentUserId,user);
-                        confirmPopUp.dismiss();
-                        activity.finish();
-                        startActivity(new Intent(getApplicationContext(),GestionAbonnement.class));
                     }
-                });
-                confirmPopUp.getCancelButton().setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        confirmPopUp.dismiss();
-                    }
-                });
-                confirmPopUp.build();
-            }});
+                }
+                else{
+                    user.setAbonnement(YES);
+                }
+                UBD.updateUtilisateur(currentUserId,user);
+                confirmPopUp.dismiss();
+                activity.finish();
+                startActivity(new Intent(getApplicationContext(),GestionAbonnement.class));
+            });
+            confirmPopUp.getCancelButton().setOnClickListener(view -> confirmPopUp.dismiss());
+            confirmPopUp.build();
+        });
     }
 }

@@ -33,37 +33,31 @@ public class Connexion extends General {
         Button btn_validation = findViewById(R.id.button_validation_connexion);
         Button btn_inconnu = findViewById(R.id.button_inconnu_connexion);
 
-        btn_validation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mail.getText().toString().equals("") || mdp.getText().toString().equals("")) {
-                    Toast.makeText(getApplicationContext(), "Le mail ou le mot de passe n'est pas rempli.", Toast.LENGTH_LONG).show();
+        btn_validation.setOnClickListener(v -> {
+            if(mail.getText().toString().equals("") || mdp.getText().toString().equals("")) {
+                Toast.makeText(getApplicationContext(), "Le mail ou le mot de passe n'est pas rempli.", Toast.LENGTH_LONG).show();
+            }
+            else{
+                UtilisateurBD UBD = new UtilisateurBD(getApplicationContext());
+                Utilisateur util = UBD.getUtilisateurByMail(mail.getText().toString());
+
+                if(util == null || !util.getMdp().equals(mdp.getText().toString())) {
+                    Toast.makeText(getApplicationContext(), "Mail et/ou mot de passe incorrect", Toast.LENGTH_LONG).show();
                 }
                 else{
-                    UtilisateurBD UBD = new UtilisateurBD(getApplicationContext());
-                    Utilisateur util = UBD.getUtilisateurByMail(mail.getText().toString());
-
-                    if(util == null || !util.getMdp().equals(mdp.getText().toString())) {
-                        Toast.makeText(getApplicationContext(), "Mail et/ou mot de passe incorrect", Toast.LENGTH_LONG).show();
-                    }
-                    else{
-                        Intent intent = new Intent(getApplicationContext(),Recherche.class);
-                        ((MyApp) getApplicationContext()).setUser(util.getId());
-                        startActivity(intent);
-                        finish();
-                    }
+                    Intent intent = new Intent(getApplicationContext(),Recherche.class);
+                    ((MyApp) getApplicationContext()).setUser(util.getId());
+                    startActivity(intent);
+                    finish();
                 }
-
             }
+
         });
 
-        btn_inconnu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),Recherche.class);
-                startActivity(intent);
-                finish();
-            }
+        btn_inconnu.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(),Recherche.class);
+            startActivity(intent);
+            finish();
         });
     }
 

@@ -5,30 +5,21 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.projet_vente_voiture.Object.Annonce;
 import com.example.projet_vente_voiture.Object.AnnonceSauvegarde;
 
 import java.util.ArrayList;
 
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_ANNONCE_ANNONCE_SAUVEGARDE;
-import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_AUTEUR_ANNONCE;
-import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_DATE_ANNONCE;
-import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_DESCCRITPION_ANNONCE;
-import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_ID_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_ID_ANNONCE_SAUVEGARDE;
-import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_LIEU_ANNONCE;
-import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_PRIX_ANNONCE;
-import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_TITRE_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_UTILISATEUR_ANNONCE_SAUVEGARDE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.NOM_BD;
-import static com.example.projet_vente_voiture.BD.MaBaseSQLite.TABLE_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.TABLE_ANNONCE_SAUVEGARDE;
 
 public class AnnonceSauvegardeBD {
     private static final int VERSION_BD = 1;
 
     private SQLiteDatabase bd;
-    private MaBaseSQLite maBaseSQLite;
+    private final MaBaseSQLite maBaseSQLite;
 
     public AnnonceSauvegardeBD(Context context) {
         maBaseSQLite = new MaBaseSQLite(context, NOM_BD, null, VERSION_BD);
@@ -53,12 +44,6 @@ public class AnnonceSauvegardeBD {
         values.put(COL_ANNONCE_ANNONCE_SAUVEGARDE, annonce.getAnnonce_id());
         int id = (int) bd.insert(TABLE_ANNONCE_SAUVEGARDE,null,values);
         annonce.setId(id);
-        close();
-    }
-
-    public void removeAnnonceSauvegardeWitID(int id) {
-        open();
-        bd.delete(TABLE_ANNONCE_SAUVEGARDE, COL_ID_ANNONCE_SAUVEGARDE + " = " + id, null);
         close();
     }
 

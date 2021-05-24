@@ -1,14 +1,11 @@
 package com.example.projet_vente_voiture.Object;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.text.Layout;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Space;
@@ -19,7 +16,6 @@ import com.example.projet_vente_voiture.BD.AnnonceBD;
 import com.example.projet_vente_voiture.BD.PhotoBD;
 import com.example.projet_vente_voiture.R;
 
-import java.util.Date;
 import java.util.List;
 
 public class AnnonceView extends LinearLayout {
@@ -28,64 +24,18 @@ public class AnnonceView extends LinearLayout {
     private TextView prixView;
     private TextView titreView;
     private TextView lieuView;
-    private Button imgb;
     private ImageView img;
 
-    /*public AnnonceView(Context context, String date, int prix, String titre, String lieu) {
-        super(context);
+    public AnnonceView(Activity activity, Annonce annonce, int currentUserId) {
+        super(activity);
 
-        //set DATE et PRIX
-        LinearLayout de = new LinearLayout(context);
+        LinearLayout de = new LinearLayout(activity);
         de.setOrientation(LinearLayout.HORIZONTAL);
 
-        this.dateView = new TextView(context);
-        this.dateView.setText(date);
-        //dateView.setHeight(de.getHeight()/2);
-
-        this.prixView = new TextView(context);
-        this.prixView.setText("prix : " + prix + " €");
-        //prixView.setHeight(de.getHeight()/2);
-
-        //ajout a la vue
-        de.addView(dateView);
-        de.addView(prixView);
-
-        //set TIRE et LIEU
-        LinearLayout tlde = new LinearLayout(context);
-        tlde.setOrientation(LinearLayout.VERTICAL);
-        this.titreView = new TextView(context);
-        this.titreView.setText(titre);
-        Space s = new Space(context);
-        LinearLayout.LayoutParams ls = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 150);
-        this.lieuView = new TextView(context);
-        this.lieuView.setText(lieu);
-
-        //ajout a la partie droite de l'annonce
-        tlde.addView(titreView);
-        tlde.addView(s, ls);
-        tlde.addView(lieuView);
-        tlde.addView(de);
-
-        //set de l'image
-        this.imgb = new Button(context);
-        this.setClickEvent(context,id);
-        imgb.setCompoundDrawablesWithIntrinsicBounds(R.drawable.poule, 0, 0, 0);
-
-        //finalisation de la vue de l'annonce
-        this.addView(imgb);
-        this.addView(tlde);
-    }*/
-
-    public AnnonceView(Context context, Annonce annonce, int currentUserId) {
-        super(context);
-
-        LinearLayout de = new LinearLayout(context);
-        de.setOrientation(LinearLayout.HORIZONTAL);
-
-        this.dateView = new TextView(context);
+        this.dateView = new TextView(activity);
         this.dateView.setText(annonce.getDate());
 
-        this.prixView = new TextView(context);
+        this.prixView = new TextView(activity);
         this.prixView.setText("prix : " + annonce.getPrix() + " €");
 
         //ajout a la vue
@@ -93,13 +43,13 @@ public class AnnonceView extends LinearLayout {
         de.addView(prixView);
 
         //set TITRE et LIEU
-        LinearLayout tlde = new LinearLayout(context);
+        LinearLayout tlde = new LinearLayout(activity);
         tlde.setOrientation(LinearLayout.VERTICAL);
-        this.titreView = new TextView(context);
+        this.titreView = new TextView(activity);
         this.titreView.setText(annonce.getTitre());
-        Space s = new Space(context);
+        Space s = new Space(activity);
         LinearLayout.LayoutParams ls = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 150);
-        this.lieuView = new TextView(context);
+        this.lieuView = new TextView(activity);
         this.lieuView.setText(annonce.getLieu());
 
         //ajout a la partie droite de l'annonce
@@ -107,51 +57,46 @@ public class AnnonceView extends LinearLayout {
         tlde.addView(s, ls);
         tlde.addView(lieuView);
         tlde.addView(de);
-        //TODO en cours
-       /* PhotoBD PBD = new PhotoBD(context);
+
+        //TODO redimmenssioner
+
+        img = new ImageView(activity);
+
+        int height = (getResources().getDrawable(R.drawable.poule)).getMinimumHeight();
+        int width = (getResources().getDrawable(R.drawable.poule)).getMinimumWidth();
+
+        PhotoBD PBD = new PhotoBD(activity);
         int id_annonce = annonce.getId();
         List<Photo> photos = PBD.getPhotosByAnnonceId(id_annonce);
         if(photos!=null) {
             String chemin = photos.get(0).getChemin();
             Bitmap bitmap = BitmapFactory.decodeFile(chemin);
 
-            this.img = new ImageView(context);
-            this.setClickEvent(context);
-
             if (bitmap != null) {
-                Bitmap photoBitmap = makeMiniBitmap(BitmapFactory.decodeFile(chemin), 8);
+                Bitmap photoBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(chemin),width,height,true);
                 img.setImageBitmap(photoBitmap);
             }
-        }else {*/
+        }else {
+            img.setImageDrawable(getResources().getDrawable(R.drawable.poule));
+        }
 
-            //set de l'image
-            this.imgb = new Button(context);
-            this.setClickEvent(context,annonce.getId(),currentUserId);
-            imgb.setCompoundDrawablesWithIntrinsicBounds(R.drawable.poule, 0, 0, 0);
-       // }
-        //finalisation de la vue de l'annonce
-        this.addView(imgb);
-        this.addView(tlde);
-    }
-
-    private void setClickEvent(Context context, int id, int currentUserId) {
-        this.imgb.setOnClickListener(new OnClickListener() {
+        img.setPadding(50,50,50,50);
+        img.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                AnnonceBD ABD = new AnnonceBD(context);
-                Annonce annonce = ABD.getAnnonceById(id);
+                AnnonceBD ABD = new AnnonceBD(activity);
+                Annonce annonce = ABD.getAnnonceById(id_annonce);
                 if(annonce.getId_auteur()!=currentUserId){
                     annonce.setVu(annonce.getVu()+1);
-                    ABD.updateAnnonce(id,annonce);
+                    ABD.updateAnnonce(id_annonce,annonce);
                 }
-                Intent intent = new Intent(context, Detaille.class);
-                intent.putExtra("id",id);
-                context.startActivity(intent);
+                Intent intent = new Intent(activity, Detaille.class);
+                intent.putExtra("id",id_annonce);
+                activity.startActivity(intent);
             }
         });
-    }
-
-    private static Bitmap makeMiniBitmap(Bitmap bitmap, int diviseur){
-        return Bitmap.createScaledBitmap(bitmap,bitmap.getWidth()/diviseur,bitmap.getHeight()/diviseur,false);
+        //finalisation de la vue de l'annonce
+        this.addView(img);
+        this.addView(tlde);
     }
 }

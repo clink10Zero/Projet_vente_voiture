@@ -103,17 +103,29 @@
                 android:layout_height="wrap_content"
                 android:text="Photos"/>
             <Button
-                android:id="@+id/button_ajouter_photo_ajouter_annonce"
+                android:id="@+id/button_parcourir_photo_ajouter_annonce"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ajouter Photo" />
+                android:text="Parcourir" />
+            <Button
+                android:id="@+id/button_prendre_photo_ajouter_annonce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Prendre photo" />
+
         </LinearLayout>
 
-        <LinearLayout
+        <TableLayout
+            android:id="@+id/table_photo_ajouter_annonce"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </TableLayout>
+
+        <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:id="@+id/dynamique_linear_layout_photos_ajouter_annonce"/>
+            android:id="@+id/dynamique_linear_layout_photos_ajouter_annonce"/>-->
 
         <Button
             android:id="@+id/button_validation_ajouter_annonce"

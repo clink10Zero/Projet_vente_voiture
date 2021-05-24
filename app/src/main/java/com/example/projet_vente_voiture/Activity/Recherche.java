@@ -141,84 +141,81 @@ public class Recherche extends General {
         }
 
         Button btn_rechercher = findViewById(R.id.button_recherche_recherche);
-        btn_rechercher.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String request = TABLE_CRITERE_ANNONCE;
+        btn_rechercher.setOnClickListener(v -> {
+            String request = TABLE_CRITERE_ANNONCE;
 
-                if(!et_inf_prix.getText().toString().equals("")&&!et_sup_prix.getText().toString().equals("")){
-                    request = "SELECT " + COL_ID_ANNONCE + " FROM ( " + TABLE_ANNONCE + " ) WHERE " + COL_PRIX_ANNONCE + " BETWEEN " +
-                            et_inf_prix.getText() + " AND " + et_sup_prix.getText();
-                }
+            if(!et_inf_prix.getText().toString().equals("")&&!et_sup_prix.getText().toString().equals("")){
+                request = "SELECT " + COL_ID_ANNONCE + " FROM ( " + TABLE_ANNONCE + " ) WHERE " + COL_PRIX_ANNONCE + " BETWEEN " +
+                        et_inf_prix.getText() + " AND " + et_sup_prix.getText();
+            }
 
-                for(int i=0;i<et_List.size();i=i+2){//TODO qd il n'y a qu'une borne
-                    if(!et_List.get(i).getText().toString().equals("")&&!et_List.get(i+1).getText().toString().equals("")){
-                        if(request.equals(TABLE_CRITERE_ANNONCE)){
-                            request = "SELECT " + COL_ANNONCE_CRITERE_ANNONCE + " FROM ( " + request + " ) WHERE " + COL_CRITERE_CRITERE_ANONCE +" ='"+ critere_et_list.get(i).getId()  +
-                                    "' AND " + COL_VALEUR_CRITERE_ANNONCE + " BETWEEN " + et_List.get(i).getText() + " AND " + et_List.get(i+1).getText();
-                        }
-                        else{
-                            request = "SELECT " + COL_ANNONCE_CRITERE_ANNONCE + " FROM ( " + TABLE_CRITERE_ANNONCE + " ) WHERE " + COL_CRITERE_CRITERE_ANONCE +" ='"+ critere_et_list.get(i).getId()  +
-                                    "' AND " + COL_VALEUR_CRITERE_ANNONCE + " BETWEEN " + et_List.get(i).getText() + " AND " + et_List.get(i+1).getText() +
-                                    " AND " + COL_ANNONCE_CRITERE_ANNONCE + " IN ("+ request +" )";
-                        }
+            for(int i=0;i<et_List.size();i=i+2){//TODO qd il n'y a qu'une borne
+                if(!et_List.get(i).getText().toString().equals("")&&!et_List.get(i+1).getText().toString().equals("")){
+                    if(request.equals(TABLE_CRITERE_ANNONCE)){
+                        request = "SELECT " + COL_ANNONCE_CRITERE_ANNONCE + " FROM ( " + request + " ) WHERE " + COL_CRITERE_CRITERE_ANONCE +" ='"+ critere_et_list.get(i).getId()  +
+                                "' AND " + COL_VALEUR_CRITERE_ANNONCE + " BETWEEN " + et_List.get(i).getText() + " AND " + et_List.get(i+1).getText();
+                    }
+                    else{
+                        request = "SELECT " + COL_ANNONCE_CRITERE_ANNONCE + " FROM ( " + TABLE_CRITERE_ANNONCE + " ) WHERE " + COL_CRITERE_CRITERE_ANONCE +" ='"+ critere_et_list.get(i).getId()  +
+                                "' AND " + COL_VALEUR_CRITERE_ANNONCE + " BETWEEN " + et_List.get(i).getText() + " AND " + et_List.get(i+1).getText() +
+                                " AND " + COL_ANNONCE_CRITERE_ANNONCE + " IN ("+ request +" )";
                     }
                 }
+            }
 
-                for(int i=0;i<spinner_List.size();i++){
-                   if(!spinner_List.get(i).getSelectedItem().toString().equals("")){
-                       if(request.equals(TABLE_CRITERE_ANNONCE)){
-                           request = "SELECT " + COL_ANNONCE_CRITERE_ANNONCE + " FROM  " + request + "  WHERE " + COL_CRITERE_CRITERE_ANONCE +" ='"+ critere_spinner_list.get(i).getId()  +
-                                   "' AND " + COL_VALEUR_CRITERE_ANNONCE + " ='" + spinner_List.get(i).getSelectedItem().toString() +"'";
-                       }
-                       else{
-                           request = "SELECT " + COL_ANNONCE_CRITERE_ANNONCE + " FROM " + TABLE_CRITERE_ANNONCE + " WHERE " + COL_CRITERE_CRITERE_ANONCE +" ='"+ critere_spinner_list.get(i).getId()  +
-                                   "' AND " + COL_VALEUR_CRITERE_ANNONCE + " ='" + spinner_List.get(i).getSelectedItem().toString() +
-                                   "' AND " + COL_ANNONCE_CRITERE_ANNONCE + " IN ("+ request +" )";
-                       }
+            for(int i=0;i<spinner_List.size();i++){
+               if(!spinner_List.get(i).getSelectedItem().toString().equals("")){
+                   if(request.equals(TABLE_CRITERE_ANNONCE)){
+                       request = "SELECT " + COL_ANNONCE_CRITERE_ANNONCE + " FROM  " + request + "  WHERE " + COL_CRITERE_CRITERE_ANONCE +" ='"+ critere_spinner_list.get(i).getId()  +
+                               "' AND " + COL_VALEUR_CRITERE_ANNONCE + " ='" + spinner_List.get(i).getSelectedItem().toString() +"'";
                    }
+                   else{
+                       request = "SELECT " + COL_ANNONCE_CRITERE_ANNONCE + " FROM " + TABLE_CRITERE_ANNONCE + " WHERE " + COL_CRITERE_CRITERE_ANONCE +" ='"+ critere_spinner_list.get(i).getId()  +
+                               "' AND " + COL_VALEUR_CRITERE_ANNONCE + " ='" + spinner_List.get(i).getSelectedItem().toString() +
+                               "' AND " + COL_ANNONCE_CRITERE_ANNONCE + " IN ("+ request +" )";
+                   }
+               }
+            }
+
+            if(!request.equals(TABLE_CRITERE_ANNONCE)){
+                MaBaseSQLite maBaseSQLite = new MaBaseSQLite(getApplicationContext(), NOM_BD, null, 1);
+                SQLiteDatabase bd = maBaseSQLite.getWritableDatabase();
+
+                Cursor c = bd.rawQuery(request,null);
+                List<Integer> res = new ArrayList<>();
+                c.moveToFirst();
+                for (int i = 0; i < c.getCount(); i++) {
+                    res.add(c.getInt(0));
+                    c.moveToNext();
+                }
+                c.close();
+                bd.close();
+
+                List<Annonce> annonces = new ArrayList<>();
+                for(int i : res){
+                    annonces.add(ABD.getAnnonceById(i));
                 }
 
-                if(!request.equals(TABLE_CRITERE_ANNONCE)){
-                    MaBaseSQLite maBaseSQLite = new MaBaseSQLite(getApplicationContext(), NOM_BD, null, 1);
-                    SQLiteDatabase bd = maBaseSQLite.getWritableDatabase();
-
-                    Cursor c = bd.rawQuery(request,null);
-                    List<Integer> res = new ArrayList<>();
-                    c.moveToFirst();
-                    for (int i = 0; i < c.getCount(); i++) {
-                        res.add(c.getInt(0));
-                        c.moveToNext();
+                List<Annonce> avecPromotion = new ArrayList<>();
+                List<Annonce> sansPromotion = new ArrayList<>();
+                for(Annonce a : annonces){
+                    if(a.getPromotion()==YES){
+                        avecPromotion.add(a);
                     }
-                    c.close();
-                    bd.close();
-
-                    List<Annonce> annonces = new ArrayList<>();
-                    for(int i : res){
-                        annonces.add(ABD.getAnnonceById(i));
+                    else{
+                        sansPromotion.add(a);
                     }
-
-                    List<Annonce> avecPromotion = new ArrayList<>();
-                    List<Annonce> sansPromotion = new ArrayList<>();
-                    for(Annonce a : annonces){
-                        if(a.getPromotion()==YES){
-                            avecPromotion.add(a);
-                        }
-                        else{
-                            sansPromotion.add(a);
-                        }
-                    }
-                    annonces.clear();
-                    annonces.addAll(avecPromotion);
-                    annonces.addAll(sansPromotion);
-                    affichageAnnonces(annonces);
                 }
+                annonces.clear();
+                annonces.addAll(avecPromotion);
+                annonces.addAll(sansPromotion);
+                affichageAnnonces(annonces);
             }
         });
 
         this.dynamic = findViewById(R.id.dynamic_annonce_recherche);
 
-        List<Annonce> annonces= ABD.getAllAnnonces();
+      /*  List<Annonce> annonces= ABD.getAllAnnonces();
         if(annonces!=null){
             List<Annonce> avecPromotion = new ArrayList<>();
             List<Annonce> sansPromotion = new ArrayList<>();
@@ -234,7 +231,7 @@ public class Recherche extends General {
             annonces.addAll(avecPromotion);
             annonces.addAll(sansPromotion);
         }
-        this.affichageAnnonces(annonces);
+        this.affichageAnnonces(annonces);*/
     }
 
     private void affichageAnnonces(List<Annonce> annonces) {
@@ -268,6 +265,7 @@ public class Recherche extends General {
             annonces.addAll(avecPromotion);
             annonces.addAll(sansPromotion);
         }
+        assert annonces != null;
         this.affichageAnnonces(annonces);
 
     }

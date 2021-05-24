@@ -3,8 +3,6 @@ package com.example.projet_vente_voiture.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.example.projet_vente_voiture.BD.AnnonceBD;
@@ -32,12 +30,9 @@ public class Mes_annonces extends General {
         }
 
         FloatingActionButton btn_nouvelle_annonce = findViewById(R.id.button_nouvelle_annonce_mes_annonces);
-        btn_nouvelle_annonce.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),Ajouter_Annonce.class);
-                startActivity(intent);
-            }
+        btn_nouvelle_annonce.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(),Ajouter_Annonce.class);
+            startActivity(intent);
         });
     }
 

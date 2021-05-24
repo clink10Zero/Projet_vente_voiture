@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_ANNONCE_CRITERE_ANNONCE;
-import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_AUTEUR_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_CRITERE_CRITERE_ANONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_ID_CRITERE_ANONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_VALEUR_CRITERE_ANNONCE;
@@ -22,7 +21,7 @@ public class CritereAnnonceBD {
     private static final int VERSION_BD = 1;
 
     private SQLiteDatabase bd;
-    private MaBaseSQLite maBaseSQLite;
+    private final MaBaseSQLite maBaseSQLite;
 
     public CritereAnnonceBD(Context context) {
         maBaseSQLite = new MaBaseSQLite(context, NOM_BD, null, VERSION_BD);
