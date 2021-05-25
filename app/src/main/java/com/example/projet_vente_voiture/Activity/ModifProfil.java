@@ -43,7 +43,7 @@ public class ModifProfil extends General {
                 Toast.makeText(getApplicationContext(), test.getText(), Toast.LENGTH_LONG).show();
             } else {
                 Utilisateur testUser = UBD.getUtilisateurByMail(mail.getText().toString());
-                if (testUser != null) {
+                if (testUser != null && testUser != user) {
                     Toast.makeText(getApplicationContext(), "Cette adresse mail est déjà associée à un compte", Toast.LENGTH_LONG).show();
                 } else {
                     user.setNom(nom.getText().toString());
