@@ -4,10 +4,8 @@
 
     <item
         android:id="@+id/action_mon_profil"
-        android:title="mon profil"
-        app:showAsAction="ifRoom" />
+        android:title="mon profil" />
     <item
         android:id="@+id/action_deconnection"
-        android:title="deconnexion"
-        app:showAsAction="ifRoom" />
+        android:title="deconnexion"/>
 </menu>
