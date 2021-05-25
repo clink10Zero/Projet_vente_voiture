@@ -4,9 +4,9 @@
     <item
         android:id="@+id/action_inscription"
         android:title="inscription"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_connection"
         android:title="connexion"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 </menu>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Projet_vente_voiture</string>
+    <string name="app_name">Roule ma poule</string>
 
     <string-array name="critere">
         <item>item0</item>
