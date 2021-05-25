@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_DATE_ANNONCE;
-import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_DESCCRITPION_ANNONCE;
+import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_DESCRITPION_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_ID_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_LIEU_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_LOCATION_ANNONCE;
@@ -52,7 +52,7 @@ public class AnnonceBD {
         ContentValues values = new ContentValues();
         values.put(COL_AUTEUR_ANNONCE, annonce.getId_auteur());
         values.put(COL_TITRE_ANNONCE, annonce.getTitre());
-        values.put(COL_DESCCRITPION_ANNONCE, annonce.getDescritpion());
+        values.put(COL_DESCRITPION_ANNONCE, annonce.getDescritpion());
         values.put(COL_LIEU_ANNONCE, annonce.getLieu());
         values.put(COL_PRIX_ANNONCE, annonce.getPrix());
         values.put(COL_DATE_ANNONCE, annonce.getDate());
@@ -70,7 +70,7 @@ public class AnnonceBD {
         ContentValues values = new ContentValues();
         values.put(COL_AUTEUR_ANNONCE, annonce.getId_auteur());
         values.put(COL_TITRE_ANNONCE, annonce.getTitre());
-        values.put(COL_DESCCRITPION_ANNONCE, annonce.getDescritpion());
+        values.put(COL_DESCRITPION_ANNONCE, annonce.getDescritpion());
         values.put(COL_LIEU_ANNONCE, annonce.getLieu());
         values.put(COL_PRIX_ANNONCE, annonce.getPrix());
         values.put(COL_DATE_ANNONCE, annonce.getDate());

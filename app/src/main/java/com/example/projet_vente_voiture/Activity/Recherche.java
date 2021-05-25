@@ -28,9 +28,12 @@ import androidx.appcompat.widget.SwitchCompat;
 
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_ANNONCE_CRITERE_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_CRITERE_CRITERE_ANONCE;
+import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_DESCRITPION_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_ID_ANNONCE;
+import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_LIEU_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_LOCATION_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_PRIX_ANNONCE;
+import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_TITRE_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_VALEUR_CRITERE_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.CRITERE_PREDEF;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.NO;
@@ -215,6 +218,17 @@ public class Recherche extends General {
                            "' AND " + COL_VALEUR_CRITERE_ANNONCE + " ='" + spinner_List.get(i).getSelectedItem().toString() +
                            "' AND " + COL_ANNONCE_CRITERE_ANNONCE + " IN ("+ request +" )";
                }
+            }
+
+            //Barre de recherche
+            EditText et_barre = findViewById(R.id.edit_text_recherche_recherche);
+            String text = et_barre.getText().toString();
+            String[] mots = text.split(" ");
+            for(String m : mots){
+                request = "SELECT " + COL_ID_ANNONCE + " FROM " + TABLE_ANNONCE + " WHERE ( " + COL_TITRE_ANNONCE + " LIKE " + "'%" + m + "%'" +
+                        " OR "+ COL_LIEU_ANNONCE + " LIKE " + "'%" + m + "%'" +
+                        " OR "+ COL_DESCRITPION_ANNONCE + " LIKE " + "'%" + m + "%'" +
+                        " ) AND " + COL_ANNONCE_CRITERE_ANNONCE + " IN ("+ request +" )";
             }
 
             MaBaseSQLite maBaseSQLite = new MaBaseSQLite(getApplicationContext(), NOM_BD, null, 1);

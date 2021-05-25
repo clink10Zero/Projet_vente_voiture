@@ -37,9 +37,9 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
 
     public static final String COL_ID_ANNONCE ="id_annonce";
     static final String COL_AUTEUR_ANNONCE ="id_auteur";
-    static final String COL_TITRE_ANNONCE ="titre_annonce";
-    static final String COL_DESCCRITPION_ANNONCE ="description_annonce";
-    static final String COL_LIEU_ANNONCE ="lieu_annonce";
+    public static final String COL_TITRE_ANNONCE ="titre_annonce";
+    public static final String COL_DESCRITPION_ANNONCE ="description_annonce";
+    public static final String COL_LIEU_ANNONCE ="lieu_annonce";
     public static final String COL_PRIX_ANNONCE ="prix_annonce";
     static final String COL_DATE_ANNONCE ="date_annonce";
     static final String COL_VU_ANNONCE ="nombre_vues_annonce";
@@ -87,7 +87,7 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
                     + COL_ID_ANNONCE + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + COL_AUTEUR_ANNONCE + " INTEGER NOT NULL, "
                     + COL_TITRE_ANNONCE + " TEXT, "
-                    + COL_DESCCRITPION_ANNONCE + " TEXT, "
+                    + COL_DESCRITPION_ANNONCE + " TEXT, "
                     + COL_LIEU_ANNONCE + " TEXT NOT NULL, " //pas sur
                     + COL_PRIX_ANNONCE + " INTEGER NOT NULL, "
                     + COL_DATE_ANNONCE + " TEXT NOT NULL, " //TODO y faire plus plus joli après
@@ -148,8 +148,7 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
     private static final String INSERT_CRITERE =
             "INSERT INTO "+TABLE_CRITERE +"("+COL_NOM_CRITERE +","+COL_TYPE_CRITERE+")"
                 /*1*/ +"VALUES('Marque',"+CRITERE_PREDEF +"),"
-                /*2*/ +"('Modèle',"+CRITERE_PREDEF +"),"
-                /*3*/ + "('Année'," + CRITERE_NUM + ");";
+                /*2*/ + "('Année'," + CRITERE_NUM + ");";
 
     private static final String INSERT_VALEUR_CRITERE =
             "INSERT INTO "+TABLE_VALEUR_CRITERE +"("+COL_CRITERE_VALEUR_CRITERE +","+COL_VALEUR_VALEUR_CRITERE+")"
@@ -160,7 +159,7 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
 
 
     private static final String INSERT_ANNONCE =
-            "INSERT INTO "+TABLE_ANNONCE +"("+ COL_AUTEUR_ANNONCE +","+COL_TITRE_ANNONCE +","+COL_DESCCRITPION_ANNONCE   +","+COL_LIEU_ANNONCE  +","+COL_PRIX_ANNONCE+","+COL_DATE_ANNONCE+","+COL_VU_ANNONCE+","+COL_PROMOTION_ANNONCE+","+COL_LOCATION_ANNONCE+","+COL_LOCATION_TEMPS_ANNONCE+")"
+            "INSERT INTO "+TABLE_ANNONCE +"("+ COL_AUTEUR_ANNONCE +","+COL_TITRE_ANNONCE +","+ COL_DESCRITPION_ANNONCE +","+COL_LIEU_ANNONCE  +","+COL_PRIX_ANNONCE+","+COL_DATE_ANNONCE+","+COL_VU_ANNONCE+","+COL_PROMOTION_ANNONCE+","+COL_LOCATION_ANNONCE+","+COL_LOCATION_TEMPS_ANNONCE+")"
                 /*1*/ +"VALUES(1,'Vends ma R5','Je vends la R5 de ma grand mère je n en ai plus besoin maintenant que j habite en ville', 'Annonay', 2000,'01/04/2021',0,"+NO+","+NO+","+HEURE+"),"
                 /*2*/ +"(1,'Ka noir', 'moteur cassé prix cassé', 'Saint-Vallier',200,'01/04/2021',0,"+NO+","+NO+","+HEURE+"),"
                 /*3*/ +"(1,'Mondeo break 2007 gris', 'Les enfants sont grands je n ai plus besoin d un break. \n Voiture en très bon état', 'Annonay',3000,'01/04/2021',0,"+YES+","+NO+","+HEURE+");";
@@ -169,12 +168,8 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
             "INSERT INTO "+TABLE_CRITERE_ANNONCE +"( "+ COL_CRITERE_CRITERE_ANONCE +","+COL_ANNONCE_CRITERE_ANNONCE +","+COL_VALEUR_CRITERE_ANNONCE+" )"
                     +"VALUES"
                     +"(1,1, 'Renault'),"
-                    +"(2,1, 'R5'),"
                     +"(1,2, 'Ford'),"
-                    +"(2,2, 'Ka'),"
-                    +"(1,3, 'Ford'),"
-                    +"(2,3, 'Mondéo');";
-
+                    +"(1,3, 'Ford');";
 
     public MaBaseSQLite(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
