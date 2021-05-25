@@ -15,6 +15,7 @@ import com.example.projet_vente_voiture.Object.Utilisateur;
 import com.example.projet_vente_voiture.R;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.NO;
 
@@ -24,6 +25,8 @@ public class Inscription extends General {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inscription);
+        Toolbar toolbar =findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.poule0);
         setSupportActionBar(findViewById(R.id.toolbar));
 
         if(currentUserId!=-1){

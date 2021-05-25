@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.appcompat.widget.Toolbar;
 
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.NO;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.YES;
@@ -30,6 +31,8 @@ public class Mes_annonces_sauvergardes extends General {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mes_annonces_sauvergardes);
+        Toolbar toolbar =findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.poule0);
         setSupportActionBar(findViewById(R.id.toolbar));
 
         if (currentUserId == -1) {

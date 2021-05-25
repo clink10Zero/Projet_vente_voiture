@@ -36,6 +36,7 @@ import org.imaginativeworld.whynotimagecarousel.ImageCarousel;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.NO;
@@ -48,6 +49,8 @@ public class Detaille extends General {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detaille);
+        Toolbar toolbar =findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.poule0);
         setSupportActionBar(findViewById(R.id.toolbar));
 
         Intent intent = getIntent();

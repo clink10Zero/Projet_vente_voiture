@@ -6,10 +6,4 @@
     android:background="@color/design_default_color_primary"
     android:elevation="4dp">
 
-    <ImageView
-        android:id="@+id/poule"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
-        tools:srcCompat="@drawable/poule0">
-    </ImageView>
 </androidx.appcompat.widget.Toolbar>

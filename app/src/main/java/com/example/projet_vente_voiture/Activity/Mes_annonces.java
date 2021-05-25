@@ -16,6 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.appcompat.widget.Toolbar;
 
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.NO;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.YES;
@@ -28,6 +29,8 @@ public class Mes_annonces extends General {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mes_annonces);
+        Toolbar toolbar =findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.poule0);
         setSupportActionBar(findViewById(R.id.toolbar));
 
         AnnonceBD ABD = new AnnonceBD(this);

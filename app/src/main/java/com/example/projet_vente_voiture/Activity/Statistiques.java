@@ -18,12 +18,16 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.widget.Toolbar;
+
 public class Statistiques extends General {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistiques);
+        Toolbar toolbar =findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.poule0);
         setSupportActionBar(findViewById(R.id.toolbar));
 
         AnnonceBD ABD = new AnnonceBD(this);

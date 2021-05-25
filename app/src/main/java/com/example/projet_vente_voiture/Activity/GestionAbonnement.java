@@ -15,6 +15,8 @@ import com.example.projet_vente_voiture.R;
 
 import java.util.List;
 
+import androidx.appcompat.widget.Toolbar;
+
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.NO;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.YES;
 
@@ -24,6 +26,8 @@ public class GestionAbonnement extends General {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gestion_abonnement);
+        Toolbar toolbar =findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.poule0);
         setSupportActionBar(findViewById(R.id.toolbar));
 
         UtilisateurBD UBD = new UtilisateurBD(this);
@@ -36,7 +40,7 @@ public class GestionAbonnement extends General {
         String txt;
 
         if(user.getAbonnement()==NO){
-            tv.setText("L'abonnement est blablabla ...");
+            tv.setText("L'abonnement est disponible gratuitement pour les professionnels et permet de mettre en avant des annonces");
             btn_action.setText("S'abonner");
             txt = "Etes-vous sur de vouloir vous abonnez ?\n (gratuit et annulable à tout moment)";
 

@@ -10,12 +10,16 @@ import com.example.projet_vente_voiture.BD.UtilisateurBD;
 import com.example.projet_vente_voiture.Object.Utilisateur;
 import com.example.projet_vente_voiture.R;
 
+import androidx.appcompat.widget.Toolbar;
+
 public class MonProfil extends General {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mon_profil);
+        Toolbar toolbar =findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.poule0);
         setSupportActionBar(findViewById(R.id.toolbar));
 
         Button btn_modif = findViewById(R.id.btn_modif_mon_profil);

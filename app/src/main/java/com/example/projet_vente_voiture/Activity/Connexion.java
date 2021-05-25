@@ -14,6 +14,7 @@ import com.example.projet_vente_voiture.Object.Utilisateur;
 import com.example.projet_vente_voiture.R;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 
 public class Connexion extends General {
 
@@ -21,6 +22,8 @@ public class Connexion extends General {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connexion);
+        Toolbar toolbar =findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.poule0);
         setSupportActionBar(findViewById(R.id.toolbar));
 
         if(currentUserId!=-1){

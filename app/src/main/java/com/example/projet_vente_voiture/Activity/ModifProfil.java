@@ -13,6 +13,8 @@ import com.example.projet_vente_voiture.Object.ResultatForm;
 import com.example.projet_vente_voiture.Object.Utilisateur;
 import com.example.projet_vente_voiture.R;
 
+import androidx.appcompat.widget.Toolbar;
+
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.NO;
 
 public class ModifProfil extends General {
@@ -21,6 +23,8 @@ public class ModifProfil extends General {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modif_profil);
+        Toolbar toolbar =findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.poule0);
         setSupportActionBar(findViewById(R.id.toolbar));
 
         UtilisateurBD UBD = new UtilisateurBD(getApplicationContext());
