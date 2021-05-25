@@ -3,8 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/action_inscription"
-        android:title="inscription"/>
+        android:title="Inscription"/>
     <item
         android:id="@+id/action_connection"
-        android:title="connexion"/>
+        android:title="Connexion"/>
+    <item
+        android:id="@+id/action_accueil"
+        android:title="Accueil"/>
 </menu>

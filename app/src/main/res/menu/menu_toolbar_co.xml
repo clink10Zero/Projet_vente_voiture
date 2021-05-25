@@ -4,8 +4,11 @@
 
     <item
         android:id="@+id/action_mon_profil"
-        android:title="mon profil" />
+        android:title="Mon profil" />
     <item
         android:id="@+id/action_deconnection"
-        android:title="deconnexion"/>
+        android:title="Déconnexion"/>
+    <item
+        android:id="@+id/action_accueil"
+        android:title="Accueil"/>
 </menu>

@@ -55,6 +55,10 @@ public class General extends AppCompatActivity {
                 intent = new Intent(getApplicationContext(), MonProfil.class);
                 startActivity(intent);
                 break;
+            case R.id.action_accueil:
+                intent = new Intent(getApplicationContext(), Recherche.class);
+                startActivity(intent);
+                break;
         }
 
         return super.onOptionsItemSelected(item);
