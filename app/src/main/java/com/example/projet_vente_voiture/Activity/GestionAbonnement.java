@@ -3,14 +3,13 @@ package com.example.projet_vente_voiture.Activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.projet_vente_voiture.BD.AnnonceBD;
 import com.example.projet_vente_voiture.BD.UtilisateurBD;
 import com.example.projet_vente_voiture.Object.Annonce;
-import com.example.projet_vente_voiture.Object.ConfirmPopUp;
+import com.example.projet_vente_voiture.PopUp.ConfirmPopUp;
 import com.example.projet_vente_voiture.Object.Utilisateur;
 import com.example.projet_vente_voiture.R;
 

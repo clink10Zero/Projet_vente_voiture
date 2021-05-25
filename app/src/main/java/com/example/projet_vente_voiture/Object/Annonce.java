@@ -10,8 +10,10 @@ public class Annonce {
    private String date;
    private int vu;
    private int promotion;
+   private int location;
+   private int temps;
 
-    public Annonce(int id, int id_auteur, String titre, String descritpion, String lieu, int prix, String date, int vu, int promotion) {
+    public Annonce(int id, int id_auteur, String titre, String descritpion, String lieu, int prix, String date, int vu, int promotion, int location, int temps) {
         this.id = id;
         this.id_auteur = id_auteur;
         this.titre = titre;
@@ -21,9 +23,10 @@ public class Annonce {
         this.date=date;
         this.vu=vu;
         this.promotion=promotion;
+        this.location=location;
     }
 
-    public Annonce(int id_auteur, String titre, String descritpion, String lieu, int prix, String date, int vu, int promotion) {
+    public Annonce(int id_auteur, String titre, String descritpion, String lieu, int prix, String date, int vu, int promotion, int location, int temps) {
         this.id_auteur = id_auteur;
         this.titre = titre;
         this.lieu = lieu;
@@ -32,6 +35,7 @@ public class Annonce {
         this.date=date;
         this.vu=vu;
         this.promotion=promotion;
+        this.temps=temps;
     }
 
     public int getId() {
@@ -104,5 +108,21 @@ public class Annonce {
 
     public void setPromotion(int promotion) {
         this.promotion = promotion;
+    }
+
+    public int getLocation() {
+        return location;
+    }
+
+    public void setLocation(int location) {
+        this.location = location;
+    }
+
+    public int getTemps() {
+        return temps;
+    }
+
+    public void setTemps(int temps) {
+        this.temps = temps;
     }
 }

@@ -13,4 +13,24 @@
         <item>item8</item>
         <item>item9</item>
     </string-array>
+
+    <string name="vente">Vente</string>
+    <string name="loc">Location</string>
+
+    <string-array name="type">
+        <item>@string/vente</item>
+        <item>@string/loc</item>
+    </string-array>
+
+    <string name="h">Heure</string>
+    <string name="d">Jour</string>
+    <string name="w">Semaine</string>
+    <string name="m">Mois</string>
+
+    <string-array name="temps">
+        <item>@string/h</item>
+        <item>@string/d</item>
+        <item>@string/w</item>
+        <item>@string/m</item>
+    </string-array>
 </resources>

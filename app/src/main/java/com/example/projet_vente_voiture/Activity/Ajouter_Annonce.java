@@ -12,12 +12,14 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.Space;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -30,9 +32,9 @@ import com.example.projet_vente_voiture.BD.PhotoBD;
 import com.example.projet_vente_voiture.BD.ValeurCritereBD;
 import com.example.projet_vente_voiture.Helper;
 import com.example.projet_vente_voiture.MyApp;
-import com.example.projet_vente_voiture.Object.AddPhotoConfirmPopUp;
+import com.example.projet_vente_voiture.PopUp.AddPhotoConfirmPopUp;
 import com.example.projet_vente_voiture.Object.Annonce;
-import com.example.projet_vente_voiture.Object.ConfirmPopUp;
+import com.example.projet_vente_voiture.PopUp.ConfirmPopUp;
 import com.example.projet_vente_voiture.Object.Critere;
 import com.example.projet_vente_voiture.Object.CritereAnnonce;
 import com.example.projet_vente_voiture.Object.Photo;
@@ -57,7 +59,12 @@ import androidx.core.content.FileProvider;
 
 import static android.view.View.GONE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.CRITERE_PREDEF;
+import static com.example.projet_vente_voiture.BD.MaBaseSQLite.HEURE;
+import static com.example.projet_vente_voiture.BD.MaBaseSQLite.JOUR;
+import static com.example.projet_vente_voiture.BD.MaBaseSQLite.MOIS;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.NO;
+import static com.example.projet_vente_voiture.BD.MaBaseSQLite.SEMAINE;
+import static com.example.projet_vente_voiture.BD.MaBaseSQLite.YES;
 
 public class Ajouter_Annonce extends General {
 
@@ -66,6 +73,8 @@ public class Ajouter_Annonce extends General {
     int currentAnnonceId;
     List<Photo> currentPhotoList;
     List<Photo> bdPhotoList;
+    int location;
+    int temps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +82,7 @@ public class Ajouter_Annonce extends General {
         setContentView(R.layout.activity_ajouter_annonce);
         setSupportActionBar(findViewById(R.id.toolbar));
 
-        Intent intent = getIntent();
-        this.currentAnnonceId = intent.getIntExtra("currentAnnonce",-1);
+        this.currentAnnonceId = getIntent().getIntExtra("currentAnnonce",-1);
 
         if(currentUserId==-1){
             finish();
@@ -141,84 +149,96 @@ public class Ajouter_Annonce extends General {
         EditText et_lieu = findViewById(R.id.edit_text_lieu_ajouter_annonce);
         EditText et_description = findViewById(R.id.edit_text_description_ajouter_annonce);
         EditText et_prix = findViewById(R.id.edit_text_prix_ajouter_annonce);
+        RadioGroup radioGroupLocation = findViewById(R.id.radio_group_location);
 
+        LinearLayout ll_temps = findViewById(R.id.ll_temps_ajouter_annonce);
+        ll_temps.setVisibility(GONE);
         if(currentAnnonceId!=-1){
             assert currentAnnonce != null;
             et_titre.setText(currentAnnonce.getTitre());
             et_lieu.setText(currentAnnonce.getLieu());
             et_description.setText(currentAnnonce.getDescritpion());
             et_prix.setText(currentAnnonce.getPrix()+"");
-        }
-
-
-        Activity activity = this;
-
-        PhotoBD PDB = new PhotoBD(this);
-        currentPhotoList = null;
-        bdPhotoList = null;
-        if(currentAnnonceId!=-1){
-            bdPhotoList = PDB.getPhotosByAnnonceId(currentAnnonceId);
-            currentPhotoList = bdPhotoList;
-            displayPhotos(findViewById(R.id.table_photo_ajouter_annonce));
-        }
-
-        Button btn_parcourir = findViewById(R.id.button_parcourir_photo_ajouter_annonce);
-        btn_parcourir.setOnClickListener(view -> {
-            int readPermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
-            int writePermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-            if (writePermission != PackageManager.PERMISSION_GRANTED || readPermission != PackageManager.PERMISSION_GRANTED) {
-                activity.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, PICK_IMAGE);
+            if(currentAnnonce.getLocation()==YES){
+                ll_temps.setVisibility(View.VISIBLE);
+                radioGroupLocation.check(R.id.radio_button_location_ajouter_annonce);
+                location=YES;
             }
             else{
-                Intent intent1 = new Intent();
-                intent1.setType("image/*");
-                intent1.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent1, "Select Picture"), PICK_IMAGE);
+                radioGroupLocation.check(R.id.radio_button_vente_ajouter_annonce);
+                location=NO;
+            }
+        }
+
+        Ajouter_Annonce activity = this;
+        radioGroupLocation.setOnCheckedChangeListener(new  RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                LinearLayout ll_temps = findViewById(R.id.ll_temps_ajouter_annonce);
+                if(checkedId==R.id.radio_button_vente_ajouter_annonce){
+                    ll_temps.setVisibility(GONE);
+                    activity.location=NO;
+                }
+                else{
+                    ll_temps.setVisibility(View.VISIBLE);
+                    activity.location=YES;
+                }
+
             }
         });
 
-        Button btn_prendre_photo = findViewById(R.id.button_prendre_photo_ajouter_annonce);
-        btn_prendre_photo.setOnClickListener(view -> openCameraIntent());
 
         Button btn_validation = findViewById(R.id.button_validation_ajouter_annonce);
         btn_validation.setOnClickListener(v -> {
-
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            Date d = new Date();
-            String date = formatter.format(d);
-
             //check contents
             ResultatForm test = isFormOK(et_titre, et_description, et_lieu, et_prix);
-            if (test.getBool()) {
+            if (!test.getBool()) {
                 Toast.makeText(getApplicationContext(), test.getText(), Toast.LENGTH_LONG).show();
             }
             else{
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                Date d = new Date();
+                String date = formatter.format(d);
+
+                if(location==YES){
+                    switch (((RadioGroup)findViewById(R.id.radio_group_temps_ajouter_annonce)).getCheckedRadioButtonId()){
+                        case R.id.radio_button_jour_ajouter_annone:
+                            temps=JOUR;
+                            break;
+                        case R.id.radio_button_semaine_ajouter_annone:
+                            temps=SEMAINE;
+                            break;
+                        case  R.id.radio_button_mois_ajouter_annonce:
+                            temps=MOIS;
+                            break;
+                        default:
+                            temps=HEURE;
+                    }
+                }
+
                 //Annonce
                 Annonce nouvelle_annonce;
-                AnnonceBD ABD1 = new AnnonceBD(getApplicationContext());
                 if(currentAnnonceId!=-1) {
-                    Annonce original = ABD1.getAnnonceById(currentUserId);
-                    nouvelle_annonce = new Annonce(currentUserId,et_titre.getText().toString(),et_description.getText().toString(),et_lieu.getText().toString(),Integer.parseInt(et_prix.getText().toString()),original.getDate(),original.getVu(),original.getPromotion());
-                    ABD1.updateAnnonce(currentAnnonceId,nouvelle_annonce);
+                    Annonce original = ABD.getAnnonceById(currentUserId);
+                    nouvelle_annonce = new Annonce(currentUserId,et_titre.getText().toString(),et_description.getText().toString(),et_lieu.getText().toString(),Integer.parseInt(et_prix.getText().toString()),original.getDate(),original.getVu(),original.getPromotion(), location,temps);
+                    ABD.updateAnnonce(currentAnnonceId,nouvelle_annonce);
                 }
                 else{
-                    nouvelle_annonce = new Annonce(currentUserId,et_titre.getText().toString(),et_description.getText().toString(),et_lieu.getText().toString(),Integer.parseInt(et_prix.getText().toString()),date,0,NO);
-                    ABD1.insertAnnonce(nouvelle_annonce);
+                    nouvelle_annonce = new Annonce(currentUserId,et_titre.getText().toString(),et_description.getText().toString(),et_lieu.getText().toString(),Integer.parseInt(et_prix.getText().toString()),date,0,NO, location,temps);
+                    ABD.insertAnnonce(nouvelle_annonce);
                     currentAnnonceId=nouvelle_annonce.getId();
                 }
 
                 //Critères
                 //TODO maybe la suppression de critere ?
-                CritereAnnonceBD CABD1 = new CritereAnnonceBD(getApplicationContext());
                 for(int i=0;i<et_list.size();i++){
                     if(!et_list.get(i).getText().toString().equals("")){
                         CritereAnnonce nouveau_critere_annonce = new CritereAnnonce(critere_list.get(i).getId(),currentAnnonceId,et_list.get(i).getText().toString());
-                        CritereAnnonce ca= CABD1.getCritereAnnonceByAnnonceAndCritereId(currentAnnonceId,critere_list.get(i).getId());
+                        CritereAnnonce ca= CABD.getCritereAnnonceByAnnonceAndCritereId(currentAnnonceId,critere_list.get(i).getId());
                         if(ca!=null){
-                            CABD1.updateCritereAnnonce(ca.getId(),nouveau_critere_annonce);
+                            CABD.updateCritereAnnonce(ca.getId(),nouveau_critere_annonce);
                         }else{
-                            CABD1.insertCritereAnnonce(nouveau_critere_annonce);
+                            CABD.insertCritereAnnonce(nouveau_critere_annonce);
                         }
                     }
                 }
@@ -290,13 +310,40 @@ public class Ajouter_Annonce extends General {
                 }
 
                 //Redirection
-                Intent intent12 = new Intent(getApplicationContext(),Detaille.class);
-                intent12.putExtra("id",nouvelle_annonce.getId());
-                startActivity(intent12);
+                Intent intent = new Intent(getApplicationContext(),Detaille.class);
+                intent.putExtra("id",nouvelle_annonce.getId());
+                startActivity(intent);
                 finish();
             }
         });
 
+        PhotoBD PDB = new PhotoBD(this);
+        currentPhotoList = null;
+        bdPhotoList = null;
+        if(currentAnnonceId!=-1){
+            bdPhotoList = PDB.getPhotosByAnnonceId(currentAnnonceId);
+            currentPhotoList = bdPhotoList;
+            displayPhotos(findViewById(R.id.table_photo_ajouter_annonce));
+        }
+
+        Button btn_parcourir = findViewById(R.id.button_parcourir_photo_ajouter_annonce);
+        btn_parcourir.setOnClickListener(view -> {
+            int readPermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
+            int writePermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+            if (writePermission != PackageManager.PERMISSION_GRANTED || readPermission != PackageManager.PERMISSION_GRANTED) {
+                activity.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, PICK_IMAGE);
+            }
+            else{
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+            }
+        });
+
+        Button btn_prendre_photo = findViewById(R.id.button_prendre_photo_ajouter_annonce);
+        btn_prendre_photo.setOnClickListener(view -> openCameraIntent());
     }
 
     private ResultatForm isFormOK(EditText et_titre , EditText et_description , EditText et_lieu , EditText et_prix) {

@@ -3,9 +3,9 @@ package com.example.projet_vente_voiture.Activity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -16,7 +16,7 @@ import com.example.projet_vente_voiture.BD.CritereBD;
 import com.example.projet_vente_voiture.BD.MaBaseSQLite;
 import com.example.projet_vente_voiture.BD.ValeurCritereBD;
 import com.example.projet_vente_voiture.Object.Annonce;
-import com.example.projet_vente_voiture.Object.AnnonceView;
+import com.example.projet_vente_voiture.View.AnnonceView;
 import com.example.projet_vente_voiture.Object.Critere;
 import com.example.projet_vente_voiture.Object.ValeurCritere;
 import com.example.projet_vente_voiture.R;
@@ -24,12 +24,15 @@ import com.example.projet_vente_voiture.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.widget.SwitchCompat;
+
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_ANNONCE_CRITERE_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_CRITERE_CRITERE_ANONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_ID_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_PRIX_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_VALEUR_CRITERE_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.CRITERE_PREDEF;
+import static com.example.projet_vente_voiture.BD.MaBaseSQLite.NO;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.NOM_BD;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.TABLE_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.TABLE_CRITERE_ANNONCE;
@@ -38,6 +41,7 @@ import static com.example.projet_vente_voiture.BD.MaBaseSQLite.YES;
 public class Recherche extends General {
 
     private LinearLayout dynamic;
+    private int location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,9 +144,51 @@ public class Recherche extends General {
             ll_critere.addView(ligne);
         }
 
+        SwitchCompat switch_vente=findViewById(R.id.switch_vente_mes_annonces);
+        SwitchCompat switch_loc=findViewById(R.id.switch_location_mes_annonces);
+
+        if(switch_vente.isChecked()){
+            location=NO;
+            switch_loc.setChecked(false);
+        }
+
+        switch_vente.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+                if (isChecked)
+                {
+                    location=NO;
+                    switch_loc.setChecked(false);
+                }
+                else{
+                    location=YES;
+                    switch_loc.setChecked(true);
+                }
+            }
+        });
+
+        switch_loc.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+                if (isChecked)
+                {
+                    location=YES;
+                    switch_vente.setChecked(false);
+                }
+                else{
+                    location=NO;
+                    switch_vente.setChecked(true);
+                }
+            }
+        });
+
+
         Button btn_rechercher = findViewById(R.id.button_recherche_recherche);
         btn_rechercher.setOnClickListener(v -> {
             String request = TABLE_CRITERE_ANNONCE;
+            //TODO selon le switch
 
             if(!et_inf_prix.getText().toString().equals("")&&!et_sup_prix.getText().toString().equals("")){
                 request = "SELECT " + COL_ID_ANNONCE + " FROM ( " + TABLE_ANNONCE + " ) WHERE " + COL_PRIX_ANNONCE + " BETWEEN " +

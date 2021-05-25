@@ -13,19 +13,7 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="25dp" />
-
-    <TextView
-        android:id="@+id/text_view_titre_recherche"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="RECHERCHE ANNONCE"
-        android:gravity="center_horizontal" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="25dp" />
+        android:layout_height="10dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -49,25 +37,18 @@
             android:text="Recherche" />
     </LinearLayout>
 
-    <LinearLayout
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switch_vente_mes_annonces"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/button_location_recherche"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Location" />
-
-        <Button
-            android:id="@+id/button_achat_recherche"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Achat" />
-    </LinearLayout>
+        android:checked="true"
+        android:text="Ventes"/>
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switch_location_mes_annonces"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="Locations" />
 
     <LinearLayout
         android:id="@+id/dynamic_linear_layout_criteres_recherche"

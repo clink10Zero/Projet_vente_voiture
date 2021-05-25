@@ -14,6 +14,11 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
     public static final int NO = 0;
     public static final int YES = 1;
 
+    public static final int HEURE =0;
+    public static final int JOUR =1;
+    public static final int SEMAINE =2;
+    public static final int MOIS =3;
+
     static final String TABLE_UTILISATEUR ="table_utilisateur";
     public static final String TABLE_ANNONCE ="table_annonce";
     static final String TABLE_PHOTO ="table_photo";
@@ -39,12 +44,8 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
     static final String COL_DATE_ANNONCE ="date_annonce";
     static final String COL_VU_ANNONCE ="nombre_vues_annonce";
     static final String COL_PROMOTION_ANNONCE ="promotion_annonce";
-
-    //TODO gérer les locations
     static final String COL_LOCATION_ANNONCE ="location_annonce"; //bool
-    static final String COL_LOCATION_DUREE_ANNONCE ="location_duree_annonce"; //JOUR/SEMAINE/HEURE/MOIS pour le prix
-    static final String COL_LOCATION_DEBUT_ANNONCE ="location_debut_annonce";
-    static final String COL_LOCATION_FIN_ANNONCE ="location_fin_annonce";
+    static final String COL_LOCATION_TEMPS_ANNONCE ="location_temps_annonce"; //JOUR/SEMAINE/HEURE/MOIS pour le prix
 
     static final String COL_ID_PHOTO="id_photo";
     static final String COL_ANNONCE_PHOTO ="id_annonce";
@@ -92,6 +93,8 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
                     + COL_DATE_ANNONCE + " TEXT NOT NULL, " //TODO y faire plus plus joli après
                     + COL_VU_ANNONCE + " INTEGER NOT NULL,"
                     + COL_PROMOTION_ANNONCE + " INTEGER NOT NULL CHECK (" + COL_PROMOTION_ANNONCE + " IN( " + NO + "," + YES +")),"
+                    + COL_LOCATION_ANNONCE + " INTEGER NOT NULL CHECK (" + COL_LOCATION_ANNONCE + " IN( " + NO + "," + YES +")),"
+                    + COL_LOCATION_TEMPS_ANNONCE + " INTEGER NOT NULL CHECK (" + COL_LOCATION_TEMPS_ANNONCE + " IN( " + HEURE + "," + JOUR + "," + SEMAINE + "," + MOIS +")),"
                     + "FOREIGN KEY("+ COL_AUTEUR_ANNONCE +")REFERENCES "+ TABLE_UTILISATEUR+"("+COL_ID_UTILISATEUR+") ON DELETE CASCADE ON UPDATE CASCADE"
                     +");";
 
@@ -157,10 +160,10 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
 
 
     private static final String INSERT_ANNONCE =
-            "INSERT INTO "+TABLE_ANNONCE +"("+ COL_AUTEUR_ANNONCE +","+COL_TITRE_ANNONCE +","+COL_DESCCRITPION_ANNONCE   +","+COL_LIEU_ANNONCE  +","+COL_PRIX_ANNONCE+","+COL_DATE_ANNONCE+","+COL_VU_ANNONCE+","+COL_PROMOTION_ANNONCE+")"
-                /*1*/ +"VALUES(1,'Vends ma R5','Je vends la R5 de ma grand mère je n en ai plus besoin maintenant que j habite en ville', 'Annonay', 2000,'01/04/2021',0,"+NO+"),"
-                /*2*/ +"(1,'Ka noir', 'moteur cassé prix cassé', 'Saint-Vallier',200,'01/04/2021',0,"+NO+"),"
-                /*3*/ +"(1,'Mondeo break 2007 gris', 'Les enfants sont grands je n ai plus besoin d un break. \n Voiture en très bon état', 'Annonay',3000,'01/04/2021',0,"+YES+");";
+            "INSERT INTO "+TABLE_ANNONCE +"("+ COL_AUTEUR_ANNONCE +","+COL_TITRE_ANNONCE +","+COL_DESCCRITPION_ANNONCE   +","+COL_LIEU_ANNONCE  +","+COL_PRIX_ANNONCE+","+COL_DATE_ANNONCE+","+COL_VU_ANNONCE+","+COL_PROMOTION_ANNONCE+","+COL_LOCATION_ANNONCE+","+COL_LOCATION_TEMPS_ANNONCE+")"
+                /*1*/ +"VALUES(1,'Vends ma R5','Je vends la R5 de ma grand mère je n en ai plus besoin maintenant que j habite en ville', 'Annonay', 2000,'01/04/2021',0,"+NO+","+NO+","+HEURE+"),"
+                /*2*/ +"(1,'Ka noir', 'moteur cassé prix cassé', 'Saint-Vallier',200,'01/04/2021',0,"+NO+","+NO+","+HEURE+"),"
+                /*3*/ +"(1,'Mondeo break 2007 gris', 'Les enfants sont grands je n ai plus besoin d un break. \n Voiture en très bon état', 'Annonay',3000,'01/04/2021',0,"+YES+","+NO+","+HEURE+");";
 
     private static final String INSERT_CRITERE_ANNONCE =
             "INSERT INTO "+TABLE_CRITERE_ANNONCE +"( "+ COL_CRITERE_CRITERE_ANONCE +","+COL_ANNONCE_CRITERE_ANNONCE +","+COL_VALEUR_CRITERE_ANNONCE+" )"

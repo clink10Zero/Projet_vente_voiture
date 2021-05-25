@@ -14,6 +14,8 @@ import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_DATE_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_DESCCRITPION_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_ID_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_LIEU_ANNONCE;
+import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_LOCATION_ANNONCE;
+import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_LOCATION_TEMPS_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_PRIX_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_PROMOTION_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_TITRE_ANNONCE;
@@ -56,6 +58,8 @@ public class AnnonceBD {
         values.put(COL_DATE_ANNONCE, annonce.getDate());
         values.put(COL_VU_ANNONCE, annonce.getVu());
         values.put(COL_PROMOTION_ANNONCE, annonce.getPromotion());
+        values.put(COL_LOCATION_ANNONCE, annonce.getLocation());
+        values.put(COL_LOCATION_TEMPS_ANNONCE, annonce.getTemps());
         int id = (int) bd.insert(TABLE_ANNONCE,null,values);
         annonce.setId(id);
         close();
@@ -72,6 +76,8 @@ public class AnnonceBD {
         values.put(COL_DATE_ANNONCE, annonce.getDate());
         values.put(COL_VU_ANNONCE, annonce.getVu());
         values.put(COL_PROMOTION_ANNONCE, annonce.getPromotion());
+        values.put(COL_LOCATION_ANNONCE, annonce.getLocation());
+        values.put(COL_LOCATION_TEMPS_ANNONCE, annonce.getTemps());
         bd.update(TABLE_ANNONCE, values, COL_ID_ANNONCE + " = " + id, null);
         annonce.setId(id);
         close();
@@ -134,8 +140,10 @@ public class AnnonceBD {
             String date = c.getString(6);
             int vu = c.getInt(7);
             int promotion = c.getInt(8);
+            int location = c.getInt(9);
+            int temps = c.getInt(10);
 
-            res.add(new Annonce(id,id_utilisateur,titre,description,lieu,prix,date,vu,promotion));
+            res.add(new Annonce(id,id_utilisateur,titre,description,lieu,prix,date,vu,promotion,location,temps));
             c.moveToNext();
         }
         c.close();

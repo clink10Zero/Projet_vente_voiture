@@ -8,7 +8,7 @@ import com.example.projet_vente_voiture.BD.AnnonceBD;
 import com.example.projet_vente_voiture.BD.AnnonceSauvegardeBD;
 import com.example.projet_vente_voiture.MyApp;
 import com.example.projet_vente_voiture.Object.Annonce;
-import com.example.projet_vente_voiture.Object.AnnonceView;
+import com.example.projet_vente_voiture.View.AnnonceView;
 import com.example.projet_vente_voiture.R;
 
 import java.util.ArrayList;

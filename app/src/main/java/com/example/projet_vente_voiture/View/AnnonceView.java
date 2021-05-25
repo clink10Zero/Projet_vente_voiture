@@ -1,4 +1,4 @@
-package com.example.projet_vente_voiture.Object;
+package com.example.projet_vente_voiture.View;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.example.projet_vente_voiture.Activity.Detaille;
 import com.example.projet_vente_voiture.BD.AnnonceBD;
 import com.example.projet_vente_voiture.BD.PhotoBD;
+import com.example.projet_vente_voiture.Object.Annonce;
+import com.example.projet_vente_voiture.Object.Photo;
 import com.example.projet_vente_voiture.R;
 
 import java.util.List;
