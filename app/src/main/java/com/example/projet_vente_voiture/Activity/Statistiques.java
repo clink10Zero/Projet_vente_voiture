@@ -2,6 +2,8 @@ package com.example.projet_vente_voiture.Activity;
 
 import android.os.Bundle;
 import android.text.Layout;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -40,11 +42,23 @@ public class Statistiques extends General {
 
                 LinearLayout statAnnonce = new LinearLayout(this);
                 statAnnonce.setOrientation(LinearLayout.HORIZONTAL);
+
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT,1);
+
                 TextView nom = new TextView(this);
                 nom.setText(a.getTitre());
+                nom.setLayoutParams(params);
+                nom.setGravity(View.TEXT_ALIGNMENT_CENTER);
+
                 TextView nbVue = new TextView(this);
                 nbVue.setText(a.getVu()+"");
+                nbVue.setLayoutParams(params);
+                nbVue.setGravity(View.TEXT_ALIGNMENT_CENTER);
+
                 TextView nbabo = new TextView(this);
+                nbabo.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                nbabo.setLayoutParams(params);
+
                 ArrayList<AnnonceSauvegarde> as =  ASBD.getAnnonceSauvegardeByAnnonceId(a.getId());
                 if(as!=null){
                     nbabo.setText(""+as.size());
