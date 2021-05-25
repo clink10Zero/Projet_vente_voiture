@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -214,14 +216,22 @@ public class Detaille extends General {
                     confirmPopUp.getCancelButton().setOnClickListener(view -> confirmPopUp.dismiss());
                     confirmPopUp.build();
                 });
-
                 ll_btn.addView(btn_suppr);
 
             }
             else {
                 Button btn_contact = new Button(this);
                 btn_contact.setText("Contact");
-                btn_contact.setOnClickListener(v -> Toast.makeText(getApplicationContext(), "Page de contact à faire", Toast.LENGTH_LONG).show());
+                btn_contact.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        UtilisateurBD UBD = new UtilisateurBD(getApplicationContext());
+                        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", UBD.getUtilisateurById(id_auteur).getMail(), null));
+                        String objet = "Annonce "+annonce.getTitre();
+                        emailIntent.putExtra(Intent.EXTRA_SUBJECT, objet);
+                        startActivity(Intent.createChooser(emailIntent, "Envoyer un mail avec :"));
+                    }
+                });
                 ll_btn.addView(btn_contact);
             }
         }
