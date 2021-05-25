@@ -29,6 +29,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_ANNONCE_CRITERE_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_CRITERE_CRITERE_ANONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_ID_ANNONCE;
+import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_LOCATION_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_PRIX_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.COL_VALEUR_CRITERE_ANNONCE;
 import static com.example.projet_vente_voiture.BD.MaBaseSQLite.CRITERE_PREDEF;
@@ -144,8 +145,8 @@ public class Recherche extends General {
             ll_critere.addView(ligne);
         }
 
-        SwitchCompat switch_vente=findViewById(R.id.switch_vente_mes_annonces);
-        SwitchCompat switch_loc=findViewById(R.id.switch_location_mes_annonces);
+        SwitchCompat switch_vente=findViewById(R.id.switch_vente_recherche);
+        SwitchCompat switch_loc=findViewById(R.id.switch_location_recherche);
 
         if(switch_vente.isChecked()){
             location=NO;
@@ -154,16 +155,17 @@ public class Recherche extends General {
 
         switch_vente.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-            {
-                if (isChecked)
-                {
-                    location=NO;
-                    switch_loc.setChecked(false);
-                }
-                else{
-                    location=YES;
-                    switch_loc.setChecked(true);
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    location = NO;
+                    if (switch_loc.isChecked()) {
+                        switch_loc.setChecked(false);
+                    }
+                } else {
+                    location = YES;
+                    if (!switch_loc.isChecked()) {
+                        switch_loc.setChecked(true);
+                    }
                 }
             }
         });
@@ -172,14 +174,18 @@ public class Recherche extends General {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
-                if (isChecked)
+                if(isChecked)
                 {
                     location=YES;
-                    switch_vente.setChecked(false);
+                    if(switch_vente.isChecked()) {
+                        switch_vente.setChecked(false);
+                    }
                 }
                 else{
                     location=NO;
-                    switch_vente.setChecked(true);
+                    if(!switch_vente.isChecked()){
+                        switch_vente.setChecked(true);
+                    }
                 }
             }
         });
@@ -187,76 +193,62 @@ public class Recherche extends General {
 
         Button btn_rechercher = findViewById(R.id.button_recherche_recherche);
         btn_rechercher.setOnClickListener(v -> {
-            String request = TABLE_CRITERE_ANNONCE;
-            //TODO selon le switch
+            String request = "SELECT " + COL_ID_ANNONCE + " FROM ( " + TABLE_ANNONCE + " ) WHERE " + COL_LOCATION_ANNONCE + " = " + location;
+
 
             if(!et_inf_prix.getText().toString().equals("")&&!et_sup_prix.getText().toString().equals("")){
                 request = "SELECT " + COL_ID_ANNONCE + " FROM ( " + TABLE_ANNONCE + " ) WHERE " + COL_PRIX_ANNONCE + " BETWEEN " +
-                        et_inf_prix.getText() + " AND " + et_sup_prix.getText();
+                        et_inf_prix.getText() + " AND " + et_sup_prix.getText() + " IN ("+ request +" )";
             }
 
             for(int i=0;i<et_List.size();i=i+2){//TODO qd il n'y a qu'une borne
                 if(!et_List.get(i).getText().toString().equals("")&&!et_List.get(i+1).getText().toString().equals("")){
-                    if(request.equals(TABLE_CRITERE_ANNONCE)){
-                        request = "SELECT " + COL_ANNONCE_CRITERE_ANNONCE + " FROM ( " + request + " ) WHERE " + COL_CRITERE_CRITERE_ANONCE +" ='"+ critere_et_list.get(i).getId()  +
-                                "' AND " + COL_VALEUR_CRITERE_ANNONCE + " BETWEEN " + et_List.get(i).getText() + " AND " + et_List.get(i+1).getText();
-                    }
-                    else{
-                        request = "SELECT " + COL_ANNONCE_CRITERE_ANNONCE + " FROM ( " + TABLE_CRITERE_ANNONCE + " ) WHERE " + COL_CRITERE_CRITERE_ANONCE +" ='"+ critere_et_list.get(i).getId()  +
-                                "' AND " + COL_VALEUR_CRITERE_ANNONCE + " BETWEEN " + et_List.get(i).getText() + " AND " + et_List.get(i+1).getText() +
-                                " AND " + COL_ANNONCE_CRITERE_ANNONCE + " IN ("+ request +" )";
-                    }
+                    request = "SELECT " + COL_ANNONCE_CRITERE_ANNONCE + " FROM ( " + TABLE_CRITERE_ANNONCE + " ) WHERE " + COL_CRITERE_CRITERE_ANONCE +" ='"+ critere_et_list.get(i).getId()  +
+                            "' AND " + COL_VALEUR_CRITERE_ANNONCE + " BETWEEN " + et_List.get(i).getText() + " AND " + et_List.get(i+1).getText() +
+                            " AND " + COL_ANNONCE_CRITERE_ANNONCE + " IN ("+ request +" )";
                 }
             }
 
             for(int i=0;i<spinner_List.size();i++){
                if(!spinner_List.get(i).getSelectedItem().toString().equals("")){
-                   if(request.equals(TABLE_CRITERE_ANNONCE)){
-                       request = "SELECT " + COL_ANNONCE_CRITERE_ANNONCE + " FROM  " + request + "  WHERE " + COL_CRITERE_CRITERE_ANONCE +" ='"+ critere_spinner_list.get(i).getId()  +
-                               "' AND " + COL_VALEUR_CRITERE_ANNONCE + " ='" + spinner_List.get(i).getSelectedItem().toString() +"'";
-                   }
-                   else{
-                       request = "SELECT " + COL_ANNONCE_CRITERE_ANNONCE + " FROM " + TABLE_CRITERE_ANNONCE + " WHERE " + COL_CRITERE_CRITERE_ANONCE +" ='"+ critere_spinner_list.get(i).getId()  +
-                               "' AND " + COL_VALEUR_CRITERE_ANNONCE + " ='" + spinner_List.get(i).getSelectedItem().toString() +
-                               "' AND " + COL_ANNONCE_CRITERE_ANNONCE + " IN ("+ request +" )";
-                   }
+                   request = "SELECT " + COL_ANNONCE_CRITERE_ANNONCE + " FROM " + TABLE_CRITERE_ANNONCE + " WHERE " + COL_CRITERE_CRITERE_ANONCE +" ='"+ critere_spinner_list.get(i).getId()  +
+                           "' AND " + COL_VALEUR_CRITERE_ANNONCE + " ='" + spinner_List.get(i).getSelectedItem().toString() +
+                           "' AND " + COL_ANNONCE_CRITERE_ANNONCE + " IN ("+ request +" )";
                }
             }
 
-            if(!request.equals(TABLE_CRITERE_ANNONCE)){
-                MaBaseSQLite maBaseSQLite = new MaBaseSQLite(getApplicationContext(), NOM_BD, null, 1);
-                SQLiteDatabase bd = maBaseSQLite.getWritableDatabase();
+            MaBaseSQLite maBaseSQLite = new MaBaseSQLite(getApplicationContext(), NOM_BD, null, 1);
+            SQLiteDatabase bd = maBaseSQLite.getWritableDatabase();
 
-                Cursor c = bd.rawQuery(request,null);
-                List<Integer> res = new ArrayList<>();
-                c.moveToFirst();
-                for (int i = 0; i < c.getCount(); i++) {
-                    res.add(c.getInt(0));
-                    c.moveToNext();
-                }
-                c.close();
-                bd.close();
-
-                List<Annonce> annonces = new ArrayList<>();
-                for(int i : res){
-                    annonces.add(ABD.getAnnonceById(i));
-                }
-
-                List<Annonce> avecPromotion = new ArrayList<>();
-                List<Annonce> sansPromotion = new ArrayList<>();
-                for(Annonce a : annonces){
-                    if(a.getPromotion()==YES){
-                        avecPromotion.add(a);
-                    }
-                    else{
-                        sansPromotion.add(a);
-                    }
-                }
-                annonces.clear();
-                annonces.addAll(avecPromotion);
-                annonces.addAll(sansPromotion);
-                affichageAnnonces(annonces);
+            Cursor c = bd.rawQuery(request,null);
+            List<Integer> res = new ArrayList<>();
+            c.moveToFirst();
+            for (int i = 0; i < c.getCount(); i++) {
+                res.add(c.getInt(0));
+                c.moveToNext();
             }
+            c.close();
+            bd.close();
+
+            List<Annonce> annonces = new ArrayList<>();
+            for(int i : res){
+                annonces.add(ABD.getAnnonceById(i));
+            }
+
+            List<Annonce> avecPromotion = new ArrayList<>();
+            List<Annonce> sansPromotion = new ArrayList<>();
+            for(Annonce a : annonces){
+                if(a.getPromotion()==YES){
+                    avecPromotion.add(a);
+                }
+                else{
+                    sansPromotion.add(a);
+                }
+            }
+            annonces.clear();
+            annonces.addAll(avecPromotion);
+            annonces.addAll(sansPromotion);
+            affichageAnnonces(annonces);
         });
 
         this.dynamic = findViewById(R.id.dynamic_annonce_recherche);

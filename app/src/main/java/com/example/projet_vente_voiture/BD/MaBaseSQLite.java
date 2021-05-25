@@ -44,7 +44,7 @@ public class MaBaseSQLite extends SQLiteOpenHelper {
     static final String COL_DATE_ANNONCE ="date_annonce";
     static final String COL_VU_ANNONCE ="nombre_vues_annonce";
     static final String COL_PROMOTION_ANNONCE ="promotion_annonce";
-    static final String COL_LOCATION_ANNONCE ="location_annonce"; //bool
+    public static final String COL_LOCATION_ANNONCE ="location_annonce"; //bool
     static final String COL_LOCATION_TEMPS_ANNONCE ="location_temps_annonce"; //JOUR/SEMAINE/HEURE/MOIS pour le prix
 
     static final String COL_ID_PHOTO="id_photo";

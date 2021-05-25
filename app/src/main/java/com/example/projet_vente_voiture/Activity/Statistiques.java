@@ -13,6 +13,7 @@ import com.example.projet_vente_voiture.R;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Statistiques extends General {
@@ -26,7 +27,7 @@ public class Statistiques extends General {
         AnnonceBD ABD = new AnnonceBD(this);
         AnnonceSauvegardeBD ASBD= new AnnonceSauvegardeBD(this);
         List<Annonce> annonceList = ABD.getAnnoncesByUserId(currentUserId);
-        LinearLayout dynamic = (LinearLayout)(findViewById(R.id.layout_stat_by_annonce));
+        LinearLayout dynamic = (findViewById(R.id.layout_stat_by_annonce));
         if(annonceList!=null){
 
             int max=0;
@@ -37,14 +38,24 @@ public class Statistiques extends General {
                 }
                 count+=a.getVu();
 
-                LinearLayout statAnnonce = new LinearLayout(this.getApplicationContext());
+                LinearLayout statAnnonce = new LinearLayout(this);
                 statAnnonce.setOrientation(LinearLayout.HORIZONTAL);
                 TextView nom = new TextView(this);
                 nom.setText(a.getTitre());
                 TextView nbVue = new TextView(this);
-                nbVue.setText(a.getVu());
+                nbVue.setText(a.getVu()+"");
                 TextView nbabo = new TextView(this);
-                nbabo.setText(ASBD.getAnnonceSauvegardeByAnnonceId(a.getId()).size());
+                ArrayList<AnnonceSauvegarde> as =  ASBD.getAnnonceSauvegardeByAnnonceId(a.getId());
+                if(as!=null){
+                    nbabo.setText(""+as.size());
+                }
+                else{
+                    nbabo.setText("0");
+                }
+                statAnnonce.addView(nom);
+                statAnnonce.addView(nbVue);
+                statAnnonce.addView(nbabo);
+
                 dynamic.addView(statAnnonce);
 
             }

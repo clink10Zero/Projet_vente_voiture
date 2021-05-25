@@ -43,7 +43,7 @@ public class Inscription extends General {
 
         btn_validation.setOnClickListener(v -> {
             ResultatForm test = isFormOK(mail, confirmationMail, mdp, confirmationMDP, proPer);
-            if (test.getBool()) {
+            if (!test.getBool()) {
                 Toast.makeText(getApplicationContext(), test.getText(), Toast.LENGTH_LONG).show();
             } else {
                 UtilisateurBD UBD = new UtilisateurBD(getApplicationContext());

@@ -177,11 +177,11 @@ public class Ajouter_Annonce extends General {
                 LinearLayout ll_temps = findViewById(R.id.ll_temps_ajouter_annonce);
                 if(checkedId==R.id.radio_button_vente_ajouter_annonce){
                     ll_temps.setVisibility(GONE);
-                    activity.location=NO;
+                    location=NO;
                 }
                 else{
                     ll_temps.setVisibility(View.VISIBLE);
-                    activity.location=YES;
+                    location=YES;
                 }
 
             }
@@ -219,7 +219,7 @@ public class Ajouter_Annonce extends General {
                 //Annonce
                 Annonce nouvelle_annonce;
                 if(currentAnnonceId!=-1) {
-                    Annonce original = ABD.getAnnonceById(currentUserId);
+                    Annonce original = ABD.getAnnonceById(currentAnnonceId);
                     nouvelle_annonce = new Annonce(currentUserId,et_titre.getText().toString(),et_description.getText().toString(),et_lieu.getText().toString(),Integer.parseInt(et_prix.getText().toString()),original.getDate(),original.getVu(),original.getPromotion(), location,temps);
                     ABD.updateAnnonce(currentAnnonceId,nouvelle_annonce);
                 }

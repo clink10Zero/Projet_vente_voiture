@@ -2,9 +2,12 @@ package com.example.projet_vente_voiture.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,7 +56,7 @@ public class Detaille extends General {
 
         if(annonce!=null) {
 
-            ImageCarousel carousel = findViewById(R.id.carousel_detaille);
+            /*ImageCarousel carousel = findViewById(R.id.carousel_detaille);
 
             List<CarouselItem> list = new ArrayList<>();
             PhotoBD PBD = new PhotoBD(this);
@@ -67,8 +70,20 @@ public class Detaille extends General {
             else{
                 list.add(new CarouselItem(Helper.getDrawablePath(getResources(),R.drawable.poule)));
             }
-            carousel.addData(list);
+            carousel.addData(list);*/
+            ImageView image = findViewById(R.id.image_view_detail);
+            PhotoBD PBD = new PhotoBD(this);
+            List<Photo> photoList = PBD.getPhotosByAnnonceId(id_annonce);
+            if(photoList!=null) {
+                String chemin = photoList.get(0).getChemin();
+                Bitmap bitmap = BitmapFactory.decodeFile(chemin);
 
+                if (bitmap != null) {
+                    image.setImageBitmap(bitmap);
+                }
+            }else {
+                image.setImageDrawable(getDrawable(R.drawable.poule));
+            }
             TextView tv_titre = findViewById(R.id.text_view_titre_detail);
             tv_titre.setText(annonce.getTitre());
 

@@ -25,10 +25,14 @@
             android:layout_width="match_parent"
             android:layout_height="10dp" />
 
-        <org.imaginativeworld.whynotimagecarousel.ImageCarousel
+       <!-- <org.imaginativeworld.whynotimagecarousel.ImageCarousel
             android:id="@+id/carousel_detaille"
             android:layout_width="match_parent"
-            android:layout_height="229dp" />
+            android:layout_height="229dp" />-->
+        <ImageView
+            android:id="@+id/image_view_detail"
+            android:layout_width="match_parent"
+            android:layout_height="229dp"/>
 
         <Space
             android:layout_width="match_parent"

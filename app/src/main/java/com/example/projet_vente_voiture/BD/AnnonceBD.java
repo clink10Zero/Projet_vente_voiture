@@ -116,9 +116,25 @@ public class AnnonceBD {
         return list;
     }
 
+    public List<Annonce> getAnnoncesByUserIdAndIfIsLocation(int userId, int location) {
+        open();
+        Cursor c = bd.rawQuery("SELECT * FROM "+ TABLE_ANNONCE+" WHERE "+ COL_AUTEUR_ANNONCE +" = "+ userId + " AND " + COL_LOCATION_ANNONCE + " = " + location + " ORDER BY " + COL_DATE_ANNONCE + " DESC ",null);
+        List<Annonce> list = cursorToAnnonces(c);
+        close();
+        return list;
+    }
+
     public List<Annonce> getPromotedAnnoncesByUserId(int userId) {
         open();
         Cursor c = bd.rawQuery("SELECT * FROM "+ TABLE_ANNONCE+" WHERE "+ COL_AUTEUR_ANNONCE +" = "+ userId + " AND " + COL_PROMOTION_ANNONCE + " = " + YES + " ORDER BY " + COL_DATE_ANNONCE + " DESC ",null);
+        List<Annonce> list = cursorToAnnonces(c);
+        close();
+        return list;
+    }
+
+    public List<Annonce> getPromotedAnnoncesByUserIdAndIfIsLocation(int userId, int location) {
+        open();
+        Cursor c = bd.rawQuery("SELECT * FROM "+ TABLE_ANNONCE+" WHERE "+ COL_AUTEUR_ANNONCE +" = "+ userId + " AND " + COL_LOCATION_ANNONCE + " = " + location + " AND " + COL_PROMOTION_ANNONCE + " = " + YES + " ORDER BY " + COL_DATE_ANNONCE + " DESC ",null);
         List<Annonce> list = cursorToAnnonces(c);
         close();
         return list;

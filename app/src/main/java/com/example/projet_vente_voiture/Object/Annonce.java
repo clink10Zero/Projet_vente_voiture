@@ -24,6 +24,7 @@ public class Annonce {
         this.vu=vu;
         this.promotion=promotion;
         this.location=location;
+        this.temps=temps;
     }
 
     public Annonce(int id_auteur, String titre, String descritpion, String lieu, int prix, String date, int vu, int promotion, int location, int temps) {
@@ -35,6 +36,7 @@ public class Annonce {
         this.date=date;
         this.vu=vu;
         this.promotion=promotion;
+        this.location=location;
         this.temps=temps;
     }
 
